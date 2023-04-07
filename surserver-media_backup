@@ -1,0 +1,105 @@
+#!/bin/bash
+
+## rsync script to backup all 'goodies'
+## requires source and destination folders
+## set up in .env file. --help for more info.
+## Tarso Galvao 03/04/23 Debian 11
+
+#load enviroment variables
+if [ -f /home/dietpi/bin/.env ]; then
+    . /home/dietpi/bin/.env
+else
+    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
+    exit 1;
+fi
+
+#todo:  log stuff
+#       fix ssh call for local nfs mount? (or just plug bkp on server...)
+
+#backup task ($1-source $2-dest $3-echo name)
+execute_backup (){
+    echo -e "Backing up: ${OK}$3${NC}"
+    #check for rsync
+    dep_check rsync;
+    #check if folders exist
+    cd "$1" &>/dev/null && echo -e "Source: ${WARN}$1 ${OK}Found${NC}" || {
+        echo -e "Source: ${WARN}$1 ${ERROR}not found!${NC}"
+        echo -e "Please edit .env file and set folders properly."
+        echo -e "Aborting..."
+        exit 1;
+    }
+    cd "$2" &>/dev/null && echo -e "Destination: ${WARN}$2 ${OK}Found${NC}\n" || {
+        echo -e "Destination: ${WARN}$2 ${ERROR}not found!${NC}"
+        echo -e "Please edit .env file and set folders properly."
+        echo -e "Aborting..."
+        exit 1;
+    }
+    #start backup sync
+    rsync -avzp "$1"* "$2" --delete
+    echo -e "\nBackup complete."
+}
+
+#no args interactive-mode menu 
+backup_menu (){
+	echo -e 'Choose media to backup: (1-6)'
+	select bkp in Series Movies Concerts Audio ALL Quit
+	do
+		case $bkp in
+			"Series")
+				execute_backup "$SERIESROOT" "$SERIESBACKUP" "SERIES"
+				break;;
+			"Movies")
+				execute_backup "$MOVIESROOT" "$MOVIESBACKUP" "MOVIES"
+				break;;
+			"Concerts")
+				execute_backup "$CONCERTSROOT" "$CONCERTSBACKUP" "CONCERTS"
+				break;;
+            "Audio")
+                execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
+				break;;
+			"ALL")
+				execute_backup "$VIDEOSROOT" "$VIDEOSBACKUP" "ALL VIDEOS"
+				execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
+				break;;
+			"Quit")
+				exit 1
+                break;;
+			*)
+				echo -e 'Not a valid choice. Use (1-6)';;
+		esac
+	done
+}
+
+#check command arguements
+if [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
+    echo '1' | backup_menu;
+
+elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
+    echo '2' | backup_menu;
+
+elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
+    echo '3' | backup_menu;
+
+elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
+    echo '4' | backup_menu;
+
+elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
+    echo '5' | backup_menu;
+
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+    echo -e "${OK}SurServer Media Backup${NC}"
+    echo -e "Backup manager for server media."
+    echo -e "${WARN}Folders: Source and Destination are set up in .evn file.${NC}"
+    echo -e "Usage: surserver-media_backup [-arg] [--arg]\n"
+    echo -e " -s [--series]    -> Backup series library."
+    echo -e " -m [--movies]    -> Backup movies library."
+    echo -e " -c [--concerts]  -> Backup concerts library."
+    echo -e " -a [--audio]     -> Backup audio library."
+    echo -e " -f [--full]      -> Backup all libraries."
+    echo -e " -h [--help]      -> Shows this screen."
+else
+    echo -e "${OK}SurServer Media Backup${NC}"
+    echo -e "${WARN}WARNING: No valid arguement entered.${NC}\nPlease use '--help' for instructions."
+    echo -e "\n${OK}Entering interactive-mode${NC}"
+    backup_menu;
+fi

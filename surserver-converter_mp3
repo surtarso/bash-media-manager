@@ -1,0 +1,179 @@
+#!/bin/bash
+
+## ffmpeg script to remove flac/wav/ogg/m4a/wma from music library.
+## Converts to mp3 and removes original files if wanted.
+## Point to the audio library root folder as shown below!
+## AUDIOROOT='/your/library/music/' in .env file.
+## Tarso Galvao 28/03/23 on Debian 11.
+
+##TODO: -log stuff
+
+## load enviroment variables
+if [ -f /home/dietpi/bin/.env ]; then
+    . /home/dietpi/bin/.env
+else
+    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
+	exit 1;
+fi
+
+## auto-mode default flags
+REMOVE=1 # remove original files (0=no 1=yes)
+FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma") # input format(s)
+BITRATE='128k' # output mp3 bitrate
+
+## FOLDERS  #todo: generalize folder checks and add to .env so all can use.
+set_new_path (){ ## add dialog input
+	echo -e "\n${OK}Set new path:${NC} (ex: ${WARN}/home/user/music/${NC} )";
+	read -e AUDIOROOT < /dev/tty
+	check_path;
+}
+check_path (){
+	cd "$AUDIOROOT" &>/dev/null && confirm_path || { ## add dialog infobox
+		echo -e "\n${ERROR}ERROR: Folder ${WARN}$AUDIOROOT${ERROR} could not be found.${NC}\n";
+		set_new_path;
+		};
+}
+confirm_path (){  ## first greetings (add dialog yes/no)
+	echo -e "\n${OK}Found:${NC} $AUDIOROOT\n"
+	echo -e 'Is this the correct path? (Y/n) \c'
+	read -e yesno < /dev/tty
+		if [ "$yesno" = "n" ] || [ "$yesno" = "N" ]; then
+			set_new_path;
+		else
+			echo -e "\n${OK}Path set to ${WARN}$AUDIOROOT${NC}\n"
+		fi
+}
+
+## AUDIO FORMAT
+## set input file format
+set_input_format (){
+	echo -e 'Choose format(s) to be converted: (1-6)'
+	select fmt in flac wav ogg m4a wma ALL
+	do
+		case $fmt in
+			"flac")
+				FORMAT_ARRAY=("flac")
+				break;;
+			"wav")
+				FORMAT_ARRAY=("wav")
+				break;;
+			"ogg")
+				FORMAT_ARRAY=("ogg")
+				break;;
+			"m4a")
+				FORMAT_ARRAY=("m4a")
+				break;;
+			"wma")
+				FORMAT_ARRAY=("wma")
+				break;;
+			"ALL")
+				FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma")
+				break;;
+			*)
+				echo -e 'Not a valid choice. (1-6)';;
+		esac
+	done
+	echo -e "\n${OK}Selected input: ${WARN}'${FORMAT_ARRAY[*]}'${NC}"
+}
+
+## set output mp3 file quality
+set_output_format (){
+	echo -e '\nChoose MP3 quality: (1-4)'
+	select bit in 96k 128k 256k 320k
+	do
+		case $bit in
+			"96k")
+				BITRATE='96k'
+				break;;
+			"128k")
+				BITRATE='128k'
+				break;;
+			"256k")
+				BITRATE='256k'
+				break;;
+			"320k")
+				BITRATE='320k'
+				break;;
+			*) ##TODO: add CUSTOM option with dialog inputbox
+				echo -e 'Not a valid choice. (1-4)';;
+		esac
+	done
+	echo -e "\n${OK}Selected output: ${WARN}MP3 - ${BITRATE}${NC}"
+}
+
+## FILES
+## set removal flag
+set_removal_flag (){
+	echo -e '\nRemove original files after conversion? (y/N) \c'
+	read -r yesno < /dev/tty
+		if [ "$yesno" = "y" ] || [ "$yesno" = "Y" ]; then
+			echo -e "\n${OK}Original files ${ERROR}WILL BE REMOVED.${NC}\n"
+			REMOVE=1
+		else
+			echo -e "\n${OK}Original files will ${ERROR}NOT${OK} be removed.${WARN}\nThey will be moved to ${NC}$AUDIOJUNK${WARN}.${NC}\n" 
+			if [ ! -d "$AUDIOJUNK" ]; then mkdir "$AUDIOJUNK" &>/dev/null; fi || {
+				echo -e "${ERROR}ERROR: Could not create ${WARN}$AUDIOJUNK${ERROR} .\n Check permissions and try again.";
+				exit 1;
+				}
+			REMOVE=0
+		fi
+}
+
+## JOBS
+## ffmpeg conversion
+execute_tasks (){
+	dep_check ffmpeg; # check for ffmpeg
+	dep_check libmp3lame0;
+	for format in "${FORMAT_ARRAY[@]}"; do
+		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
+
+		## originals removal
+		if [ $REMOVE -eq 1 ]; then
+			echo -e "${ERROR}Removing original ${WARN}$format${ERROR} files...${NC}"
+			find -name "*.${format}" -exec rm -rfv {} \;
+			echo -e "${ERROR}Original ${WARN}$format${ERROR} files removed.${NC}\n"
+		else
+			## move originals to junk folder
+			echo -e "${OK}Moving original ${WARN}$format${OK} files to ${WARN}$AUDIOJUNK...${NC}"
+			find -name "*.${format}" -exec mv {} "$AUDIOJUNK" \;
+			echo -e "${OK}Original ${WARN}$format${OK} files moved to ${WARN}$AUDIOJUNK.${NC}\n"
+		fi
+	done
+}
+
+## START
+if [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
+	echo -e "${OK}SurServer Converter MP3${NC}"
+	echo -e "Converts multiple formats to MP3 for streaming."
+    echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
+	echo -e "Usage: surserver-mp3_converter [-arg] [--arg]"
+	echo -e "or run without args to set up manually for a single run.\n"
+	echo -e "-a [--auto] 	-> Use defaults. (asks no questions)"
+	echo -e "-h [--help] 	-> This message screen."
+	exit 1
+elif [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
+	cd "$AUDIOROOT" &>/dev/null || { echo -e "${ERROR}ERROR: Path ${WARN}$AUDIOROOT${ERROR} not found\n${NC}auto-mode: ${ERROR}FAILED!${NC}"; exit 1; }
+	echo -e "\nauto-mode: ${OK}START${NC}"
+	echo -e "path: ${OK}$AUDIOROOT${NC}\n"
+	execute_tasks;
+else
+	## setup flags
+	check_path;
+	set_input_format;
+	set_output_format;
+	set_removal_flag;
+
+	## start the task(s)
+	echo -e "${OK}Starting...${NC}"
+	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
+	for (( i=3; i>0; i--)); do
+	sleep 1 &
+	printf "            $i \r"
+	wait
+	done
+	execute_tasks;
+fi
+
+echo -e 'Done.'

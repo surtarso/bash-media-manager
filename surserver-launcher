@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This is a launcher (main menu) for all scripts
+# that manage the media center files.
+# Tarso Galvao 05/04/23 Debian 11
+
+
+# Main Menu
+menu_opt=$(dialog \
+	--title 'SurServer Script-Launcher Menu' \
+	--stdout \
+	--menu 'Up and down arrows change selection. \nUse the Enter key to confirm.' \
+	0 0 0 \
+	'converter_mp3' 'Converts Audio files to MP3' \
+	'converter_mp4' 'Converts Video files to MP4' \
+	'media_backup' 'Media Backup Manager' \
+	'media_permissions' 'Fix Media Permissions' \
+	'media_share' 'Easily Share Media' \
+	'setup_enviroment' 'Setup Enviroment Variables' \
+	'Quit' 'Quit to shell');
+
+# Exit on Quit or Cancel || Execute chosen script.
+if [ $menu_opt = 'Quit' ] || [ $? -ne 1 ]; then
+	echo -e 'Exiting...'
+	clear && exit 1
+else
+	clear && eval surserver-$menu_opt
+fi

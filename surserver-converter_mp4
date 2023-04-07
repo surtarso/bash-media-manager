@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo -e "Converts video to h264 ACC2.0 .mp4 files"
+echo -e "not yet implemented..."
+
+# ffmpeg batch video converter soon to come...

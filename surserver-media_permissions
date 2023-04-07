@@ -1,0 +1,52 @@
+#!/bin/bash
+
+## load enviroment variables
+if [ -f /home/dietpi/bin/.env ]; then
+    . /home/dietpi/bin/.env
+else
+    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
+	exit 1;
+fi
+
+## DO STUFF
+fix_permissions () {
+	for _dir in $1
+	do
+		echo "Processing $1..."
+		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${OK}OK${NC}"
+		sudo find ${_dir} -type d -exec chmod 2775 {} \; && echo -e "${WARN}Folders: ${OK}OK${NC}"
+		sudo find ${_dir} -type f -exec chmod 664 {} \; && echo -e "${WARN}Files: ${OK}OK${NC}"
+	done
+}
+
+## STATUP OPTIONS
+if [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
+	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP
+
+elif [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
+	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP
+
+elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
+	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP
+
+elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
+	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP
+
+elif [ "$1" = '-s' ] || [ "$1" = '--set' ]; then
+	fix_permissions $2 $3 $4
+
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+	echo -e "${OK}SurServer Media Permissions${NC}"
+	echo -e "Fix file/folder permissons for media software."
+	echo -e "${WARN}Folders: Folders, owners and group are set up in .evn file.${NC}"
+	echo -e "USAGE: surserver-media_permissions [-arg] [--arg]\n"
+	echo -e " -a [--audio]		 -> Fix all audio permissions"
+	echo -e " -s [--series]		 -> Fix all series permissions"
+	echo -e " -m [--movies]		 -> Fix all movies permissions"
+	echo -e " -c [--concerts]	 -> Fix all concerts permissions"
+	echo -e "${WARN} -s [--set]		 -> Manually enter desired settings."
+	echo -e " Usage: surserver-media_permissions [-s] [--set] /dir/path owner group${NC}"
+	echo -e " -h [--help]		 -> Shows this screen."
+else
+	echo -e "No valid arguement.\nPlease use surserver-media_permission --help"
+fi

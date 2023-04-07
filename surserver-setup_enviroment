@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo -e "create new .env file or update(change) enviroment variables in .env file\n Not yet implemented..."
+
+
+# this script should be able to generate a new .env file in case one is not found
+# it should also be able to edit an existing .env file with new settings easily
+# should be noob-proof.

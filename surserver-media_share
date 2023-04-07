@@ -1,0 +1,163 @@
+#!/bin/bash
+
+# a better way to chose media to share with friends or backup
+# checklist select of folders to copy to another set location
+# Tarso Galvao 06/04/23 Debian 11
+
+
+## load enviroment variables
+if [ -f /home/dietpi/bin/.env ]; then
+    . /home/dietpi/bin/.env
+else
+    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
+        exit 1;
+fi
+
+## get lines chosen and print dir name in quotes for cp/rsync command
+get_choices () {
+	dir_file="$1"	#list of all dirs
+	line_choice=$2	#list of all lines chosen
+	i=0
+	while read line; do
+		i=$(expr $i + 1)
+		test $i = $line_choice && echo "$3\"$line\" ";  #list of choices for array
+	done < "$dir_file"
+}
+
+## create checklist with directory(root_dir) contents
+create_checklist () {
+	if [ -f $1.dir_list.txt ]; then rm $1.dir_list.txt; fi	#delete old list
+	ls $1 >> $1.dir_list.txt				#create new dir_list.txt
+
+	## create dynamic --checklist for each dir
+	c=0 #reset counter
+	while IFS=$'\n' read -r line; do c=$(expr $c + 1); options+=($c "$line" off); done < $1.dir_list.txt
+
+	## print dialog
+	cmd=(dialog --separate-output \
+	--title "SurServer Media Share" \
+	--checklist "Select content(s):" 22 76 16)
+	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	clear
+
+	## create array with choice results
+	for choice in $choices
+	do
+		choice_array+=$(get_choices $1.dir_list.txt $choice $1);  # dir_list - line number - rootfolder
+	done
+
+	## set destination (user input)
+	dest=$(dialog \
+	--title "SurServer Media Share" \
+        --inputbox "Enter destination full path: \n(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 8 40 \
+  	3>&1 1>&2 2>&3 3>&- \
+	)
+	clear
+
+	## copy CHOICES to DESTINATION
+	if [ "$choice_array" != "" -a "$dest" != "" ]; then
+		dep_check rsync; #check for rsync (dest should have rsync too... how to confirm?)
+		echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$choice_array ${OK}$dest${NC}"
+		echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
+		sleep 3
+		## start syncing
+		eval $(echo -e "rsync -avzP $choice_array $dest")
+	else
+		echo -e "${ERROR}Something went wrong! Missing SOURCE or DESTINATION!${NC}"
+	fi
+}
+
+## choose media type to share (interactive mode)
+main_menu () {
+	root_dir=$(dialog --stdout \
+		--title "SurServer Media Share" \
+		--menu 'Select media source:' \
+		0 0 0 $AUDIOROOT 'Audio/Music' \
+				$SERIESROOT 'Series' \
+				$MOVIESROOT 'Movies' \
+				$CONCERTSROOT 'Concerts' \
+				Quit '')
+
+	## Exit on Quit or Cancel || Execute chosen script.
+	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
+			echo -e 'Exiting...'
+			clear && exit 1;
+	else
+			##TODO: check if folder exists 1st
+			create_checklist $root_dir;
+	fi
+}
+
+## STARTUP OPTIONS
+if [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
+	create_checklist $AUDIOROOT;
+elif [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
+	create_checklist $SERIESROOT;
+elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
+	create_checklist $MOVIESROOT;
+elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
+	create_checklist $CONCERTSROOT;
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+	echo -e "${OK}SurServer Media Share${NC}"
+	echo -e "Easily share server media to other devices."
+	echo -e "USAGE: surserver-media_share [-arg] [--arg]\n"
+	echo -e " -a [--audio]			-> Choose AUDIO to share"
+	echo -e " -s [--series]			-> Choose SERIES to share"
+	echo -e " -m [--movies]			-> Choose MOVIES to share"
+	echo -e " -c [--concerts]		-> Choose CONCERTS to share"
+	echo -e " -h [--help]			-> Shows this screen."
+else
+	main_menu;
+fi
+
+## EOF
+
+
+
+
+
+
+
+##USED EXAMPLES: (block commented)
+: '
+## EXAMPLE simple message (infobox)
+dialog --infobox " Exibindo uma msg para o Usuario" 3 40
+read
+
+## EXAMPLE items with descrip. (menu)
+ESCOLHA=$(dialog --stdout --menu 'Escolha Sua Opcao' \
+       0 0 0 Item1 'descricao do Item1' \
+             Item2 'Descricao do Item2' \
+             Item3 'Descricao do Item3' \
+             Item4 'Descricao do Item4' \
+             Item5 'Descricao do Item5')
+dialog --infobox "O Item Escolhido foi:\n $ESCOLHA" 4 30
+read
+
+
+## EXAMPLE DIALOG WITH MULTIPLE CHOICE (checklist)
+cmd=(dialog --separate-output --checklist "Select options:" 22 76 16)
+options=(1 "Option 1" off    # any option can be set to default to "on"
+         2 "Option 2" off
+         3 "Option 3" off
+         4 "Option 4" off)
+choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+clear
+for choice in $choices
+do
+    case $choice in
+        1)
+            echo "First Option"
+            ;;
+        2)
+            echo "Second Option"
+            ;;
+        3)
+            echo "Third Option"
+            ;;
+        4)
+            echo "Fourth Option"
+            ;;
+    esac
+done
+ '
