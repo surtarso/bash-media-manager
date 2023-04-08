@@ -165,17 +165,17 @@ main_menu () {
 	#preset defaults
 	#custom - user input
 	checklist=(dialog --separate-output --checklist "Select options:" 22 76 16)
-	options=(flac "FLAC" off    # any option can be set to default to "on"
-			wav "WAV" off
-			ogg "OGG" off
-			m4a "M4A" off
-			wma "WMA" off)
+	options=("flac" "FLAC" off    # any option can be set to default to "on"
+			"wav" "WAV" off
+			"ogg" "OGG" off
+			"m4a" "M4A" off
+			"wma" "WMA" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
 	for choice in $choices
 	do
-		FORMAT_ARRAY+=("$choice")
+		FORMAT_ARRAY+=("$choice")  ## NOT ADDING TO ARRAY!!!! FIXME!!
 	done
 	
 	#OUTPUT BITRATE
