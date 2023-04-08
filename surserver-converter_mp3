@@ -143,28 +143,35 @@ execute_tasks (){
 	done
 }
 
+main_menu () {
+	#PATH:
+	#removal flag
+	#audioroot - defaul
+	#custom - user input
+	#INPUT FORMATS
+	#preset defaults
+	#custom - user input
+	#OUTPUT BITRATE
+	#preset defaults
+	#custom - user input
+	#EXECUTE TASKS
+	echo -e "GUI not yet implemented, use -n or --no-gui for now."
+	exit 1;
+}
+
 ## START
-if [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
-	echo -e "${OK}SurServer Converter MP3${NC}"
-	echo -e "Converts multiple formats to MP3 for streaming."
-    echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
-	echo -e "Usage: surserver-mp3_converter [-arg] [--arg]"
-	echo -e "or run without args to set up manually for a single run.\n"
-	echo -e "-a [--auto] 	-> Use defaults. (asks no questions)"
-	echo -e "-h [--help] 	-> This message screen."
-	exit 1
-elif [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
+if [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
 	cd "$AUDIOROOT" &>/dev/null || { echo -e "${ERROR}ERROR: Path ${WARN}$AUDIOROOT${ERROR} not found\n${NC}auto-mode: ${ERROR}FAILED!${NC}"; exit 1; }
 	echo -e "\nauto-mode: ${OK}START${NC}"
 	echo -e "path: ${OK}$AUDIOROOT${NC}\n"
 	execute_tasks;
-else
+
+elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
 	## setup flags
 	check_path;
 	set_input_format;
 	set_output_format;
 	set_removal_flag;
-
 	## start the task(s)
 	echo -e "${OK}Starting...${NC}"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
@@ -173,7 +180,18 @@ else
 	printf "            $i \r"
 	wait
 	done
-	execute_tasks;
-fi
+	execute_tasks && echo -e 'Done.'
 
-echo -e 'Done.'
+elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
+	echo -e "${OK}SurServer Converter MP3${NC}"
+	echo -e "Converts multiple formats to MP3 for streaming."
+    echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
+	echo -e "Usage: surserver-mp3_converter [-arg] [--arg]"
+	echo -e "or run without args for GUI mode.\n"
+	echo -e " -n [--no-gui]	-> No GUI interactive mode"
+	echo -e " -a [--auto] 	-> Use defaults. (asks no questions)"
+	echo -e " -h [--help] 	-> This message screen."
+	exit 1
+else
+	main_menu;
+fi
