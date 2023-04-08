@@ -172,7 +172,7 @@ main_menu () {
 			5 "WMA" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
-	
+	FORMAT_ARRAY=()
 	for choice in $choices
 	do
 		FORMAT_ARRAY+=($choice)
