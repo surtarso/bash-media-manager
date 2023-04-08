@@ -145,15 +145,20 @@ execute_tasks (){
 
 main_menu () {
 	#PATH:
-	#removal flag
-	#audioroot - defaul
-	#custom - user input
+	#audioroot - default menu
+	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' 0 0 0 \
+		$AUDIOROOT '(default)' \
+		$(read -e AUDIOROOT < /dev/tty) '(add new)')
+	#removal flag - yesno
+
 	#INPUT FORMATS
 	#preset defaults
 	#custom - user input
+	
 	#OUTPUT BITRATE
 	#preset defaults
 	#custom - user input
+	
 	#EXECUTE TASKS
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
