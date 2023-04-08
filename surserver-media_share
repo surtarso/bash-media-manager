@@ -111,6 +111,7 @@ elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "${OK}SurServer Media Share${NC}"
 	echo -e "Easily share server media to other devices."
+	echo -e "Use with no arguements to enter the GUI."
 	echo -e "USAGE: surserver-media_share [-arg] [--arg]\n"
 	echo -e " -a [--audio]			-> Choose AUDIO to share"
 	echo -e " -s [--series]			-> Choose SERIES to share"

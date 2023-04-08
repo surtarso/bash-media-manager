@@ -99,6 +99,7 @@ elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "${OK}SurServer Media Permissions${NC}"
 	echo -e "Fix file/folder permissons for media software."
+	echo -e "Use with no arguements to enter the GUI."
 	echo -e "${WARN}Folders: Folders, owners and group are set up in .evn file.${NC}"
 	echo -e "USAGE: surserver-media_permissions [-arg] [--arg]\n"
 	echo -e " -a [--audio]		 -> Fix all audio permissions"
@@ -106,7 +107,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e " -m [--movies]		 -> Fix all movies permissions"
 	echo -e " -c [--concerts]	 -> Fix all concerts permissions"
 	echo -e "${WARN} -s [--target]		 -> Manually enter desired settings."
-	echo -e " Usage: surserver-media_permissions [-s] [--target] /dir/path user group${NC}"
+	echo -e " Usage: surserver-media_permissions [-t] [--target] /dir/path user group${NC}"
 	echo -e " -h [--help]		 -> Shows this screen."
 else
 	main_menu;

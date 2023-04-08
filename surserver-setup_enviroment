@@ -1,5 +1,26 @@
 #!/bin/bash
 
+## create new .env file or update(change) enviroment variables in .env file
+
+## check for env
+if [ -f /home/dietpi/bin/.env_test ]; then
+    . /home/dietpi/bin/.env_test
+else
+    echo -e "${WARN}Warning: .env_test not found.${NC}\nCreating new one..."
+	touch /home/dietpi/bin/.env_test
+fi
+
+#if already exist, show whats there b4 ask to change
+#if empty ask for input
+#save to file (duh)
+
+#user:
+#folders setup
+#user/groups setup
+#auto:
+#bash colors
+#add original functions
+
 echo -e "create new .env file or update(change) enviroment variables in .env file\n Not yet implemented..."
 
 

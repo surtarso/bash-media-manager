@@ -25,4 +25,5 @@ if [ $menu_opt = 'Quit' ] || [ $? -ne 1 ]; then
 	clear && exit 1
 else
 	clear && eval surserver-$menu_opt
+	exit 1;
 fi

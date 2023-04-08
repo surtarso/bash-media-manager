@@ -10,7 +10,7 @@ if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
     echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
-    exit 1;
+    exit 1;  ## call setup env later
 fi
 
 #todo:  log stuff
