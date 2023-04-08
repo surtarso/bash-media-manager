@@ -3,7 +3,8 @@
 ## ffmpeg script to remove flac/wav/ogg/m4a/wma from music library.
 ## Converts to mp3 and removes original files if wanted.
 ## Point to the audio library root folder as shown below!
-## AUDIOROOT='/your/library/music/' in .env file.
+## AUDIOROOT='/your/library/music/' in .env file or use
+## the interactive mode to enter custom settings
 ## Tarso Galvao 28/03/23 on Debian 11.
 
 ##TODO: -log stuff
@@ -19,7 +20,7 @@ fi
 ## AUTOMODE DEFAULT FLAGS (--auto)
 REMOVE=1 # remove original files (0=no 1=yes)
 FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma") # input format(s)
-BITRATE='128k' # output mp3 bitrate
+BITRATE='192k' # output mp3 bitrate
 
 ## FOLDERS
 set_new_path (){
@@ -94,7 +95,7 @@ set_output_format (){
 			"320k")
 				BITRATE='320k'
 				break;;
-			*) ##TODO: add CUSTOM option with dialog inputbox
+			*)
 				echo -e 'Not a valid choice. (1-4)';;
 		esac
 	done
@@ -130,6 +131,13 @@ execute_tasks (){
 	dep_check ffmpeg;
 	dep_check libmp3lame0;
 	echo -e "________________________________________________\n"
+	echo -e "${OK}Starting...${NC}"
+	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
+	for (( i=3; i>0; i--)); do
+	sleep 1 &
+	printf "            $i \r"
+	wait
+	done
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
@@ -177,21 +185,21 @@ main_menu () {
 		--yesno "Yes: Remove, No:  Keep" 7 60 )
 	dialog_status=$?
 	if [ "$dialog_status" -eq 0 ]; then
-		echo 'The previous dialog was answered Yes'
+		#echo 'The previous dialog was answered Yes'
 		REMOVE=1
 	else
-		echo 'The previous dialog was answered No or interrupted with <C-c>'
+		#echo 'The previous dialog was answered No or interrupted with <C-c>'
 		REMOVE=0
 	fi
 	
 	##------------------------ INPUT FORMATS
 	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
 	options=( 
-		"flac" "Flawless" on
+		"flac" "Lossless" on
 		"wav" "Waveform" on
-		"ogg" "Vorbis" on
-		"m4a" "Apple audio" on
-		"wma" "Windows audio" on)
+		"ogg" "OGG Vorbis" on
+		"m4a" "Apple Audio" on
+		"wma" "Windows Audio" on)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
@@ -206,11 +214,11 @@ main_menu () {
 	##----------------------- OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
 		0 0 0 \
-		'96k' '' \
-		'128k' '(recommended)' \
-		'256k' '' \
-		'320k' '' \
-		Custom '')
+		'80k' 'Poor Quality Lossy' \
+		'192k' 'Low Quality Lossy (recommended)' \
+		'256k' 'Mid Quality Lossy' \
+		'320k' 'High Quality Lossy' \
+		Custom '8k -> 320k')
 	if [ "$BITRATE" == 'Custom' ]; then
 		BITRATE=$(dialog \
 		--title "SurServer Converter MP3" \
@@ -241,13 +249,6 @@ elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
 	set_output_format;
 	set_removal_flag;
 	## start the task(s)
-	echo -e "${OK}Starting...${NC}"
-	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
-	for (( i=3; i>0; i--)); do
-	sleep 1 &
-	printf "            $i \r"
-	wait
-	done
 	execute_tasks && echo -e 'Done.'
 
 elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
