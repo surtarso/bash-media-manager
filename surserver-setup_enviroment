@@ -2,6 +2,10 @@
 
 ## create new .env file or update(change) enviroment variables in .env file
 
+# this script should be able to generate a new .env file in case one is not found
+# it should also be able to edit an existing .env file with new settings easily
+# should be noob-proof.
+
 ## check for env
 if [ -f /home/dietpi/bin/.env_test ]; then
     . /home/dietpi/bin/.env_test
@@ -21,9 +25,13 @@ fi
 #bash colors
 #add original functions
 
-echo -e "create new .env file or update(change) enviroment variables in .env file\n Not yet implemented..."
+if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+    echo -e "${OK}SurServer Setup Enviroment${NC}"
+    echo -e "Create new .env file or update enviroment variables in .env file"
+    echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
+    echo -e " -h [--help]      -> Shows this screen."
+else
+    echo -e "create new .env file or update(change) enviroment variables in .env file\n Not yet implemented..."
+fi
 
 
-# this script should be able to generate a new .env file in case one is not found
-# it should also be able to edit an existing .env file with new settings easily
-# should be noob-proof.
