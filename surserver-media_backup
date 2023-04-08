@@ -39,8 +39,8 @@ execute_backup (){
     echo -e "\nBackup complete."
 }
 
-#no args interactive-mode menu 
-backup_menu (){
+# --no-gui interactive mode menu 
+nogui_menu (){
 	echo -e 'Choose media to backup: (1-6)'
 	select bkp in Series Movies Concerts Audio ALL Quit
 	do
@@ -70,21 +70,56 @@ backup_menu (){
 	done
 }
 
+## dialog interactive move menu (checklist)
+main_menu () {
+	checklist=(dialog --separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
+	options=(1 "Audio $AUDIOROOT" off    
+			2 "Series $SERIESROOT" off
+			3 "Movies $MOVIES_OWNER:$GROUP" off
+			4 "Concerts $CONCERTS_OWNER:$GROUP" off)
+	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	clear
+	for choice in $choices
+	do
+		case $choice in
+			1)
+				echo '4' | nogui_menu;
+				;;
+			2)
+				echo '1' | nogui_menu;
+				;;
+			3)
+				echo '2' | nogui_menu;
+				;;
+			4)
+				echo '3' | nogui_menu;
+				;;
+		esac
+	done
+	## go back to launcher if nothins is selected
+	clear && eval surserver-launcher; exit 1;
+}
+
 #check command arguements
 if [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
-    echo '1' | backup_menu;
+    echo '1' | nogui_menu;
 
 elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
-    echo '2' | backup_menu;
+    echo '2' | nogui_menu;
 
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
-    echo '3' | backup_menu;
+    echo '3' | nogui_menu;
 
 elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
-    echo '4' | backup_menu;
+    echo '4' | nogui_menu;
 
 elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
-    echo '5' | backup_menu;
+    echo '5' | nogui_menu;
+
+elif [ "$1" = '-n' ] || [ "$1" = '--no-gui' ]; then
+    echo -e "${OK}SurServer Media Backup${NC}"
+    echo -e "${WARN}Entering interactive-mode${NC}"
+    nogui_menu;
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}SurServer Media Backup${NC}"
@@ -96,10 +131,8 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e " -c [--concerts]  -> Backup concerts library."
     echo -e " -a [--audio]     -> Backup audio library."
     echo -e " -f [--full]      -> Backup all libraries."
+    echo -e " -n [--no-gui]    -> Interactive-mode without a GUI.\n"
     echo -e " -h [--help]      -> Shows this screen."
-else
-    echo -e "${OK}SurServer Media Backup${NC}"
-    echo -e "${WARN}WARNING: No valid arguement entered.${NC}\nPlease use '--help' for instructions."
-    echo -e "\n${OK}Entering interactive-mode${NC}"
-    backup_menu;
+else    
+    main_menu;
 fi
