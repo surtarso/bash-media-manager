@@ -129,7 +129,7 @@ execute_tasks (){
 	dep_check libmp3lame0;
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-		echo 'find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;'
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
 		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
 		## originals removal
