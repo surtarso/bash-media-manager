@@ -152,7 +152,6 @@ main_menu () {
 		0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
-	if [ "$AUDIOROOT" == "" ]; then echo -e "path cant be empty, aborting..."; exit 1; fi 
 	if [ "$AUDIOROOT" == 'Custom' ]; then
 		AUDIOROOT=$(dialog \
 		--title "SurServer Converter MP3" \
@@ -161,16 +160,19 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
+	if [ "$AUDIOROOT" == "" ]; then echo -e "path cant be empty, aborting..."; sleep 2;
+	clear && eval surserver-launcher; exit 1; fi
+	
 	#TODO: removal flag - yesno
-
+	
 	#INPUT FORMATS
 	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
-	options=(  # any option can be set to default to "on"
-		"flac" "Flawless" off
-		"wav" "Waveform" off
-		"ogg" "Vorbis" off
-		"m4a" "Apple audio" off
-		"wma" "Windows audio" off)
+	options=( 
+		"flac" "Flawless" on
+		"wav" "Waveform" on
+		"ogg" "Vorbis" on
+		"m4a" "Apple audio" on
+		"wma" "Windows audio" on)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
@@ -178,7 +180,8 @@ main_menu () {
 	do
 		FORMAT_ARRAY+=("$choice")
 	done
-	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; exit 1; fi 
+	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; sleep 2;
+	clear && eval surserver-launcher; exit 1; fi 
 	
 	#OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
@@ -195,7 +198,8 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
-	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; exit 1; fi 
+	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
+	clear && eval surserver-launcher; exit 1; fi 
 	
 	#EXECUTE TASKS
 	execute_tasks;
