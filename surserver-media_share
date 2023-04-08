@@ -9,7 +9,7 @@
 if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
-    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
+    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting...";
     exit 1;
 fi
 
@@ -58,7 +58,8 @@ create_checklist () {
 			source+=$(get_selections $1.folder_content.txt $choice $1);
 		done
 	else
-		echo -e "${ERROR}No selection, aborting...${NC}"; exit 1;
+		echo -e "${ERROR}No selection, aborting...${NC}"; sleep 2;
+		clear && eval surserver-launcher; exit 1;
 	fi
 	
 	## set destination (user input dialog)
@@ -73,7 +74,8 @@ create_checklist () {
 	if [ "$dest" != "" ]; then
 		copy_media $source $dest;
 	else
-		echo -e "${ERROR}No destination, aborting...${NC}"; exit 1;
+		echo -e "${ERROR}No destination, aborting...${NC}"; sleep 2;
+		clear && eval surserver-launcher; exit 1;
 	fi
 }
 
@@ -90,8 +92,7 @@ main_menu () {
 
 	## Exit on Quit or Cancel || Execute chosen script.
 	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
-		echo -e 'Exiting...'
-		clear && exit 1;
+		clear && eval surserver-launcher; exit 1;
 	else
 		##TODO: check if folder exists 1st
 		create_checklist $root_dir;
