@@ -122,25 +122,28 @@ set_removal_flag (){
 ## JOBS
 ## ffmpeg conversion
 execute_tasks (){
-	dep_check ffmpeg; # check for ffmpeg
-	dep_check libmp3lame0;
-	for format in "${FORMAT_ARRAY[@]}"; do
-		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
-		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
+	echo -e "audioroot: $AUDIOROOT"
+	echo -e "formats chosen: ${FORMAT_ARRAY[*]}"
+	echo -e "bitrate: $BITRATE"
+	# dep_check ffmpeg; # check for ffmpeg
+	# dep_check libmp3lame0;
+	# for format in "${FORMAT_ARRAY[@]}"; do
+	# 	echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
+	# 	find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+	# 	echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
-		## originals removal
-		if [ $REMOVE -eq 1 ]; then
-			echo -e "${ERROR}Removing original ${WARN}$format${ERROR} files...${NC}"
-			find -name "*.${format}" -exec rm -rfv {} \;
-			echo -e "${ERROR}Original ${WARN}$format${ERROR} files removed.${NC}\n"
-		else
-			## move originals to junk folder
-			echo -e "${OK}Moving original ${WARN}$format${OK} files to ${WARN}$AUDIOJUNK...${NC}"
-			find -name "*.${format}" -exec mv {} "$AUDIOJUNK" \;
-			echo -e "${OK}Original ${WARN}$format${OK} files moved to ${WARN}$AUDIOJUNK.${NC}\n"
-		fi
-	done
+	# 	## originals removal
+	# 	if [ $REMOVE -eq 1 ]; then
+	# 		echo -e "${ERROR}Removing original ${WARN}$format${ERROR} files...${NC}"
+	# 		find -name "*.${format}" -exec rm -rfv {} \;
+	# 		echo -e "${ERROR}Original ${WARN}$format${ERROR} files removed.${NC}\n"
+	# 	else
+	# 		## move originals to junk folder
+	# 		echo -e "${OK}Moving original ${WARN}$format${OK} files to ${WARN}$AUDIOJUNK...${NC}"
+	# 		find -name "*.${format}" -exec mv {} "$AUDIOJUNK" \;
+	# 		echo -e "${OK}Original ${WARN}$format${OK} files moved to ${WARN}$AUDIOJUNK.${NC}\n"
+	# 	fi
+	# done
 }
 
 main_menu () {
@@ -186,17 +189,13 @@ main_menu () {
 	if [ "$BITRATE" == 'Custom' ]; then
 		BITRATE=$(dialog \
 		--title "SurServer Converter MP3" \
-        --inputbox "Enter desired bitrate:" 10 40 \
+        --inputbox "Enter desired bitrate:\n (ex.: 48k)" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
 	
 	#EXECUTE TASKS
-	echo -e "audioroot: $AUDIOROOT"
-	echo -e "formats chosen: ${FORMAT_ARRAY[*]}"
-	echo -e "bitrate: $BITRATE"
-	echo -e "GUI not yet implemented, use -n or --no-gui for now."
-	exit 1;
+	execute_tasks;
 }
 
 ## START
