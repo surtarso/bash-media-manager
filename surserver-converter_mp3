@@ -146,8 +146,8 @@ execute_tasks (){
 main_menu () {
 	#PATH:
 	#audioroot - default menu
-	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' 0 0 0 \
-		--title "SurServer Converter MP3" \
+	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' \
+		--title "SurServer Converter MP3" 0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
 	if [ "$AUDIOROOT" == 'Custom' ]; then
