@@ -164,7 +164,7 @@ main_menu () {
 	#INPUT FORMATS
 	#preset defaults
 	#custom - user input
-	checklist=(dialog --stdout --separate-output --checklist "Select options:" 22 76 16)
+	checklist=(dialog --separate-output --checklist "Select options:" 22 76 16)
 	options=(1 "FLAC" off    # any option can be set to default to "on"
 			2 "WAV" off
 			3 "OGG" off
@@ -172,25 +172,27 @@ main_menu () {
 			5 "WMA" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
+	
 	for choice in $choices
 	do
-		case $choice in
-			1)
-				FORMAT_ARRAY+=("flac")
-				;;
-			2)
-				FORMAT_ARRAY+=("wav")
-				;;
-			3)
-				FORMAT_ARRAY+=("ogg")
-				;;
-			4)
-				FORMAT_ARRAY+=("m4a")
-				;;
-			5)
-				FORMAT_ARRAY+=("wma")
-				;;
-		esac
+		FORMAT_ARRAY+=($choice)
+		# case $choice in
+		# 	1)
+		# 		FORMAT_ARRAY+=("flac")
+		# 		;;
+		# 	2)
+		# 		FORMAT_ARRAY+=("wav")
+		# 		;;
+		# 	3)
+		# 		FORMAT_ARRAY+=("ogg")
+		# 		;;
+		# 	4)
+		# 		FORMAT_ARRAY+=("m4a")
+		# 		;;
+		# 	5)
+		# 		FORMAT_ARRAY+=("wma")
+		# 		;;
+		# esac
 	done
 	
 	#OUTPUT BITRATE
