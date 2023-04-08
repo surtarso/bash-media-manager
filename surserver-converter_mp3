@@ -165,7 +165,7 @@ main_menu () {
 	#preset defaults
 	#custom - user input
 	FORMAT_ARRAY=''
-	cmd=(dialog --separate-output --checklist "Select options:" 22 76 16)
+	cmd=(dialog --stdout --separate-output --checklist "Select options:" 22 76 16)
 	options=(1 "FLAC" off    # any option can be set to default to "on"
 			2 "WAV" off
 			3 "OGG" off
