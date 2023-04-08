@@ -160,12 +160,13 @@ main_menu () {
 	#TODO: removal flag - yesno
 
 	#INPUT FORMATS
-	checklist=(dialog --separate-output --checklist "Select options:" 22 76 16)
-	options=("flac" "Flawless" off    # any option can be set to default to "on"
-			"wav" "Wave" off
-			"ogg" "Vorbin" off
-			"m4a" "Apple audio" off
-			"wma" "Windows audio" off)
+	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
+	options=(  # any option can be set to default to "on"
+		"flac" "Flawless" off
+		"wav" "Waveform" off
+		"ogg" "Vorbis" off
+		"m4a" "Apple audio" off
+		"wma" "Windows audio" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
@@ -175,12 +176,25 @@ main_menu () {
 	done
 	
 	#OUTPUT BITRATE
-	#preset defaults
-	#custom - user input
+	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
+		0 0 0 \
+		'96k' '' \
+		'128k' '(recommended)' \
+		'256k' '' \
+		'320k' '' \
+		Custom '')
+	if [ "$BITRATE" == 'Custom' ]; then
+		BITRATE=$(dialog \
+		--title "SurServer Converter MP3" \
+        --inputbox "Enter desired bitrate:" 10 40 \
+		3>&1 1>&2 2>&3 3>&-)
+		clear
+	fi
 	
 	#EXECUTE TASKS
 	echo -e "audioroot: $AUDIOROOT"
 	echo -e "formats chosen: ${FORMAT_ARRAY[*]}"
+	echo -e "bitrate: $BITRATE"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
