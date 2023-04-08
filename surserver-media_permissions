@@ -48,7 +48,7 @@ custom_entry () {
 }
 
 main_menu () {
-	checklist=(dialog --separate-output --checklist "Select option(s) with spacebar:" 22 76 16)
+	checklist=(dialog --separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
 	options=(1 "Audio $AUDIO_OWNER:$GROUP" off    
 			2 "Series $SERIES_OWNER:$GROUP" off
 			3 "Movies $MOVIES_OWNER:$GROUP" off
