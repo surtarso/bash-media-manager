@@ -145,13 +145,11 @@ execute_tasks (){
 
 main_menu () {
 	#PATH:
-	#audioroot - default menu
 	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' \
 		0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
 	if [ "$AUDIOROOT" == 'Custom' ]; then
-		# dialog user input
 		AUDIOROOT=$(dialog \
 		--title "SurServer Converter MP3" \
         --inputbox "Enter location full path: \n \
@@ -159,23 +157,21 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
-	#removal flag - yesno
+	#TODO: removal flag - yesno
 
 	#INPUT FORMATS
-	#preset defaults
-	#custom - user input
 	checklist=(dialog --separate-output --checklist "Select options:" 22 76 16)
-	options=("flac" "FLAC" off    # any option can be set to default to "on"
-			"wav" "WAV" off
-			"ogg" "OGG" off
-			"m4a" "M4A" off
-			"wma" "WMA" off)
+	options=("flac" "Flawless" off    # any option can be set to default to "on"
+			"wav" "Wave" off
+			"ogg" "Vorbin" off
+			"m4a" "Apple audio" off
+			"wma" "Windows audio" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
 	for choice in $choices
 	do
-		FORMAT_ARRAY+=("$choice")  ## NOT ADDING TO ARRAY!!!! FIXME!!
+		FORMAT_ARRAY+=("$choice")
 	done
 	
 	#OUTPUT BITRATE
@@ -223,5 +219,6 @@ elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
 	echo -e " -h [--help] 	-> This message screen."
 	exit 1
 else
+	echo -e "${FORMAT_ARRAY[*]}" && exit 1;
 	main_menu;
 fi
