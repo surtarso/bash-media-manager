@@ -122,12 +122,14 @@ set_removal_flag (){
 ## JOBS
 ## ffmpeg conversion
 execute_tasks (){
+	echo -e "________________________________________________\n"
 	echo -e "Audioroot: ${WARN}$AUDIOROOT${NC}"
+	echo -e "Remove: ${WARN}$REMOVE${NC} (1-Yes 0-No)"
 	echo -e "Format(s): ${WARN}${FORMAT_ARRAY[*]}${NC}"
 	echo -e "Bitrate: ${WARN}$BITRATE${NC}"
 	dep_check ffmpeg;
 	dep_check libmp3lame0;
-	echo -e "____________________________________________________\n"
+	echo -e "________________________________________________\n"
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
@@ -163,14 +165,24 @@ main_menu () {
 	fi
 	#error checks
 	if [ "$AUDIOROOT" == "" ]; then 
-		echo -e "ath cant be empty, aborting..."; sleep 2;
+		echo -e "Path cant be empty, aborting..."; sleep 2;
 		clear && eval surserver-launcher; exit 1;
 	else 
 		cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
 		clear && eval surserver-launcher; exit 1; }
 	fi
 
-	#TODO: removal flag - yesno
+	##------------------------ REMOVAL FLAG
+	REMOVE=$(dialog --stdout --title "Remove original files?" \
+		--yesno "Yes: Remove, No:  Keep" 7 60 )
+	dialog_status=$?
+	if [ "$dialog_status" -eq 0 ]; then
+		echo 'The previous dialog was answered Yes'
+		REMOVE=1
+	else
+		echo 'The previous dialog was answered No or interrupted with <C-c>'
+		REMOVE=0
+	fi
 	
 	##------------------------ INPUT FORMATS
 	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
@@ -210,7 +222,7 @@ main_menu () {
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
 	clear && eval surserver-launcher; exit 1; fi 
 	##TODO: add error check if var doesnt end with "k"
-	
+
 	##----------------------- EXECUTE TASKS
 	clear && execute_tasks;
 }
