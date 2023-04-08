@@ -219,6 +219,5 @@ elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
 	echo -e " -h [--help] 	-> This message screen."
 	exit 1
 else
-	echo -e "${FORMAT_ARRAY[*]}" && exit 1;
 	main_menu;
 fi
