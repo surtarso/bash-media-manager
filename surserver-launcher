@@ -5,7 +5,7 @@
 # Tarso Galvao 05/04/23 Debian 11
 
 
-# Main Menu
+## Main Menu
 menu_opt=$(dialog \
 	--title 'SurServer Script-Launcher Menu' \
 	--stdout \
