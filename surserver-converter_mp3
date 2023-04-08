@@ -146,9 +146,19 @@ execute_tasks (){
 main_menu () {
 	#PATH:
 	#audioroot - default menu
-	path=$(dialog --stdout --menu 'Audio files location:' 0 0 0 \
+	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' 0 0 0 \
+		--title "SurServer Converter MP3" \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
+	if [ "$AUDIOROOT" == 'Custom' ]; then
+		# dialog user input
+		AUDIOROOT=$(dialog \
+		--title "SurServer Converter MP3" \
+        --inputbox "Enter location full path: \n \
+		(ex.: /full/path/to/dir/ )" 10 40 \
+		3>&1 1>&2 2>&3 3>&-)
+		clear
+	fi
 	#removal flag - yesno
 
 	#INPUT FORMATS
@@ -160,7 +170,7 @@ main_menu () {
 	#custom - user input
 	
 	#EXECUTE TASKS
-	echo -e "$path"
+	echo -e "$AUDIOROOT"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
