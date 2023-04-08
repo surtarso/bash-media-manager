@@ -63,7 +63,7 @@ backup_menu (){
 				break;;
 			"Quit")
 				exit 1
-                break;;
+                ;;
 			*)
 				echo -e 'Not a valid choice. Use (1-6)';;
 		esac
