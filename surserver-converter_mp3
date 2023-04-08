@@ -164,14 +164,13 @@ main_menu () {
 	#INPUT FORMATS
 	#preset defaults
 	#custom - user input
-	FORMAT_ARRAY=''
-	cmd=(dialog --stdout --separate-output --checklist "Select options:" 22 76 16)
+	FORMAT_ARRAY=(dialog --stdout --separate-output --checklist "Select options:" 22 76 16)
 	options=(1 "FLAC" off    # any option can be set to default to "on"
 			2 "WAV" off
 			3 "OGG" off
 			4 "M4A" off
 			5 "WMA" off)
-	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	choices=$("${FORMAT_ARRAY[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	for choice in $choices
 	do
