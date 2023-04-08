@@ -183,13 +183,13 @@ main_menu () {
 				FORMAT_ARRAY+=("wav")
 				;;
 			3)
-				echo "Third Option"
+				FORMAT_ARRAY+=("ogg")
 				;;
 			4)
-				echo "Fourth Option"
+				FORMAT_ARRAY+=("m4a")
 				;;
 			5)
-				echo "Fith Option"
+				FORMAT_ARRAY+=("wma")
 				;;
 		esac
 	done
@@ -199,8 +199,8 @@ main_menu () {
 	#custom - user input
 	
 	#EXECUTE TASKS
-	echo -e "$AUDIOROOT"
-	echo -e "$FORMAT_ARRAY"
+	echo -e "audioroot: $AUDIOROOT"
+	echo -e "formats chosen: $FORMAT_ARRAY"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
