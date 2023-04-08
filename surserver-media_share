@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# a better way to choose media to share with friends or backup
-# checklist select of folders to copy to another set location
-# Tarso Galvao 06/04/23 Debian 11
+## A better way to choose media to share with friends or backup
+## checklist select of folders to copy to another set location
+## Tarso Galvao 06/04/23 Debian 11
 
 
 ## load enviroment variables
@@ -24,10 +24,10 @@ copy_media (){
 }
 
 ## get lines chosen and print dir name in quotes for cp/rsync command
-get_selections () { ## $1-folder_content.txt $2-line number $3-media rootfolder
+get_selections () { #$1-folder_content.txt $2-line number $3-media rootfolder
 	dir_list="$1"	#list of all folders on dirs
 	line_choice=$2	#list of all lines (folders) chosen
-	i=0
+	i=0				#reset start line to read
 	while read line; do
 		i=$(expr $i + 1)
 		test $i = $line_choice && echo "$3\"$line\" ";  #list of choices for array
@@ -36,6 +36,7 @@ get_selections () { ## $1-folder_content.txt $2-line number $3-media rootfolder
 
 ## create checklist with directory(root_dir) contents
 create_checklist () {
+	## create a file in root folder with its folders
 	if [ -f $1.folder_content.txt ]; then rm $1.folder_content.txt;
 	else eval $(touch $1.folder_content.txt); fi
 	ls $1 >> $1.folder_content.txt
@@ -54,10 +55,10 @@ create_checklist () {
 	## create array with choice results
 	if [ "$choices" != "" ]; then
 		for choice in $choices
-		do  # get_selections() $1-folder_content.txt $2-line number $3-rootfolder
+		do  #get_selections() $1-folder_content.txt $2-line number $3-rootfolder
 			source+=$(get_selections $1.folder_content.txt $choice $1);
 		done
-	else
+	else #return to launcher
 		echo -e "${ERROR}No selection, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1;
 	fi
@@ -67,13 +68,13 @@ create_checklist () {
 		--title "SurServer Media Share" \
         --inputbox "Enter destination full path: \n \
 		(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 10 40 \
-  		3>&1 1>&2 2>&3 3>&-)
+		3>&1 1>&2 2>&3 3>&-)
 	clear
 
 	## copy CHOICES to DESTINATION
 	if [ "$dest" != "" ]; then
 		copy_media $source $dest;
-	else
+	else #return to launcher
 		echo -e "${ERROR}No destination, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1;
 	fi
@@ -89,9 +90,9 @@ main_menu () {
 			$MOVIESROOT 'Movies' \
 			$CONCERTSROOT 'Concerts' \
 			Quit '')
-
+	exitStatus=$?
 	## Exit on Quit or Cancel || Execute chosen script.
-	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
+	if [ $root_dir = 'Quit' ] || [ $exitStatus -ne 1 ]; then
 		clear && eval surserver-launcher; exit 1;
 	else
 		##TODO: check if folder exists 1st
@@ -102,12 +103,16 @@ main_menu () {
 ## STARTUP OPTIONS
 if [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
 	create_checklist $AUDIOROOT;
+
 elif [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
 	create_checklist $SERIESROOT;
+
 elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
 	create_checklist $MOVIESROOT;
+
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
 	create_checklist $CONCERTSROOT;
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "${OK}SurServer Media Share${NC}"
 	echo -e "Easily share server media to other devices."

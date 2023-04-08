@@ -1,5 +1,10 @@
 #!/bin/bash
 
+## Fix/modify permissions of media files to work
+## with arr* software or use manual custom entries.
+## Uses 2775 for folders and 664 for files as standard.
+## Tarso Galvao 08/04/23 Debian 11 (Based on Snortt's script)
+
 ## load enviroment variables
 if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
@@ -19,31 +24,36 @@ fix_permissions () {
 	done
 }
 
+## user input entries (Custom)
 custom_entry () {
+	## get path
 	path=$(dialog \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter full path: \n \
 		( ex.: /full/path/to/dir/ )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
-	clear
+	clear #check path:
 	if [ "$path" == "" ]; then echo -e "${ERROR}No path, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
+	## get user
 	user=$(dialog \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter user: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
-	clear
+	clear #check user:
 	if [ "$user" == "" ]; then echo -e "${ERROR}No user, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
+	## get group
 	group=$(dialog \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter group: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
-	clear
+	clear #check group:
 	if [ "$group" == "" ]; then echo -e "${ERROR}No group, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
+	## execute with user input args
 	fix_permissions $path $user $group
 }
 
