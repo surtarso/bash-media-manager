@@ -164,6 +164,10 @@ main_menu () {
 	#INPUT FORMATS
 	#preset defaults
 	#custom - user input
+	FORMAT_ARRAY=$(dialog --stdout --menu 'Choose format(s) to convert:' \
+		0 0 0 \
+		"flac" 'Flawless Audio' \
+		"ogg" 'Orbis')
 	
 	#OUTPUT BITRATE
 	#preset defaults
@@ -171,6 +175,7 @@ main_menu () {
 	
 	#EXECUTE TASKS
 	echo -e "$AUDIOROOT"
+	echo -e "$FORMAT_ARRAY"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
