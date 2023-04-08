@@ -184,7 +184,7 @@ main_menu () {
 	
 	#EXECUTE TASKS
 	echo -e "audioroot: $AUDIOROOT"
-	echo -e "formats chosen: $FORMAT_ARRAY"
+	echo -e "formats chosen: ${FORMAT_ARRAY[*]}"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
