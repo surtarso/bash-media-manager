@@ -16,24 +16,24 @@ else
 	exit 1;
 fi
 
-## auto-mode default flags
+## AUTOMODE DEFAULT FLAGS (--auto)
 REMOVE=1 # remove original files (0=no 1=yes)
 FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma") # input format(s)
 BITRATE='128k' # output mp3 bitrate
 
-## FOLDERS  #todo: generalize folder checks and add to .env so all can use.
-set_new_path (){ ## add dialog input
+## FOLDERS
+set_new_path (){
 	echo -e "\n${OK}Set new path:${NC} (ex: ${WARN}/home/user/music/${NC} )";
 	read -e AUDIOROOT < /dev/tty
 	check_path;
 }
 check_path (){
-	cd "$AUDIOROOT" &>/dev/null && confirm_path || { ## add dialog infobox
+	cd "$AUDIOROOT" &>/dev/null && confirm_path || {
 		echo -e "\n${ERROR}ERROR: Folder ${WARN}$AUDIOROOT${ERROR} could not be found.${NC}\n";
 		set_new_path;
 		};
 }
-confirm_path (){  ## first greetings (add dialog yes/no)
+confirm_path (){
 	echo -e "\n${OK}Found:${NC} $AUDIOROOT\n"
 	echo -e 'Is this the correct path? (Y/n) \c'
 	read -e yesno < /dev/tty
@@ -122,11 +122,12 @@ set_removal_flag (){
 ## JOBS
 ## ffmpeg conversion
 execute_tasks (){
-	echo -e "Audioroot: $AUDIOROOT"
-	echo -e "Format(s): ${FORMAT_ARRAY[*]}"
-	echo -e "Bitrate: $BITRATE"
-	dep_check ffmpeg; # check for ffmpeg
+	echo -e "Audioroot: ${WARN}$AUDIOROOT${NC}"
+	echo -e "Format(s): ${WARN}${FORMAT_ARRAY[*]}${NC}"
+	echo -e "Bitrate: ${WARN}$BITRATE${NC}"
+	dep_check ffmpeg;
 	dep_check libmp3lame0;
+	echo -e "____________________________________________________\n"
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
@@ -147,7 +148,7 @@ execute_tasks (){
 }
 
 main_menu () {
-	#PATH:
+	##------------------------- PATH:
 	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' \
 		0 0 0 \
 		$AUDIOROOT '(default)' \
@@ -160,12 +161,18 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
-	if [ "$AUDIOROOT" == "" ]; then echo -e "path cant be empty, aborting..."; sleep 2;
-	clear && eval surserver-launcher; exit 1; fi
-	
+	#error checks
+	if [ "$AUDIOROOT" == "" ]; then 
+		echo -e "ath cant be empty, aborting..."; sleep 2;
+		clear && eval surserver-launcher; exit 1;
+	else 
+		cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
+		clear && eval surserver-launcher; exit 1; }
+	fi
+
 	#TODO: removal flag - yesno
 	
-	#INPUT FORMATS
+	##------------------------ INPUT FORMATS
 	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
 	options=( 
 		"flac" "Flawless" on
@@ -180,10 +187,11 @@ main_menu () {
 	do
 		FORMAT_ARRAY+=("$choice")
 	done
+	#error checks
 	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; sleep 2;
 	clear && eval surserver-launcher; exit 1; fi 
 	
-	#OUTPUT BITRATE
+	##----------------------- OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
 		0 0 0 \
 		'96k' '' \
@@ -198,10 +206,11 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
+	#error checks
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
 	clear && eval surserver-launcher; exit 1; fi 
-	
-	#EXECUTE TASKS
+	if [[ "$BITRATE" != *k ]]; then echo 'need k in the end'; fi 
+	##----------------------- EXECUTE TASKS
 	clear && execute_tasks;
 }
 
