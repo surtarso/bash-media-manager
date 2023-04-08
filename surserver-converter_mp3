@@ -209,7 +209,7 @@ main_menu () {
 	#error checks
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
 	clear && eval surserver-launcher; exit 1; fi 
-	[ -n "${BITRATE%%*k}" ] && echo 'need k in the end'
+	if [[ $BITRATE != *k ]]; then echo ' error'; fi
 	##----------------------- EXECUTE TASKS
 	clear && execute_tasks;
 }
