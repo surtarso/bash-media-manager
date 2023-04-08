@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# a better way to chose media to share with friends or backup
+# a better way to choose media to share with friends or backup
 # checklist select of folders to copy to another set location
 # Tarso Galvao 06/04/23 Debian 11
 
@@ -10,60 +10,70 @@ if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
     echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
-        exit 1;
+    exit 1;
 fi
 
+
+copy_media (){
+	dep_check rsync; #check for rsync (dest should have rsync too... how to confirm?)
+	echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$source ${OK}$dest${NC}"
+	echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
+	sleep 3
+	## start syncing
+	eval $(echo -e "rsync -avzP $source $dest")
+}
+
 ## get lines chosen and print dir name in quotes for cp/rsync command
-get_choices () {
-	dir_file="$1"	#list of all dirs
-	line_choice=$2	#list of all lines chosen
+get_selections () { ## $1-folder_content.txt $2-line number $3-media rootfolder
+	dir_list="$1"	#list of all folders on dirs
+	line_choice=$2	#list of all lines (folders) chosen
 	i=0
 	while read line; do
 		i=$(expr $i + 1)
 		test $i = $line_choice && echo "$3\"$line\" ";  #list of choices for array
-	done < "$dir_file"
+	done < "$dir_list"
 }
 
 ## create checklist with directory(root_dir) contents
 create_checklist () {
-	if [ -f $1.dir_list.txt ]; then rm $1.dir_list.txt; fi	#delete old list
-	ls $1 >> $1.dir_list.txt				#create new dir_list.txt
+	if [ -f $1.folder_content.txt ]; then rm $1.folder_content.txt;
+	else eval $(touch $1.folder_content.txt); fi
+	ls $1 >> $1.folder_content.txt
 
-	## create dynamic --checklist for each dir
+	## create dynamic options for each dir
 	c=0 #reset counter
-	while IFS=$'\n' read -r line; do c=$(expr $c + 1); options+=($c "$line" off); done < $1.dir_list.txt
+	while IFS=$'\n' read -r line; do c=$(expr $c + 1); options+=($c "$line" off); done < $1.folder_content.txt
 
-	## print dialog
-	cmd=(dialog --separate-output \
-	--title "SurServer Media Share" \
-	--checklist "Select content(s):" 22 76 16)
-	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	## print options (dialog checklist)
+	checklist=(dialog --separate-output \
+		--title "SurServer Media Share" \
+		--checklist "Select content(s):" 22 76 16)
+	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 
-	## create array with choice results
-	for choice in $choices
-	do
-		choice_array+=$(get_choices $1.dir_list.txt $choice $1);  # dir_list - line number - rootfolder
-	done
-
-	## set destination (user input)
+	## process choices
+	if [ "$choices" != "" ]; then
+		for choice in $choices
+		do  # get_selections() $1-folder_content.txt $2-line number $3-rootfolder
+			source+=$(get_selections $1.folder_content.txt $choice $1);
+		done
+	else  ## create array with choice results
+		echo -e "${ERROR}No selection, aborting...${NC}"; exit 1;
+	fi
+	
+	## set destination (user input dialog)
 	dest=$(dialog \
-	--title "SurServer Media Share" \
-        --inputbox "Enter destination full path: \n(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 8 40 \
-  	3>&1 1>&2 2>&3 3>&- \
-	)
+		--title "SurServer Media Share" \
+        --inputbox "Enter destination full path: \n \
+		(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 10 40 \
+  		3>&1 1>&2 2>&3 3>&-)
 	clear
 
 	## copy CHOICES to DESTINATION
-	if [ "$choice_array" != "" -a "$dest" != "" ]; then
-		dep_check rsync; #check for rsync (dest should have rsync too... how to confirm?)
-		echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$choice_array ${OK}$dest${NC}"
-		echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
-		sleep 3
-		## start syncing
-		eval $(echo -e "rsync -avzP $choice_array $dest")
+	if [ "$dest" != "" ]; then
+		copy_media $source $dest;
 	else
-		echo -e "${ERROR}Something went wrong! Missing SOURCE or DESTINATION!${NC}"
+		echo -e "${ERROR}No destination, aborting...${NC}"; exit 1;
 	fi
 }
 
@@ -71,20 +81,20 @@ create_checklist () {
 main_menu () {
 	root_dir=$(dialog --stdout \
 		--title "SurServer Media Share" \
-		--menu 'Select media source:' \
-		0 0 0 $AUDIOROOT 'Audio/Music' \
-				$SERIESROOT 'Series' \
-				$MOVIESROOT 'Movies' \
-				$CONCERTSROOT 'Concerts' \
-				Quit '')
+		--menu 'Select media source:' 0 0 0 \
+			$AUDIOROOT 'Audio/Music' \
+			$SERIESROOT 'Series' \
+			$MOVIESROOT 'Movies' \
+			$CONCERTSROOT 'Concerts' \
+			Quit '')
 
 	## Exit on Quit or Cancel || Execute chosen script.
 	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
-			echo -e 'Exiting...'
-			clear && exit 1;
+		echo -e 'Exiting...'
+		clear && exit 1;
 	else
-			##TODO: check if folder exists 1st
-			create_checklist $root_dir;
+		##TODO: check if folder exists 1st
+		create_checklist $root_dir;
 	fi
 }
 
