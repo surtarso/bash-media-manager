@@ -160,6 +160,7 @@ main_menu () {
 	#custom - user input
 	
 	#EXECUTE TASKS
+	echo -e "$path"
 	echo -e "GUI not yet implemented, use -n or --no-gui for now."
 	exit 1;
 }
