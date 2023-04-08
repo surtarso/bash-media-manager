@@ -122,28 +122,28 @@ set_removal_flag (){
 ## JOBS
 ## ffmpeg conversion
 execute_tasks (){
-	echo -e "audioroot: $AUDIOROOT"
-	echo -e "formats chosen: ${FORMAT_ARRAY[*]}"
-	echo -e "bitrate: $BITRATE"
-	# dep_check ffmpeg; # check for ffmpeg
-	# dep_check libmp3lame0;
-	# for format in "${FORMAT_ARRAY[@]}"; do
-	# 	echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-	# 	find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
-	# 	echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
+	echo -e "Audioroot: $AUDIOROOT"
+	echo -e "Format(s): ${FORMAT_ARRAY[*]}"
+	echo -e "Bitrate: $BITRATE"
+	dep_check ffmpeg; # check for ffmpeg
+	dep_check libmp3lame0;
+	for format in "${FORMAT_ARRAY[@]}"; do
+		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
-	# 	## originals removal
-	# 	if [ $REMOVE -eq 1 ]; then
-	# 		echo -e "${ERROR}Removing original ${WARN}$format${ERROR} files...${NC}"
-	# 		find -name "*.${format}" -exec rm -rfv {} \;
-	# 		echo -e "${ERROR}Original ${WARN}$format${ERROR} files removed.${NC}\n"
-	# 	else
-	# 		## move originals to junk folder
-	# 		echo -e "${OK}Moving original ${WARN}$format${OK} files to ${WARN}$AUDIOJUNK...${NC}"
-	# 		find -name "*.${format}" -exec mv {} "$AUDIOJUNK" \;
-	# 		echo -e "${OK}Original ${WARN}$format${OK} files moved to ${WARN}$AUDIOJUNK.${NC}\n"
-	# 	fi
-	# done
+		## originals removal
+		if [ $REMOVE -eq 1 ]; then
+			echo -e "${ERROR}Removing original ${WARN}$format${ERROR} files...${NC}"
+			find -name "*.${format}" -exec rm -rfv {} \;
+			echo -e "${ERROR}Original ${WARN}$format${ERROR} files removed.${NC}\n"
+		else
+			## move originals to junk folder
+			echo -e "${OK}Moving original ${WARN}$format${OK} files to ${WARN}$AUDIOJUNK...${NC}"
+			find -name "*.${format}" -exec mv {} "$AUDIOJUNK" \;
+			echo -e "${OK}Original ${WARN}$format${OK} files moved to ${WARN}$AUDIOJUNK.${NC}\n"
+		fi
+	done
 }
 
 main_menu () {
@@ -152,6 +152,7 @@ main_menu () {
 		0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
+	if [ "$AUDIOROOT" == "" ]; then echo -e "path cant be empty, aborting..."; exit 1; fi 
 	if [ "$AUDIOROOT" == 'Custom' ]; then
 		AUDIOROOT=$(dialog \
 		--title "SurServer Converter MP3" \
@@ -177,6 +178,7 @@ main_menu () {
 	do
 		FORMAT_ARRAY+=("$choice")
 	done
+	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; exit 1; fi 
 	
 	#OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
@@ -193,6 +195,7 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
+	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; exit 1; fi 
 	
 	#EXECUTE TASKS
 	execute_tasks;
