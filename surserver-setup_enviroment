@@ -46,9 +46,24 @@ main_form () {
     while read -r line; do
         ((i++))
         declare field$i="${line}"
+        # values+=("${line}")
     done <<< "${filled_form}"
     # echo "all fields: $filled_form"  #all fields
     # echo "field2: ${field2}"         #field by line
+    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
+           SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
+           SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
+    # echo ${keys[*]}
+    # echo ${values[*]}
+
+    # for key in "${keys[@]}"
+    # do
+    #     for value in "${values[@]}"
+    #     do 
+    #         echo -e "$key=\"$value\""
+    #     done
+    # done
+
     echo "#!/bin/bash" > $ENV_FILE
     echo "# .env file created by script" >> $ENV_FILE
     echo "AUDIOROOT=\"$field1\"" >> $ENV_FILE
