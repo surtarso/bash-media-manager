@@ -48,14 +48,19 @@ main_form () {
         declare field$i="${line}"
         # values+=("${line}")
     done <<< "${filled_form}"
+
+    ## TODO: add field in quotes....
+    sed -i -e "/AUDIOROOT=/ s/=.*/=${field1}/" $ENV_FILE
+
     # echo "all fields: $filled_form"  #all fields
     # echo "field2: ${field2}"         #field by line
-    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
-           SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
-           SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
+
+    ## not it... or one empty field will fuck up... unless we use line to map?
+    # keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
+    #        SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
+    #        SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
     # echo ${keys[*]}
     # echo ${values[*]}
-
     # for key in "${keys[@]}"
     # do
     #     for value in "${values[@]}"
@@ -64,25 +69,25 @@ main_form () {
     #     done
     # done
 
-    echo "#!/bin/bash" > $ENV_FILE
-    echo "# .env file created by script" >> $ENV_FILE
-    echo "AUDIOROOT=\"$field1\"" >> $ENV_FILE
-    echo "AUDIOBACKUP=\"$field2\"" >> $ENV_FILE
-    echo "AUDIOJUNK=\"$field3\"" >> $ENV_FILE
-    echo "VIDEOSROOT=\"$field4\"" >> $ENV_FILE
-    echo "VIDEOSBACKUP=\"$field5\"" >> $ENV_FILE
-    echo "VIDEOSJUNK=\"$field6\"" >> $ENV_FILE
-    echo "SERIESROOT=\"$field7\"" >> $ENV_FILE
-    echo "SERIESBACKUP=\"$field8\"" >> $ENV_FILE
-    echo "MOVIESROOT=\"$field9\"" >> $ENV_FILE
-    echo "MOVIESBACKUP=\"$field10\"" >> $ENV_FILE
-    echo "CONCERTSROOT=\"$field11\"" >> $ENV_FILE
-    echo "CONCERTSBACKUP=\"$field12\"" >> $ENV_FILE
-    echo "AUDIO_OWNER=\"$field13\"" >> $ENV_FILE
-    echo "SERIES_OWNER=\"$field14\"" >> $ENV_FILE
-    echo "MOVIES_OWNER=\"$field15\"" >> $ENV_FILE
-    echo "CONCERTS_OWNER=\"$field16\"" >> $ENV_FILE
-    echo "GROUP=\"$field17\"" >> $ENV_FILE
+    # echo "#!/bin/bash" > $ENV_FILE
+    # echo "# .env file created by script" >> $ENV_FILE
+    # echo "AUDIOROOT=\"$field1\"" >> $ENV_FILE
+    # echo "AUDIOBACKUP=\"$field2\"" >> $ENV_FILE
+    # echo "AUDIOJUNK=\"$field3\"" >> $ENV_FILE
+    # echo "VIDEOSROOT=\"$field4\"" >> $ENV_FILE
+    # echo "VIDEOSBACKUP=\"$field5\"" >> $ENV_FILE
+    # echo "VIDEOSJUNK=\"$field6\"" >> $ENV_FILE
+    # echo "SERIESROOT=\"$field7\"" >> $ENV_FILE
+    # echo "SERIESBACKUP=\"$field8\"" >> $ENV_FILE
+    # echo "MOVIESROOT=\"$field9\"" >> $ENV_FILE
+    # echo "MOVIESBACKUP=\"$field10\"" >> $ENV_FILE
+    # echo "CONCERTSROOT=\"$field11\"" >> $ENV_FILE
+    # echo "CONCERTSBACKUP=\"$field12\"" >> $ENV_FILE
+    # echo "AUDIO_OWNER=\"$field13\"" >> $ENV_FILE
+    # echo "SERIES_OWNER=\"$field14\"" >> $ENV_FILE
+    # echo "MOVIES_OWNER=\"$field15\"" >> $ENV_FILE
+    # echo "CONCERTS_OWNER=\"$field16\"" >> $ENV_FILE
+    # echo "GROUP=\"$field17\"" >> $ENV_FILE
 }
 
 #auto:
