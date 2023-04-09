@@ -6,21 +6,70 @@
 # it should also be able to edit an existing .env file with new settings easily
 # should be noob-proof.
 
+
+ENV_FILE='/home/dietpi/bin/.env_test'
 ## check for env
-if [ -f /home/dietpi/bin/.env_test ]; then
-    . /home/dietpi/bin/.env_test
-else
-    echo -e "${WARN}Warning: .env_test not found.${NC}\nCreating new one..."
-	touch /home/dietpi/bin/.env_test
-fi
+if [ -f $ENV_FILE ]; then . $ENV_FILE; fi
 
-#if already exist, show whats there b4 ask to change
-#if empty ask for input
-#save to file (duh)
+#folders setup, user/groups setup
+main_form () {
+    # open fd
+    exec 3>&1
+    # Store fields to $filled_form variable
+    filled_form=$(dialog --ok-label "Update" \
+        --title "SurServer Setup Enviroment" \
+        --form "Plese fill in all fields" \
+        25 80 0 \
+        "Audio root folder:" 1 2	"$AUDIOROOT" 	1 27 46 0 \
+        "Audio backup folder:"    2 2	"$AUDIOBACKUP"  	2 27 46 0 \
+        "Audio junk folder:"    3 2	"$AUDIOJUNK"  	3 27 46 0 \
+        "Videos root folder:" 4 2	"$VIDEOSROOT" 	4 27 46 0 \
+        "Videos backup folder:"    5 2	"$VIDEOSBACKUP"  	5 27 46 0 \
+        "Videos junk folder:"    6 2	"$VIDEOSJUNK"  	6 27 46 0 \
+        "Series root folder:" 7 2	"$SERIESROOT" 	7 27 46 0 \
+        "Series backup folder:"    8 2	"$SERIESBACKUP"  	8 27 46 0 \
+        "Movies root folder:" 9 2	"$MOVIESROOT" 	9 27 46 0 \
+        "Movies backup folder:"    10 2	"$MOVIESBACKUP"  	10 27 46 0 \
+        "Concerts root folder:" 11 2	"$CONCERTSROOT" 	11 27 46 0 \
+        "Concerts backup folder:"    12 2	"$CONCERTSBACKUP"  	12 27 46 0 \
+        "User owner of audios:"    13 2	"$AUDIO_OWNER"  	13 27 46 0 \
+        "User owner of series:"    14 2	"$SERIES_OWNER"  	14 27 46 0 \
+        "User owner of movies:"    15 2	"$MOVIES_OWNER"  	15 27 46 0 \
+        "User owner of concerts:"    16 2	"$CONCERTS_OWNER"  	16 27 46 0 \
+        "Group owner of media:"    17 2	"$GROUP"  	17 27 46 0 \
+        2>&1 1>&3)
+    # close fd
+    exec 3>&-
+    ## ON UPDATE create a var 'field#' for each line
+    ## TODO: check for / on end of folder fields...
+    i=0
+    while read -r line; do
+        ((i++))
+        declare field$i="${line}"
+    done <<< "${filled_form}"
+    # echo "all fields: $filled_form"  #all fields
+    # echo "field2: ${field2}"         #field by line
+    echo "#!/bin/bash" > $ENV_FILE
+    echo "# .env file created by script" >> $ENV_FILE
+    echo "AUDIOROOT=\"$field1\"" >> $ENV_FILE
+    echo "AUDIOBACKUP=\"$field2\"" >> $ENV_FILE
+    echo "AUDIOJUNK=\"$field3\"" >> $ENV_FILE
+    echo "VIDEOSROOT=\"$field4\"" >> $ENV_FILE
+    echo "VIDEOSBACKUP=\"$field5\"" >> $ENV_FILE
+    echo "VIDEOSJUNK=\"$field6\"" >> $ENV_FILE
+    echo "SERIESROOT=\"$field7\"" >> $ENV_FILE
+    echo "SERIESBACKUP=\"$field8\"" >> $ENV_FILE
+    echo "MOVIESROOT=\"$field9\"" >> $ENV_FILE
+    echo "MOVIESBACKUP=\"$field10\"" >> $ENV_FILE
+    echo "CONCERTSROOT=\"$field11\"" >> $ENV_FILE
+    echo "CONCERTSBACKUP=\"$field12\"" >> $ENV_FILE
+    echo "AUDIO_OWNER=\"$field13\"" >> $ENV_FILE
+    echo "SERIES_OWNER=\"$field14\"" >> $ENV_FILE
+    echo "MOVIES_OWNER=\"$field15\"" >> $ENV_FILE
+    echo "CONCERTS_OWNER=\"$field16\"" >> $ENV_FILE
+    echo "GROUP=\"$field17\"" >> $ENV_FILE
+}
 
-#user:
-#folders setup
-#user/groups setup
 #auto:
 #bash colors
 #add original functions
@@ -31,7 +80,60 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
     echo -e " -h [--help]      -> Shows this screen."
 else
-    echo -e "create new .env file or update(change) enviroment variables in .env file\n Not yet implemented..."
+    main_form;
 fi
 
+## EXAMPLE FORM (block commented)
+: '
+# useradd1.sh - A simple shell script to display the form dialog on screen
+# set field names i.e. shell variables
+shell=""
+groups=""
+user=""
+home=""
 
+# open fd
+exec 3>&1
+
+# Store data to $VALUES variable
+VALUES=$(dialog --ok-label "Submit" \
+	  --backtitle "Linux User Managment" \
+	  --title "Useradd" \
+	  --form "Create a new user" \
+15 50 0 \
+	"Username:" 1 1	"$user" 	1 10 10 0 \
+	"Shell:"    2 1	"$shell"  	2 10 15 0 \
+	"Group:"    3 1	"$groups"  	3 10 8 0 \
+	"HOME:"     4 1	"$home" 	4 10 40 0 \
+2>&1 1>&3)
+
+# close fd
+exec 3>&-
+
+# display values just entered
+echo "$VALUES"
+
+i=0
+while read -r line; do
+   ((i++))
+   declare var$i="${line}"
+done <<< "${VALUES}"
+echo "var2=${var2}"
+
+
+##
+I found the most efficient way is:
+
+export $(xargs < .env)
+
+Explanation
+
+When we have a .env file like this:
+
+key=val
+foo=bar
+
+run xargs < .env will get key=val foo=bar
+
+so we will get an export key=val foo=bar and its exactly what we need!
+ '
