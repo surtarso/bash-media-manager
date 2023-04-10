@@ -16,7 +16,7 @@ VIDEOSBACKUP="/mnt/vault/videos_bkp/"
 VIDEOSJUNK="/mnt/vault/videos/junk/"
 
 ## series subsection
-SERIESROOT="/mnt/vvvvvvault/videos/series/"
+SERIESROOT="/mnt/vault/videos/series/"
 SERIESBACKUP="/mnt/vault/videos_bkp/series/"
 
 ## movies subsection
@@ -48,9 +48,9 @@ dep_check () {
         echo -e "${ERROR}$1 not found!${NC} Install package(s)? (Y/n) \c"
         read -r yesno < /dev/tty
             if [ "$yesno" = "n" ] || [ "$yesno" = "N" ]; then
-                echo -e "Cannot continue without $1 package!"
+                echo -e "${WARN}Cannot continue without $1 package!"
                 echo -e "Manually install with sudo apt install $1"
-                echo -e "Aborting..."
+                echo -e "Aborting...${NC}"
                 exit 1
             else
                 #todo: add check for sudo privileges

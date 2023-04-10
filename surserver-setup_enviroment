@@ -7,23 +7,27 @@
 # should be noob-proof.
 
 
-ENV_FILE='/home/dietpi/bin/.env_test'
+ENV_FILE='/home/dietpi/bin/.env'
+TEMPLATE='/home/dietpi/bin/.template_env'
 KEYS=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
        SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
        SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
 
-## check for env
-if [ -f $ENV_FILE ]; then . $ENV_FILE; fi
+## edit or create new env file
+if [ -f $ENV_FILE ]; then . $ENV_FILE;
+else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { 
+    echo -e "${ERROR}Could not create env file.\nAborted."; exit 1;};
+fi
 
 #folders setup, user/groups setup
 main_form () {
     # open fd
     exec 3>&1
     # Store fields to $filled_form variable
-    filled_form=$(dialog --ok-label "Update" \
+    filled_form=$(dialog --ok-label "Update" --no-cancel \
         --title "SurServer Setup Enviroment" \
-        --form "        Fill in all fields or some features will not work.\n
-            Make sure path start and end with '/'." \
+        --form "            Fill in all fields or some features will not work.\n
+                Make sure paths start and end with '/'." \
         25 80 0 \
         "Audio root folder:" 1 2	"$AUDIOROOT" 	1 27 46 0 \
         "Audio backup folder:"    2 2	"$AUDIOBACKUP"  	2 27 46 0 \
@@ -45,7 +49,7 @@ main_form () {
         2>&1 1>&3)
     # close fd
     exec 3>&-
-    ## FIX ME: 1st (filled) line gets removed if we press CANCEL (or esc)
+    ## FIX ME: 1st (filled) line gets removed if we press ESC
     ## TODO: check for / on start/end of folder fields...
     i=0
     while read -r line; do
@@ -53,14 +57,14 @@ main_form () {
     done <<< "${filled_form}"
 }
 
-#auto:
-#bash colors
-#add original functions
-
-if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
+    echo -e "Creating new env file from template at $ENV_FILE"
+    cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { echo -e "${ERROR}Could not create env file.\nAborted."; exit 1; }
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}SurServer Setup Enviroment${NC}"
     echo -e "Create new .env file or update enviroment variables in .env file"
     echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
+    echo -e " -t [--template]  -> Creates new env file from template."
     echo -e " -h [--help]      -> Shows this screen."
 else
     main_form;
