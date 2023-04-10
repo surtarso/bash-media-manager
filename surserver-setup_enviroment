@@ -6,6 +6,7 @@
 # it should also be able to edit an existing .env file with new settings easily
 # should be noob-proof.
 
+#TODO: add PATH to execute from $user/sbin folder automagically
 
 ENV_FILE='/home/dietpi/bin/.env'
 TEMPLATE='/home/dietpi/bin/.template_env'
