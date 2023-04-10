@@ -13,8 +13,9 @@
 if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
-    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
-	exit 1;
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use surserver-setup_enviroment to create one.\nAborting...";
+    exit 1;
 fi
 
 ## AUTOMODE DEFAULT FLAGS (--auto)
@@ -133,11 +134,8 @@ execute_tasks (){
 	echo -e "________________________________________________\n"
 	echo -e "${OK}Starting...${NC}"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
-	for (( i=3; i>0; i--)); do
-	sleep 1 &
-	printf "            $i \r"
-	wait
-	done
+	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
+	
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;

@@ -9,7 +9,8 @@
 if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
-    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting...";
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use surserver-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -18,7 +19,7 @@ copy_media (){
 	dep_check rsync; #check for rsync (dest should have rsync too... how to confirm?)
 	echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$source ${OK}$dest${NC}"
 	echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
-	sleep 3
+	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
 	## start syncing
 	eval $(echo -e "rsync -avzP $source $dest")
 }
@@ -29,7 +30,7 @@ get_selections () { #$1-folder_content.txt $2-line number $3-media rootfolder
 	line_choice=$2	#list of all lines (folders) chosen
 	i=0				#reset start line to read
 	while read line; do
-		i=$(expr $i + 1)
+		((i++))
 		test $i = $line_choice && echo "$3\"$line\" ";  #list of choices for array
 	done < "$dir_list"
 }

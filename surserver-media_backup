@@ -9,8 +9,9 @@
 if [ -f /home/dietpi/bin/.env ]; then
     . /home/dietpi/bin/.env
 else
-    echo -e "${ERROR}FATAL ERROR: .env not found.${NC}\nAborting..."
-    exit 1;  ## call setup env later
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use surserver-setup_enviroment to create one.\nAborting...";
+    exit 1;
 fi
 
 #todo:  log stuff
@@ -34,8 +35,10 @@ execute_backup (){
         echo -e "Aborting..."
         exit 1;
     }
+	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
+	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
     #start backup sync
-    rsync -avzp "$1"* "$2" --delete
+    rsync -avzP "$1"* "$2" --delete
     echo -e "\nBackup complete."
 }
 

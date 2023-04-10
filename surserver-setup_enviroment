@@ -16,7 +16,7 @@ KEYS=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESR
 ## edit or create new env file
 if [ -f $ENV_FILE ]; then . $ENV_FILE;
 else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { 
-    echo -e "${ERROR}Could not create env file.\nAborted."; exit 1;};
+    echo -e "FATAL ERROR: Could not create env file.\nAborted."; exit 1;};
 fi
 
 #folders setup, user/groups setup
@@ -55,11 +55,16 @@ main_form () {
     while read -r line; do
         sed -i -e '/'"${KEYS[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
     done <<< "${filled_form}"
+
+    # return to launcher
+    clear && eval surserver-launcher; exit 1;
 }
 
 if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
+    if [ -f $ENV_FILE ]; then echo -e "$ENV_FILE exists!!!\nManually delete it if you want to reset to a template."; exit 1; fi
     echo -e "Creating new env file from template at $ENV_FILE"
-    cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { echo -e "${ERROR}Could not create env file.\nAborted."; exit 1; }
+    cp $TEMPLATE $ENV_FILE || { echo -e "Could not create $ENV_FILE.\Maybe check permissions...\nAborted."; exit 1; }
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}SurServer Setup Enviroment${NC}"
     echo -e "Create new .env file or update enviroment variables in .env file"
