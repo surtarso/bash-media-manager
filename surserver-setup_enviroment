@@ -10,10 +10,6 @@
 
 ENV_FILE='/home/dietpi/bin/.env'
 TEMPLATE='/home/dietpi/bin/.template_env'
-KEYS=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
-       SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
-       SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
-
 ## edit or create new env file
 if [ -f $ENV_FILE ]; then . $ENV_FILE;
 else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { 
@@ -24,43 +20,49 @@ fi
 main_form () {
     # open fd
     exec 3>&1
-    # Store fields to $filled_form variable
+    # Store lines to $filled_form
     filled_form=$(dialog --ok-label "Update" --no-cancel \
-        --title "SurServer Setup Enviroment" \
-        --form "            Fill in all fields or some features will not work.\n
+            --title "SurServer Setup Enviroment" \
+            --form "            Fill in all fields or some features will not work.\n
                 Make sure paths start and end with '/'." \
         25 80 0 \
-        "Audio root folder:" 1 2	"$AUDIOROOT" 	1 27 46 0 \
-        "Audio backup folder:"    2 2	"$AUDIOBACKUP"  	2 27 46 0 \
-        "Audio junk folder:"    3 2	"$AUDIOJUNK"  	3 27 46 0 \
-        "Videos root folder:" 4 2	"$VIDEOSROOT" 	4 27 46 0 \
-        "Videos backup folder:"    5 2	"$VIDEOSBACKUP"  	5 27 46 0 \
-        "Videos junk folder:"    6 2	"$VIDEOSJUNK"  	6 27 46 0 \
-        "Series root folder:" 7 2	"$SERIESROOT" 	7 27 46 0 \
-        "Series backup folder:"    8 2	"$SERIESBACKUP"  	8 27 46 0 \
-        "Movies root folder:" 9 2	"$MOVIESROOT" 	9 27 46 0 \
+        "Audio root folder:"        1 2	"$AUDIOROOT" 	    1 27 46 0 \
+        "Audio backup folder:"      2 2	"$AUDIOBACKUP"  	2 27 46 0 \
+        "Audio junk folder:"        3 2	"$AUDIOJUNK"  	    3 27 46 0 \
+        "Videos root folder:"       4 2	"$VIDEOSROOT" 	    4 27 46 0 \
+        "Videos backup folder:"     5 2	"$VIDEOSBACKUP"  	5 27 46 0 \
+        "Videos junk folder:"       6 2	"$VIDEOSJUNK"  	    6 27 46 0 \
+        "Series root folder:"       7 2	"$SERIESROOT" 	    7 27 46 0 \
+        "Series backup folder:"     8 2	"$SERIESBACKUP"  	8 27 46 0 \
+        "Movies root folder:"       9 2	"$MOVIESROOT" 	    9 27 46 0 \
         "Movies backup folder:"    10 2	"$MOVIESBACKUP"  	10 27 46 0 \
-        "Concerts root folder:" 11 2	"$CONCERTSROOT" 	11 27 46 0 \
-        "Concerts backup folder:"    12 2	"$CONCERTSBACKUP"  	12 27 46 0 \
+        "Concerts root folder:"    11 2	"$CONCERTSROOT" 	11 27 46 0 \
+        "Concerts backup folder:"  12 2	"$CONCERTSBACKUP"  	12 27 46 0 \
         "User owner of audios:"    13 2	"$AUDIO_OWNER"  	13 27 46 0 \
         "User owner of series:"    14 2	"$SERIES_OWNER"  	14 27 46 0 \
         "User owner of movies:"    15 2	"$MOVIES_OWNER"  	15 27 46 0 \
-        "User owner of concerts:"    16 2	"$CONCERTS_OWNER"  	16 27 46 0 \
-        "Group owner of media:"    17 2	"$GROUP"  	17 27 46 0 \
+        "User owner of concerts:"  16 2	"$CONCERTS_OWNER"  	16 27 46 0 \
+        "Group owner of media:"    17 2	"$GROUP"  	        17 27 46 0 \
         2>&1 1>&3)
     # close fd
     exec 3>&-
     ## FIX ME: 1st (filled) line gets removed if we press ESC
     ## TODO: check for / on start/end of folder fields...
+    # Keys must maintain same order as form fields.
+    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
+            SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
+            SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
     i=0
+    # Reads $filled_form and sed key#=line# to .env (ex GROUP="root")
     while read -r line; do
-        sed -i -e '/'"${KEYS[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
+        sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
     done <<< "${filled_form}"
 
     # return to launcher
     clear && eval surserver-launcher; exit 1;
 }
 
+## ARGUEMENTS
 if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
     if [ -f $ENV_FILE ]; then echo -e "$ENV_FILE exists!!!\nManually delete it if you want to reset to a template."; exit 1; fi
     echo -e "Creating new env file from template at $ENV_FILE"
