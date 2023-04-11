@@ -47,7 +47,8 @@ create_checklist () {
 	while IFS=$'\n' read -r line; do c=$(expr $c + 1); options+=($c "$line" off); done < $1.folder_content.txt
 
 	## print options (dialog checklist)
-	checklist=(dialog --separate-output \
+	checklist=(dialog --separate-output --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Share" \
 		--checklist "Select content(s):" 22 76 16)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
@@ -65,7 +66,8 @@ create_checklist () {
 	fi
 	
 	## set destination (user input dialog)
-	dest=$(dialog \
+	dest=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Share" \
         --inputbox "Enter destination full path: \n \
 		(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 10 40 \

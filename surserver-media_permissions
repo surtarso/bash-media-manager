@@ -38,7 +38,8 @@ custom_entry () {
 	if [ "$path" == "" ]; then echo -e "${ERROR}No path, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
 	## get user
-	user=$(dialog \
+	user=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter user: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
@@ -47,7 +48,8 @@ custom_entry () {
 	if [ "$user" == "" ]; then echo -e "${ERROR}No user, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
 	## get group
-	group=$(dialog \
+	group=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter group: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
