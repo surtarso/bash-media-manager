@@ -72,10 +72,14 @@ if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
     echo -e "Creating new env file from template at $ENV_FILE"
     cp $TEMPLATE $ENV_FILE || { echo -e "Could not create $ENV_FILE.\Maybe check permissions...\nAborted."; exit 1; }
 
+elif [ "$1" = '-p' ] || [ "$1" = '--path' ]; then
+    echo 'export PATH="$HOME/smm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}SurServer Setup Enviroment${NC}"
     echo -e "Create new .env file or update enviroment variables in .env file"
     echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
+    echo -e " -p [--path]      -> Adds software root to PATH"
     echo -e " -t [--template]  -> Creates new env file from template."
     echo -e " -h [--help]      -> Shows this screen."
 else
