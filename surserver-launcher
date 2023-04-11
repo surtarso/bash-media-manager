@@ -15,7 +15,7 @@ else
 fi
 
 ## Main Menu
-menu_opt=$(dialog --colors \
+menu_opt=$(dialog --colors --no-cancel \
 	--title 'SurServer Script-Launcher Menu' \
 	--backtitle "\Z5Bash Media Manager" \
 	--stdout \
