@@ -61,7 +61,9 @@ nogui_menu (){
                 execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
 				break;;
 			"ALL")
-				execute_backup "$VIDEOSROOT" "$VIDEOSBACKUP" "ALL VIDEOS"
+				execute_backup "$SERIESROOT" "$SERIESBACKUP" "SERIES"
+				execute_backup "$MOVIESROOT" "$MOVIESBACKUP" "MOVIES"
+				execute_backup "$CONCERTSROOT" "$CONCERTSBACKUP" "CONCERTS"
 				execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
 				break;;
 			"Quit")
