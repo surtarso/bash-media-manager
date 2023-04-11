@@ -8,11 +8,9 @@
 ## audio subsection
 AUDIOROOT="/mnt/vault/music/"
 AUDIOBACKUP="/mnt/vault/music_bkp/"
-AUDIOJUNK="/mnt/vault/music/.converted_junk_files/"
 
-## all videos subsection
-VIDEOSROOT="/mnt/vault/videos/"
-VIDEOSBACKUP="/mnt/vault/videos_bkp/"
+# junk files (converted and not removed)
+AUDIOJUNK="/mnt/vault/music/.converted_junk_files/"
 VIDEOSJUNK="/mnt/vault/videos/junk/"
 
 ## series subsection

@@ -30,8 +30,6 @@ main_form () {
         "Audio root folder:"        1 2	"$AUDIOROOT" 	    1 27 46 0 \
         "Audio backup folder:"      2 2	"$AUDIOBACKUP"  	2 27 46 0 \
         "Audio junk folder:"        3 2	"$AUDIOJUNK"  	    3 27 46 0 \
-        "Videos root folder:"       4 2	"$VIDEOSROOT" 	    4 27 46 0 \
-        "Videos backup folder:"     5 2	"$VIDEOSBACKUP"  	5 27 46 0 \
         "Videos junk folder:"       6 2	"$VIDEOSJUNK"  	    6 27 46 0 \
         "Series root folder:"       7 2	"$SERIESROOT" 	    7 27 46 0 \
         "Series backup folder:"     8 2	"$SERIESBACKUP"  	8 27 46 0 \
@@ -52,8 +50,8 @@ main_form () {
     
     ## TODO: check for / on start/end of folder fields...
     # Keys must maintain same order as form fields.
-    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
-            SERIESBACKUP MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
+    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
+            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
             SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
     i=0
     # Reads $filled_form and sed key#=line# to .env (ex GROUP="root")
