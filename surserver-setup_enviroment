@@ -6,7 +6,8 @@
 # it should also be able to edit an existing .env file with new settings easily
 # should be noob-proof.
 
-#TODO: add PATH to execute from $user/sbin folder automagically
+#TODO: add PATH automagically
+# echo 'export PATH="$HOME/smm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
 
 ENV_FILE="$HOME/smm/.env"            #work env
 TEMPLATE="$HOME/smm/.template_env"   #fixed template
