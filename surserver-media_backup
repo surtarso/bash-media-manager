@@ -6,8 +6,8 @@
 ## Tarso Galvao 03/04/23 Debian 11
 
 #load enviroment variables
-if [ -f /home/dietpi/bin/.env ]; then
-    . /home/dietpi/bin/.env
+if [ -f $HOME/smm/.env ]; then
+    . $HOME/smm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
 	Use surserver-setup_enviroment to create one.\nAborting...";

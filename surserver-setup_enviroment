@@ -8,8 +8,8 @@
 
 #TODO: add PATH to execute from $user/sbin folder automagically
 
-ENV_FILE='/home/dietpi/bin/.env'
-TEMPLATE='/home/dietpi/bin/.template_env'
+ENV_FILE="$HOME/smm/.env"            #work env
+TEMPLATE="$HOME/smm/.template_env"   #fixed template
 ## edit or create new env file
 if [ -f $ENV_FILE ]; then . $ENV_FILE;
 else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { 
@@ -46,7 +46,9 @@ main_form () {
         2>&1 1>&3)
     # close fd
     exec 3>&-
+
     ## FIX ME: 1st (filled) line gets removed if we press ESC
+    
     ## TODO: check for / on start/end of folder fields...
     # Keys must maintain same order as form fields.
     keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSROOT VIDEOSBACKUP VIDEOSJUNK SERIESROOT \
@@ -64,6 +66,7 @@ main_form () {
 
 ## ARGUEMENTS
 if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
+    #dont overwrite .env if it exists
     if [ -f $ENV_FILE ]; then echo -e "$ENV_FILE exists!!!\nManually delete it if you want to reset to a template."; exit 1; fi
     echo -e "Creating new env file from template at $ENV_FILE"
     cp $TEMPLATE $ENV_FILE || { echo -e "Could not create $ENV_FILE.\Maybe check permissions...\nAborted."; exit 1; }
