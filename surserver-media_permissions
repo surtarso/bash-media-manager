@@ -6,8 +6,8 @@
 ## Tarso Galvao 08/04/23 Debian 11 (Based on Snortt's script)
 
 ## load enviroment variables
-if [ -f $HOME/smm/.env ]; then
-    . $HOME/smm/.env
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
 	Use surserver-setup_enviroment to create one.\nAborting...";
@@ -28,7 +28,8 @@ fix_permissions () {
 ## user input entries (Custom)
 custom_entry () {
 	## get path
-	path=$(dialog \
+	path=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Permissions" \
 		--inputbox "Enter full path: \n \
 		( ex.: /full/path/to/dir/ )" 10 40 \
@@ -59,7 +60,9 @@ custom_entry () {
 }
 
 main_menu () {
-	checklist=(dialog --separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
+	checklist=(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
+		--separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
 	options=(1 "Audio $AUDIO_OWNER:$GROUP" off    
 			2 "Series $SERIES_OWNER:$GROUP" off
 			3 "Movies $MOVIES_OWNER:$GROUP" off

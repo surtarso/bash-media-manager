@@ -6,8 +6,8 @@
 
 
 ## load enviroment variables
-if [ -f $HOME/smm/.env ]; then
-    . $HOME/smm/.env
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
 	Use surserver-setup_enviroment to create one.\nAborting...";
@@ -83,7 +83,8 @@ create_checklist () {
 
 ## choose media type to share (interactive mode)
 main_menu () {
-	root_dir=$(dialog --stdout \
+	root_dir=$(dialog --stdout --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Media Share" \
 		--menu 'Select media source:' 0 0 0 \
 			$AUDIOROOT 'Audio/Music' \

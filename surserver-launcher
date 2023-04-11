@@ -5,9 +5,19 @@
 # Tarso Galvao 05/04/23 Debian 11
 
 
+## load enviroment variables
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
+else
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use surserver-setup_enviroment to create one.\nAborting...";
+    exit 1;
+fi
+
 ## Main Menu
-menu_opt=$(dialog \
+menu_opt=$(dialog --colors \
 	--title 'SurServer Script-Launcher Menu' \
+	--backtitle "\Z5Bash Media Manager" \
 	--stdout \
 	--menu 'Up and down arrows change selection. \nUse the Enter key to confirm.' \
 	0 0 0 \

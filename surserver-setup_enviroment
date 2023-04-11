@@ -9,8 +9,8 @@
 #TODO: add PATH automagically
 # echo 'export PATH="$HOME/smm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
 
-ENV_FILE="$HOME/smm/.env"            #work env
-TEMPLATE="$HOME/smm/.template_env"   #fixed template
+ENV_FILE="$HOME/bmm/.env"            #work env
+TEMPLATE="$HOME/bmm/.template_env"   #fixed template
 ## edit or create new env file
 if [ -f $ENV_FILE ]; then . $ENV_FILE;
 else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || { 
@@ -22,7 +22,8 @@ main_form () {
     # open fd
     exec 3>&1
     # Store lines to $filled_form
-    filled_form=$(dialog --ok-label "Update" --no-cancel \
+    filled_form=$(dialog --ok-label "Update" --no-cancel --colors\
+            --backtitle "\Z5Bash Media Manager" \
             --title "SurServer Setup Enviroment" \
             --form "            Fill in all fields or some features will not work.\n
                 Make sure paths start and end with '/'." \
@@ -71,7 +72,8 @@ if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
     cp $TEMPLATE $ENV_FILE || { echo -e "Could not create $ENV_FILE.\Maybe check permissions...\nAborted."; exit 1; }
 
 elif [ "$1" = '-p' ] || [ "$1" = '--path' ]; then
-    echo 'export PATH="$HOME/smm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
+    echo 'export PATH="$HOME/bmm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
+    echo 'You may need to reload bashrc (. .bashrc) or log out and in again.'
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}SurServer Setup Enviroment${NC}"

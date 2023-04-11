@@ -10,8 +10,8 @@
 ##TODO: -log stuff
 
 ## load enviroment variables
-if [ -f $HOME/smm/.env ]; then
-    . $HOME/smm/.env
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
 	Use surserver-setup_enviroment to create one.\nAborting...";
@@ -157,12 +157,15 @@ execute_tasks (){
 
 main_menu () {
 	##------------------------- PATH:
-	AUDIOROOT=$(dialog --stdout --menu 'Audio files location:' \
+	AUDIOROOT=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
+		--stdout --menu 'Audio files location:' \
 		0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
 	if [ "$AUDIOROOT" == 'Custom' ]; then
-		AUDIOROOT=$(dialog \
+		AUDIOROOT=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Converter MP3" \
         --inputbox "Enter location full path: \n \
 		(ex.: /full/path/to/dir/ )" 10 40 \
@@ -179,7 +182,9 @@ main_menu () {
 	fi
 
 	##------------------------ REMOVAL FLAG
-	REMOVE=$(dialog --stdout --title "Remove original files?" \
+	REMOVE=$(dialog --stdout --colors \
+		--backtitle "\Z5Bash Media Manager" \
+		--title "Remove original files?" \
 		--yesno "Yes: Remove, No:  Keep" 7 60 )
 	dialog_status=$?
 	if [ "$dialog_status" -eq 0 ]; then
@@ -191,7 +196,9 @@ main_menu () {
 	fi
 	
 	##------------------------ INPUT FORMATS
-	checklist=(dialog --separate-output --checklist "Select format(s):" 22 76 16)
+	checklist=(dialog --separate-output --colors
+		--backtitle "\Z5Bash Media Manager"
+		--checklist "Select format(s):" 22 76 16)
 	options=( 
 		"flac" "Lossless" on
 		"wav" "Waveform" on
@@ -210,7 +217,9 @@ main_menu () {
 	clear && eval surserver-launcher; exit 1; fi 
 	
 	##----------------------- OUTPUT BITRATE
-	BITRATE=$(dialog --stdout --menu 'Choose MP3 bitrate:' \
+	BITRATE=$(dialog --stdout --colors \
+		--backtitle "\Z5Bash Media Manager" \
+		--menu 'Choose MP3 bitrate:' \
 		0 0 0 \
 		'80k' 'Poor Quality Lossy' \
 		'192k' 'Low Quality Lossy (recommended)' \
@@ -218,7 +227,8 @@ main_menu () {
 		'320k' 'High Quality Lossy' \
 		Custom '8k -> 320k')
 	if [ "$BITRATE" == 'Custom' ]; then
-		BITRATE=$(dialog \
+		BITRATE=$(dialog --colors \
+		--backtitle "\Z5Bash Media Manager" \
 		--title "SurServer Converter MP3" \
         --inputbox "Enter desired bitrate:\n (ex.: 48k)" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)

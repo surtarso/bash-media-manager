@@ -6,8 +6,8 @@
 ## Tarso Galvao 03/04/23 Debian 11
 
 #load enviroment variables
-if [ -f $HOME/smm/.env ]; then
-    . $HOME/smm/.env
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
 	Use surserver-setup_enviroment to create one.\nAborting...";
@@ -77,11 +77,13 @@ nogui_menu (){
 
 ## dialog interactive move menu (checklist)
 main_menu () {
-	checklist=(dialog --separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
-	options=(1 "Audio   ->$AUDIOROOT" off    
-			2 "Series   ->$SERIESROOT" off
-			3 "Movies   ->$MOVIESROOT" off
-			4 "Concerts ->$CONCERTSROOT" off)
+	checklist=(dialog --separate-output --colors \
+	--backtitle "\Z5Bash Media Manager" \
+	--checklist "Select a preset: (use spacebar)" 22 0 16)
+	options=(1 "Audio    $AUDIOROOT -> $AUDIOBACKUP" off    
+			2 "Series   $SERIESROOT -> $SERIESBACKUP" off
+			3 "Movies   $MOVIESROOT -> $MOVIESBACKUP" off
+			4 "Concerts $CONCERTSROOT -> $CONCERTSBACKUP" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	for choice in $choices
