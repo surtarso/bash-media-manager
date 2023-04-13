@@ -69,7 +69,8 @@ main_menu () {
 			2 "Series $SERIES_OWNER:$GROUP" off
 			3 "Movies $MOVIES_OWNER:$GROUP" off
 			4 "Concerts $CONCERTS_OWNER:$GROUP" off
-			5 "Custom" off)
+			5 "Stand-up $STANDUP_OWNER:$GROUP" off
+			6 "Custom" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	for choice in $choices
@@ -88,6 +89,9 @@ main_menu () {
 				fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP
 				;;
 			5)
+				fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP
+				;;
+			6)
 				custom_entry
 				;;
 		esac
@@ -109,6 +113,9 @@ elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
 	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP
 
+elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
+	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP
+
 elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
 	fix_permissions $2 $3 $4
 
@@ -122,6 +129,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e " -s [--series]		 -> Fix all series permissions"
 	echo -e " -m [--movies]		 -> Fix all movies permissions"
 	echo -e " -c [--concerts]	 -> Fix all concerts permissions"
+	echo -e " -u [--stand-up]	 -> Fix all stand-up permissions"
 	echo -e "${WARN} -s [--target]		 -> Manually enter desired settings."
 	echo -e " Usage: surserver-media_permissions [-t] [--target] /dir/path user group${NC}"
 	echo -e " -h [--help]		 -> Shows this screen."

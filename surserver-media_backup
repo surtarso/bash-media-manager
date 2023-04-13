@@ -44,8 +44,8 @@ execute_backup (){
 
 # --no-gui interactive mode menu 
 nogui_menu (){
-	echo -e 'Choose media to backup: (1-6)'
-	select bkp in Series Movies Concerts Audio ALL Quit
+	echo -e 'Choose media to backup: (1-7)'
+	select bkp in Series Movies Concerts Audio Stand-up ALL Quit
 	do
 		case $bkp in
 			"Series")
@@ -60,17 +60,21 @@ nogui_menu (){
             "Audio")
                 execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
 				break;;
+			"Stand-up")
+				execute_backup "$STANDUPROOT" "$STANDUPBACKUP" "STAND-UP"
+				break;;
 			"ALL")
 				execute_backup "$SERIESROOT" "$SERIESBACKUP" "SERIES"
 				execute_backup "$MOVIESROOT" "$MOVIESBACKUP" "MOVIES"
 				execute_backup "$CONCERTSROOT" "$CONCERTSBACKUP" "CONCERTS"
+				execute_backup "$STANDUPROOT" "$STANDUPBACKUP" "STAND-UP"
 				execute_backup "$AUDIOROOT" "$AUDIOBACKUP" "AUDIO"
 				break;;
 			"Quit")
 				exit 1
                 ;;
 			*)
-				echo -e 'Not a valid choice. Use (1-6)';;
+				echo -e 'Not a valid choice. Use (1-7)';;
 		esac
 	done
 }
@@ -83,7 +87,8 @@ main_menu () {
 	options=(1 "Audio    $AUDIOROOT -> $AUDIOBACKUP" off    
 			2 "Series   $SERIESROOT -> $SERIESBACKUP" off
 			3 "Movies   $MOVIESROOT -> $MOVIESBACKUP" off
-			4 "Concerts $CONCERTSROOT -> $CONCERTSBACKUP" off)
+			4 "Concerts $CONCERTSROOT -> $CONCERTSBACKUP" off
+			5 "Stand-up $STANDUPROOT -> $STANDUPBACKUP" off)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	for choice in $choices
@@ -100,6 +105,9 @@ main_menu () {
 				;;
 			4)
 				echo '3' | nogui_menu;
+				;;
+			5)
+				echo '5' | nogui_menu;
 				;;
 		esac
 	done
@@ -120,8 +128,11 @@ elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
 elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
     echo '4' | nogui_menu;
 
-elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
+elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
     echo '5' | nogui_menu;
+
+elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
+    echo '6' | nogui_menu;
 
 elif [ "$1" = '-n' ] || [ "$1" = '--no-gui' ]; then
     echo -e "${OK}SurServer Media Backup${NC}"
@@ -137,6 +148,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e " -m [--movies]    -> Backup movies library."
     echo -e " -c [--concerts]  -> Backup concerts library."
     echo -e " -a [--audio]     -> Backup audio library."
+	echo -e " -u [--stand-up]  -> Backup stand-up library"
     echo -e " -f [--full]      -> Backup all libraries."
     echo -e " -n [--no-gui]    -> Interactive-mode without a GUI.\n"
     echo -e " -h [--help]      -> Shows this screen."

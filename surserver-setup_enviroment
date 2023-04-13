@@ -38,11 +38,14 @@ main_form () {
         "Movies backup folder:"     8 2	"$MOVIESBACKUP"  	8 27 46 0 \
         "Concerts root folder:"     9 2	"$CONCERTSROOT" 	9 27 46 0 \
         "Concerts backup folder:"  10 2	"$CONCERTSBACKUP"  	10 27 46 0 \
-        "User owner of audios:"    11 2	"$AUDIO_OWNER"  	11 27 46 0 \
-        "User owner of series:"    12 2	"$SERIES_OWNER"  	12 27 46 0 \
-        "User owner of movies:"    13 2	"$MOVIES_OWNER"  	13 27 46 0 \
-        "User owner of concerts:"  14 2	"$CONCERTS_OWNER"  	14 27 46 0 \
-        "Group owner of media:"    15 2	"$GROUP"  	        15 27 46 0 \
+        "Stand-up root folder:"    11 2	"$STANDUPROOT" 	    11 27 46 0 \
+        "Stand-up backup folder:"  12 2	"$STANDUPBACKUP"  	12 27 46 0 \
+        "User owner of audios:"    13 2	"$AUDIO_OWNER"  	13 27 46 0 \
+        "User owner of series:"    14 2	"$SERIES_OWNER"  	14 27 46 0 \
+        "User owner of movies:"    15 2	"$MOVIES_OWNER"  	15 27 46 0 \
+        "User owner of concerts:"  16 2	"$CONCERTS_OWNER"  	16 27 46 0 \
+        "User owner of stand-up:"  17 2	"$STANDUP_OWNER"  	17 27 46 0 \
+        "Group owner of media:"    18 2	"$GROUP"  	        18 27 46 0 \
         2>&1 1>&3)
     # close fd
     exec 3>&-
@@ -52,8 +55,9 @@ main_form () {
     ## TODO: check for / on start/end of folder fields...
     # Keys must maintain same order as form fields.
     keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
-            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP AUDIO_OWNER \
-            SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER GROUP)
+            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
+            STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
+            STANDUP_OWNER GROUP)
     i=0
     # Reads $filled_form and sed key#=line# to .env (ex GROUP="root")
     while read -r line; do

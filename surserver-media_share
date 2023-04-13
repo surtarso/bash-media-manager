@@ -93,6 +93,7 @@ main_menu () {
 			$SERIESROOT 'Series' \
 			$MOVIESROOT 'Movies' \
 			$CONCERTSROOT 'Concerts' \
+			$STANDUPROOT  'Stand-up' \
 			Quit '')
 	## Exit on Quit or Cancel || Execute chosen script.
 	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
@@ -116,6 +117,9 @@ elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
 	create_checklist $CONCERTSROOT;
 
+elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
+	create_checklist $STANDUPROOT;
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "${OK}SurServer Media Share${NC}"
 	echo -e "Easily share server media to other devices."
@@ -125,6 +129,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e " -s [--series]			-> Choose SERIES to share"
 	echo -e " -m [--movies]			-> Choose MOVIES to share"
 	echo -e " -c [--concerts]		-> Choose CONCERTS to share"
+	echo -e " -u [--stand-up]		-> Choose STAND-UP to share"
 	echo -e " -h [--help]			-> Shows this screen."
 else
 	main_menu;
