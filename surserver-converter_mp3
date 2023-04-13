@@ -165,10 +165,12 @@ main_menu () {
 	##------------------------- PATH:
 	AUDIOROOT=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
+		--title "SurServer Converter MP3" \
 		--stdout --menu 'Audio files location:' \
 		0 0 0 \
 		$AUDIOROOT '(default)' \
 		Custom '(add new)')
+	#custom path
 	if [ "$AUDIOROOT" == 'Custom' ]; then
 		AUDIOROOT=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
@@ -204,6 +206,7 @@ main_menu () {
 	##------------------------ INPUT FORMATS
 	checklist=(dialog --separate-output --colors
 		--backtitle "\Z5Bash Media Manager"
+		--title "SurServer Converter MP3"
 		--checklist "Select format(s):" 22 76 16)
 	options=( 
 		"flac" "Lossless" on
@@ -225,6 +228,7 @@ main_menu () {
 	##----------------------- OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --colors \
 		--backtitle "\Z5Bash Media Manager" \
+		--title "SurServer Converter MP3" \
 		--menu 'Choose MP3 bitrate:' \
 		0 0 0 \
 		'80k' 'Poor Quality Lossy' \
