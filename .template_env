@@ -8,9 +8,9 @@
 ## audio subsection
 AUDIOROOT="/mnt/vault/music/"
 AUDIOBACKUP="/mnt/vault/music_bkp/"
-
-# junk files (converted and not removed)
 AUDIOJUNK="/mnt/vault/music/.converted_junk_files/"
+
+## all videos subsection
 VIDEOSJUNK="/mnt/vault/videos/junk/"
 
 ## series subsection
@@ -25,11 +25,16 @@ MOVIESBACKUP="/mnt/vault/videos_bkp/movies/"
 CONCERTSROOT="/mnt/vault/videos/shows/"
 CONCERTSBACKUP="/mnt/vault/videos_bkp/shows/"
 
+## stand-up subsection
+STANDUPROOT="/mnt/vault/videos/standup/"
+STANDUPBACKUP="/mnt/vault/videos_bkp/standup/"
+
 ## permissions
 AUDIO_OWNER="lidarr"
 SERIES_OWNER="sonarr"
 MOVIES_OWNER="radarr"
 CONCERTS_OWNER="radarr"
+STANDUP_OWNER="radarr"
 GROUP="goodies"
 
 ## ------------------------ SCRIPT SETTINGS (auto)
