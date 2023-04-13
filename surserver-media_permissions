@@ -14,11 +14,12 @@ else
     exit 1;
 fi
 
-## DO STUFF
+## DO STUFF ($1-path $2-user $3-group)
 fix_permissions () {
 	for _dir in $1
 	do
-		echo "Processing $1..."
+		echo "Processing $4..."
+		echo -e "Path: $1"
 		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${OK}OK${NC}"
 		sudo find ${_dir} -type d -exec chmod 2775 {} \; && echo -e "${WARN}Folders: ${OK}OK${NC}"
 		sudo find ${_dir} -type f -exec chmod 664 {} \; && echo -e "${WARN}Files: ${OK}OK${NC}"
@@ -58,7 +59,7 @@ custom_entry () {
 	if [ "$group" == "" ]; then echo -e "${ERROR}No group, aborting...${NC}"; sleep 2;
 		clear && eval surserver-launcher; exit 1; fi
 	## execute with user input args
-	fix_permissions $path $user $group
+	fix_permissions $path $user $group "CUSTOM PATH"
 }
 
 main_menu () {
@@ -77,19 +78,19 @@ main_menu () {
 	do
 		case $choice in
 			1)
-				fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP
+				fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
 				;;
 			2)
-				fix_permissions $SERIESROOT $SERIES_OWNER $GROUP
+				fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
 				;;
 			3)
-				fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP
+				fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
 				;;
 			4)
-				fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP
+				fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
 				;;
 			5)
-				fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP
+				fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
 				;;
 			6)
 				custom_entry
@@ -102,22 +103,22 @@ main_menu () {
 
 ## STATUP OPTIONS
 if [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
-	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP
+	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
 
 elif [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
-	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP
+	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
 
 elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
-	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP
+	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
 
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
-	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP
+	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
 
 elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
-	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP
+	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
 
 elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
-	fix_permissions $2 $3 $4
+	fix_permissions $2 $3 $4 "CUSTOM PATH"
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "${OK}SurServer Media Permissions${NC}"

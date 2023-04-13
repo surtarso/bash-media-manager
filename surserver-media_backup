@@ -15,7 +15,6 @@ else
 fi
 
 #todo:  log stuff
-#       fix ssh call for local nfs mount? (or just plug bkp on server...)
 
 #backup task ($1-source $2-dest $3-echo name)
 execute_backup (){
@@ -35,6 +34,8 @@ execute_backup (){
         echo -e "Aborting..."
         exit 1;
     }
+	#reaction time
+	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$1"* ${WARN}"$2" ${ERROR}--delete${NC}\n"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
     #start backup sync
@@ -111,7 +112,7 @@ main_menu () {
 				;;
 		esac
 	done
-	## go back to launcher if nothins is selected
+	## go back to launcher if nothins is selected or bkp finished...
 	clear && eval surserver-launcher; exit 1;
 }
 
