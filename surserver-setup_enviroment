@@ -80,7 +80,8 @@ elif [ "$1" = '-p' ] || [ "$1" = '--path' ]; then
     echo 'You may need to reload bashrc (. .bashrc) or log out and in again.'
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-    echo -e "${OK}SurServer Setup Enviroment${NC}"
+    if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+    echo -e "${OK}Setup Enviroment${NC}"
     echo -e "Create new .env file or update enviroment variables in .env file"
     echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
     echo -e " -p [--path]      -> Adds software root to PATH"

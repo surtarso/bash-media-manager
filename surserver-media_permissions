@@ -121,7 +121,8 @@ elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
 	fix_permissions $2 $3 $4 "CUSTOM PATH"
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-	echo -e "${OK}SurServer Media Permissions${NC}"
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${OK}Media Permissions${NC}"
 	echo -e "Fix file/folder permissons for media software."
 	echo -e "Use with no arguements to enter the GUI."
 	echo -e "${WARN}Folders: Folders, owners and group are set up in .evn file.${NC}"

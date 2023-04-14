@@ -136,12 +136,14 @@ elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
     echo '6' | nogui_menu;
 
 elif [ "$1" = '-n' ] || [ "$1" = '--no-gui' ]; then
-    echo -e "${OK}SurServer Media Backup${NC}"
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+    echo -e "${OK}Media Backup${NC}"
     echo -e "${WARN}Entering no-GUI interactive-mode${NC}"
     nogui_menu;
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-    echo -e "${OK}SurServer Media Backup${NC}"
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+    echo -e "${OK}Media Backup${NC}"
     echo -e "Backup manager for server media."
     echo -e "${WARN}Folders: Source and Destination are set up in .evn file.${NC}"
     echo -e "Usage: surserver-media_backup [-arg] [--arg]\n"

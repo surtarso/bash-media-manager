@@ -43,6 +43,7 @@ OK='\033[0;32m'     #green
 WARN='\033[1;33m'   #yellow
 ERROR='\033[0;31m'  #red
 NC='\033[0m'        #no color
+BANNER=$(echo -e "toilet -t -F border -F metal -f smblock Bash Media Manager")
 
 ## ------------------------- FUNCTIONS
 ## dependencies (usage-> dep_check packagename)

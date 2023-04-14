@@ -269,7 +269,8 @@ elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
 	execute_tasks && echo -e 'Done.'
 
 elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
-	echo -e "${OK}SurServer Converter MP3${NC}"
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${OK}Converter MP3${NC}"
 	echo -e "Converts multiple formats to MP3 for streaming."
     echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
 	echo -e "Usage: surserver-mp3_converter [-arg] [--arg]"

@@ -121,7 +121,8 @@ elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
 	create_checklist $STANDUPROOT;
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-	echo -e "${OK}SurServer Media Share${NC}"
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${OK}Media Share${NC}"
 	echo -e "Easily share server media to other devices."
 	echo -e "Use with no arguements to enter the GUI."
 	echo -e "USAGE: surserver-media_share [-arg] [--arg]\n"
