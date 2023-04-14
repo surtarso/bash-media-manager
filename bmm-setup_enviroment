@@ -22,7 +22,7 @@ main_form () {
     # open fd
     exec 3>&1
     # Store lines to $filled_form
-    filled_form=$(dialog --ok-label "Update" --no-cancel --colors\
+    filled_form=$(dialog --no-lines --ok-label "Update" --no-cancel --colors\
             --backtitle "\Z7Bash Media Manager" \
             --title "Setup Enviroment" \
             --form "            Fill in all fields or some features will not work.\n

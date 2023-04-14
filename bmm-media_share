@@ -47,7 +47,7 @@ create_checklist () {
 	while IFS=$'\n' read -r line; do c=$(expr $c + 1); options+=($c "$line" off); done < $1.folder_content.txt
 
 	## print options (dialog checklist)
-	checklist=(dialog --separate-output --colors \
+	checklist=(dialog --no-lines --separate-output --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
 		--checklist "Select content(s):" 22 76 16)
@@ -66,7 +66,7 @@ create_checklist () {
 	fi
 	
 	## set destination (user input dialog)
-	dest=$(dialog --colors \
+	dest=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
         --inputbox "Enter destination full path: \n \
@@ -85,7 +85,7 @@ create_checklist () {
 
 ## choose media type to share (interactive mode)
 main_menu () {
-	root_dir=$(dialog --stdout --colors \
+	root_dir=$(dialog --no-lines --stdout --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
 		--menu 'Select media source:' 0 0 0 \

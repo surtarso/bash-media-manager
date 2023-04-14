@@ -163,7 +163,7 @@ execute_tasks (){
 
 main_menu () {
 	##------------------------- PATH:
-	AUDIOROOT=$(dialog --colors \
+	AUDIOROOT=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Converter MP3" \
 		--stdout --menu 'Audio files location:' \
@@ -172,7 +172,7 @@ main_menu () {
 		Custom '(add new)')
 	#custom path
 	if [ "$AUDIOROOT" == 'Custom' ]; then
-		AUDIOROOT=$(dialog --colors \
+		AUDIOROOT=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Converter MP3" \
         --inputbox "Enter location full path: \n \
@@ -190,7 +190,7 @@ main_menu () {
 	fi
 
 	##------------------------ REMOVAL FLAG
-	REMOVE=$(dialog --stdout --colors \
+	REMOVE=$(dialog --no-lines --stdout --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Remove original files?" \
 		--yesno "Yes: Remove, No:  Keep" 7 60 )
@@ -204,7 +204,7 @@ main_menu () {
 	fi
 	
 	##------------------------ INPUT FORMATS
-	checklist=(dialog --separate-output --colors
+	checklist=(dialog --no-lines --separate-output --colors
 		--backtitle "\Z7Bash Media Manager"
 		--title "Converter MP3"
 		--checklist "Select format(s):" 22 76 16)
@@ -226,7 +226,7 @@ main_menu () {
 	clear && eval bmm-launcher; exit 1; fi 
 	
 	##----------------------- OUTPUT BITRATE
-	BITRATE=$(dialog --stdout --colors \
+	BITRATE=$(dialog --no-lines --stdout --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Converter MP3" \
 		--menu 'Choose MP3 bitrate:' \
@@ -237,7 +237,7 @@ main_menu () {
 		'320k' 'High Quality Lossy' \
 		Custom '8k -> 320k')
 	if [ "$BITRATE" == 'Custom' ]; then
-		BITRATE=$(dialog --colors \
+		BITRATE=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Converter MP3" \
         --inputbox "Enter desired bitrate:\n (ex.: 48k)" 10 40 \

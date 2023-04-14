@@ -29,7 +29,7 @@ fix_permissions () {
 ## user input entries (Custom)
 custom_entry () {
 	## get path
-	path=$(dialog --colors \
+	path=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Permissions" \
 		--inputbox "Enter full path: \n \
@@ -39,7 +39,7 @@ custom_entry () {
 	if [ "$path" == "" ]; then echo -e "${ERROR}No path, aborting...${NC}"; sleep 2;
 		clear && eval bmm-launcher; exit 1; fi
 	## get user
-	user=$(dialog --colors \
+	user=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Permissions" \
 		--inputbox "Enter user: \n \
@@ -49,7 +49,7 @@ custom_entry () {
 	if [ "$user" == "" ]; then echo -e "${ERROR}No user, aborting...${NC}"; sleep 2;
 		clear && eval bmm-launcher; exit 1; fi
 	## get group
-	group=$(dialog --colors \
+	group=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Permissions" \
 		--inputbox "Enter group: \n \
@@ -63,7 +63,7 @@ custom_entry () {
 }
 
 main_menu () {
-	checklist=(dialog --colors \
+	checklist=(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--separate-output --checklist "Select a preset: (use spacebar)" 22 76 16)
 	options=(1 "Audio $AUDIO_OWNER:$GROUP" off    
