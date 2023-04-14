@@ -22,29 +22,23 @@ FORMAT="avi"
 
 while IFS= read -d '' -r ITEM
 do
-  echo "target: $ITEM"  # full path of item.
+    echo "Target: $ITEM"  # full path of item.
 
-  FILE=${ITEM##*/}  # individual file name.
-  EXT=${ITEM##*.}  # file extension
-  echo "ext: $EXT"
+    FILE=${ITEM##*/}  # individual file name.
+    echo "Moving file to junk: $FILE"
+    echo -e "mv "$ITEM" "$VIDEOSJUNK""
 
-  EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # all lower caps extension
-  echo "ext corrected: $EXT"
-#   OUTPUT="$DESTINATION/${FILE%.*}.$EXT"
+    SOURCE="$VIDEOSJUNK$FILE"
+    echo "Processing source: $SOURCE"
 
-  file=${FILE%.*}.$EXT
+    EXT=${ITEM##*.}  # get file extension
+    EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # normalize extension
+    TARGET="${ITEM%.*}.$EXT" # normalize target destination
+    DEST="${TARGET/."${FORMAT}"}.mp4" #set destination
+    echo "Destination: $DEST"
 
-  echo "Moving file to junk: $FILE"
-  echo -e "mv "$FILE" "$VIDEOSJUNK$file""
-
-  SOURCE="$VIDEOSJUNK$file"
-  echo "Processing source: $SOURCE"
-
-  DEST="${ITEM/."${FORMAT}"}.mp4"  #TODO: formalize screwed up extensions like above
-  echo "output file: $DEST"
-
-  echo -e "handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize"
-#   echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
-
+    echo -e "handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize"
+    #   echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
+    echo '---------------------'
 
 done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
