@@ -11,36 +11,62 @@ fi
 
 PRESETS=("Very Fast 1080p30" "Very Fast 720p30" "Very Fast 480p30")
 FORMATS=("mp4" "avi" "mkv" "rm")
-dep_check handbrake-cli;
 
-## $ surserver-converter_mp4 /mediarootfolder
-MEDIAROOT=$1
 
 ##temp for test
 PRESET="Very Fast 720p30"
 FORMAT="avi"
 
-while IFS= read -d '' -r ITEM
-do
-    echo -e "Target: ${OK}$ITEM${NC}"  # full path of item.
+execute_tasks () {
+    dep_check handbrake-cli;
 
-    ## MOVE ORIGINAL to junk
-    FILE=${ITEM##*/}  # individual file name.
-    echo "Moving file to junk: $FILE"
-    mv "$ITEM" "$VIDEOSJUNK"
+    while IFS= read -d '' -r ITEM
+    do
+        echo -e "Target: ${OK}$ITEM${NC}"  # full path of item.
 
-    ## SET SOURCE
-    SOURCE="$VIDEOSJUNK$FILE"
-    echo -e "Processing source: ${WARN}$SOURCE${NC}"
+        ## MOVE ORIGINAL to junk
+        FILE=${ITEM##*/}  # individual file name.
+        echo "Moving original file: $FILE"
+        mv "$ITEM" "$VIDEOSJUNK"
 
-    ## SET DEST
-    EXT=${ITEM##*.}  # get file extension
-    EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # normalize extension
-    TARGET="${ITEM%.*}.$EXT" # normalize target destination ext
-    DEST="${TARGET/."${FORMAT}"}.mp4" #set destination path.ext
-    echo -e "Destination: ${WARN}$DEST${NC}"
+        ## SET SOURCE
+        SOURCE="$VIDEOSJUNK$FILE"
+        echo -e "Processing source: ${WARN}$SOURCE${NC}"
 
-    ## DO STUFF
-    echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
+        ## SET DEST
+        EXT=${ITEM##*.}  # get file extension
+        EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # normalize extension
+        TARGET="${ITEM%.*}.$EXT" # normalize target destination ext
+        DEST="${TARGET/."${FORMAT}"}.mp4" #set destination path.ext
+        echo -e "Destination: ${WARN}$DEST${NC}"
 
-done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
+        ## DO STUFF
+        eval $(echo -e "handbrake-cli -i \"$SOURCE\" -o \"$DEST\" --preset \"$PRESET\" --optimize")
+
+    done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
+}
+
+if [ "$1" == '-t' ] || [ "$1" == '--target' ]; then
+    MEDIAROOT=$2
+    FORMAT=$3
+    PRESET=$4
+    execute_tasks;
+
+elif [ "$1" == '-p' ] || [ "$1" == '--presets' ]; then
+    for preset in "${PRESETS[@]}"
+    do
+        ((i++))
+        echo -e "Preset $i: ${OK}\"$preset\"${NC}"
+    done
+
+elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+    echo -e "SurServer Converter MP4"
+    echo -e "Usage: surserver-converter_mp4 [-arg] [--arg] [args]\n"
+    echo -e " -p [--presets]    -> List available presets"
+    echo -e " -t [--target]     -> Convert 'format' files from 'target folder' using \"preset\"."
+    echo -e "                   Usage: surserver-converter_mp4 --target \"/path/to/dir/\" \"format\" \"preset\""
+    echo -e "                   Ex: surserver-converter_mp4 --target \"/mnt/videos/\" \"avi\" \"Very Fast 720p30\""
+    echo -e " -h [--help]       -> Shows this screen."
+else
+    echo 'menu will be called here'
+fi
