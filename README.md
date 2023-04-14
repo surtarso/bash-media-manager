@@ -53,7 +53,7 @@
 - cd ~/bmm && bmm-setup_enviroment
 
 ## Usage:
-      Folder MUST be set-up prior to using any script (see 'bmm-setup_enviroment')
+      Folders MUST be set-up prior to using any script (see 'bmm-setup_enviroment')
 
       If you dont want to see a GUI (dialog), use the scripts with --help
       arguement and follow the help text.
