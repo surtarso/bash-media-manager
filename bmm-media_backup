@@ -83,7 +83,7 @@ nogui_menu (){
 ## dialog interactive move menu (checklist)
 main_menu () {
 	checklist=(dialog --separate-output --colors \
-	--backtitle "\Z5Bash Media Manager" \
+	--backtitle "\Z7Bash Media Manager" \
 	--checklist "Select a preset: (use spacebar)" 22 0 16)
 	options=(1 "Audio    $AUDIOROOT -> $AUDIOBACKUP" off    
 			2 "Series   $SERIESROOT -> $SERIESBACKUP" off

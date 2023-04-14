@@ -48,7 +48,7 @@ create_checklist () {
 
 	## print options (dialog checklist)
 	checklist=(dialog --separate-output --colors \
-		--backtitle "\Z5Bash Media Manager" \
+		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
 		--checklist "Select content(s):" 22 76 16)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
@@ -67,7 +67,7 @@ create_checklist () {
 	
 	## set destination (user input dialog)
 	dest=$(dialog --colors \
-		--backtitle "\Z5Bash Media Manager" \
+		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
         --inputbox "Enter destination full path: \n \
 		(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 10 40 \
@@ -86,7 +86,7 @@ create_checklist () {
 ## choose media type to share (interactive mode)
 main_menu () {
 	root_dir=$(dialog --stdout --colors \
-		--backtitle "\Z5Bash Media Manager" \
+		--backtitle "\Z7Bash Media Manager" \
 		--title "Media Share" \
 		--menu 'Select media source:' 0 0 0 \
 			$AUDIOROOT 'Audio/Music' \

@@ -15,9 +15,9 @@ else
 fi
 
 ## Main Menu
-menu_opt=$(dialog --colors --no-cancel \
+menu_opt=$(dialog --colors --no-cancel --no-lines\
 	--title 'Script-Launcher Menu' \
-	--backtitle "\Z5Bash Media Manager" \
+	--backtitle "\Z7Bash Media Manager" \
 	--stdout \
 	--menu 'Up and down arrows change selection. \nUse the Enter key to confirm.' \
 	0 0 0 \
