@@ -257,7 +257,6 @@ main_menu () {
 if [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
 	cd "$AUDIOROOT" &>/dev/null || { echo -e "${ERROR}ERROR: Path ${WARN}$AUDIOROOT${ERROR} not found\n${NC}auto-mode: ${ERROR}FAILED!${NC}"; exit 1; }
 	echo -e "\nauto-mode: ${OK}START${NC}"
-	echo -e "path: ${OK}$AUDIOROOT${NC}\n"
 	execute_tasks;
 
 elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
