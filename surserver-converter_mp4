@@ -1,6 +1,50 @@
 #!/bin/bash
 
-echo -e "Converts video to h264 ACC2.0 .mp4 files"
-echo -e "not yet implemented..."
+## load enviroment variables
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
+else
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use surserver-setup_enviroment to create one.\nAborting...";
+    exit 1;
+fi
 
-# ffmpeg batch video converter soon to come...
+PRESETS=("Very Fast 1080p30" "Very Fast 720p30" "Very Fast 480p30")
+FORMATS=("mp4" "avi" "mkv" "rm")
+dep_check handbrake-cli;
+
+## $ surserver-converter_mp4 /mediarootfolder
+MEDIAROOT=$1
+
+##temp for test
+PRESET="Very Fast 720p30"
+FORMAT="avi"
+
+while IFS= read -d '' -r ITEM
+do
+  echo "target: $ITEM"  # full path of item.
+
+  FILE=${ITEM##*/}  # individual file name.
+  EXT=${ITEM##*.}  # file extension
+  echo "ext: $EXT"
+
+  EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # all lower caps extension
+  echo "ext corrected: $EXT"
+#   OUTPUT="$DESTINATION/${FILE%.*}.$EXT"
+
+  file=${FILE%.*}.$EXT
+
+  echo "Moving file to junk: $FILE"
+  echo -e "mv "$FILE" "$VIDEOSJUNK$file""
+
+  SOURCE="$VIDEOSJUNK$file"
+  echo "Processing source: $SOURCE"
+
+  DEST="${ITEM/."${FORMAT}"}.mp4"  #TODO: formalize screwed up extensions like above
+  echo "output file: $DEST"
+
+  echo -e "handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize"
+#   echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
+
+
+done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
