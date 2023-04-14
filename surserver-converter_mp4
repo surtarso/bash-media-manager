@@ -22,23 +22,25 @@ FORMAT="avi"
 
 while IFS= read -d '' -r ITEM
 do
-    echo "Target: $ITEM"  # full path of item.
+    echo -e "Target: ${OK}$ITEM${NC}"  # full path of item.
 
+    ## MOVE ORIGINAL to junk
     FILE=${ITEM##*/}  # individual file name.
     echo "Moving file to junk: $FILE"
-    echo -e "mv "$ITEM" "$VIDEOSJUNK""
+    mv "$ITEM" "$VIDEOSJUNK"
 
+    ## SET SOURCE
     SOURCE="$VIDEOSJUNK$FILE"
-    echo "Processing source: $SOURCE"
+    echo -e "Processing source: ${WARN}$SOURCE${NC}"
 
+    ## SET DEST
     EXT=${ITEM##*.}  # get file extension
     EXT=$(echo $EXT | tr "[:upper:]" "[:lower:]")  # normalize extension
-    TARGET="${ITEM%.*}.$EXT" # normalize target destination
-    DEST="${TARGET/."${FORMAT}"}.mp4" #set destination
-    echo "Destination: $DEST"
+    TARGET="${ITEM%.*}.$EXT" # normalize target destination ext
+    DEST="${TARGET/."${FORMAT}"}.mp4" #set destination path.ext
+    echo -e "Destination: ${WARN}$DEST${NC}"
 
-    echo -e "handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize"
-    #   echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
-    echo '---------------------'
+    ## DO STUFF
+    echo "" | handbrake-cli -i "$SOURCE" -o "$DEST" --preset "$PRESET" --optimize
 
 done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
