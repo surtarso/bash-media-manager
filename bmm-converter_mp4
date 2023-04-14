@@ -5,7 +5,7 @@ if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
-	Use surserver-setup_enviroment to create one.\nAborting...";
+	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -63,11 +63,11 @@ elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "Converter MP4"
     echo -e "Converts VIDEO files to \"H.264 AAC-2.0 Web-Optimized .mp4\" for streaming"
-    echo -e "Usage: surserver-converter_mp4 [-arg] [--arg] [args]\n"
+    echo -e "Usage: bmm-converter_mp4 [-arg] [--arg] [args]\n"
     echo -e " -p [--presets]    -> List available presets"
     echo -e " -t [--target]     -> Convert 'format' files from 'target folder' using \"preset\"."
-    echo -e "                   Usage: surserver-converter_mp4 --target \"/path/to/dir/\" \"format\" \"preset\""
-    echo -e "                   Ex: surserver-converter_mp4 --target \"/mnt/videos/\" \"avi\" \"Very Fast 720p30\""
+    echo -e "                   Usage: bmm-converter_mp4 --target \"/path/to/dir/\" \"format\" \"preset\""
+    echo -e "                   Ex: bmm-converter_mp4 --target \"/mnt/videos/\" \"avi\" \"Very Fast 720p30\""
     echo -e " -h [--help]       -> Shows this screen."
 else
     echo 'menu will be called here'

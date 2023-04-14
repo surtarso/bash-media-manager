@@ -10,7 +10,7 @@ if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
-	Use surserver-setup_enviroment to create one.\nAborting...";
+	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -113,7 +113,7 @@ main_menu () {
 		esac
 	done
 	## go back to launcher if nothins is selected or bkp finished...
-	clear && eval surserver-launcher; exit 1;
+	clear && eval bmm-launcher; exit 1;
 }
 
 ## check command arguements
@@ -146,7 +146,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "${OK}Media Backup${NC}"
     echo -e "Backup manager for server media."
     echo -e "${WARN}Folders: Source and Destination are set up in .evn file.${NC}"
-    echo -e "Usage: surserver-media_backup [-arg] [--arg]\n"
+    echo -e "Usage: bmm-media_backup [-arg] [--arg]\n"
     echo -e " -s [--series]    -> Backup series library."
     echo -e " -m [--movies]    -> Backup movies library."
     echo -e " -c [--concerts]  -> Backup concerts library."

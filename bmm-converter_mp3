@@ -14,7 +14,7 @@ if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
-	Use surserver-setup_enviroment to create one.\nAborting...";
+	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -155,7 +155,7 @@ execute_tasks (){
 	done
 
 	if [ "$1" == '--menu' ]; then
-		clear && eval surserver-launcher; exit 1;
+		clear && eval bmm-launcher; exit 1;
 	else
 		echo -e "${OK}Done.${NC}"
 	fi
@@ -183,10 +183,10 @@ main_menu () {
 	#error checks
 	if [ "$AUDIOROOT" == "" ]; then 
 		echo -e "Path cant be empty, aborting..."; sleep 2;
-		clear && eval surserver-launcher; exit 1;
+		clear && eval bmm-launcher; exit 1;
 	else 
 		cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
-		clear && eval surserver-launcher; exit 1; }
+		clear && eval bmm-launcher; exit 1; }
 	fi
 
 	##------------------------ REMOVAL FLAG
@@ -223,7 +223,7 @@ main_menu () {
 	done
 	#error checks
 	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; sleep 2;
-	clear && eval surserver-launcher; exit 1; fi 
+	clear && eval bmm-launcher; exit 1; fi 
 	
 	##----------------------- OUTPUT BITRATE
 	BITRATE=$(dialog --stdout --colors \
@@ -246,7 +246,7 @@ main_menu () {
 	fi
 	#error checks
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
-	clear && eval surserver-launcher; exit 1; fi 
+	clear && eval bmm-launcher; exit 1; fi 
 	##TODO: add error check if var doesnt end with "k"
 
 	##----------------------- EXECUTE TASKS
@@ -273,7 +273,7 @@ elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
 	echo -e "${OK}Converter MP3${NC}"
 	echo -e "Converts multiple formats to MP3 for streaming."
     echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
-	echo -e "Usage: surserver-mp3_converter [-arg] [--arg]"
+	echo -e "Usage: bmm-mp3_converter [-arg] [--arg]"
 	echo -e "or run without args for GUI mode.\n"
 	echo -e " -n [--no-gui]	-> No GUI interactive mode"
 	echo -e " -a [--auto] 	-> Use defaults. (asks no questions)"

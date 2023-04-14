@@ -65,7 +65,7 @@ main_form () {
     done <<< "${filled_form}"
 
     # return to launcher
-    clear && eval surserver-launcher; exit 1;
+    clear && eval bmm-launcher; exit 1;
 }
 
 ## ARGUEMENTS
@@ -83,7 +83,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${OK}Setup Enviroment${NC}"
     echo -e "Create new .env file or update enviroment variables in .env file"
-    echo -e "Usage: surserver-setup_enviroment [-arg] [--arg]\n"
+    echo -e "Usage: bmm-setup_enviroment [-arg] [--arg]\n"
     echo -e " -p [--path]      -> Adds software root to PATH"
     echo -e " -t [--template]  -> Creates new env file from template."
     echo -e " -h [--help]      -> Shows this screen."

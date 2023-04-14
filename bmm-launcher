@@ -10,7 +10,7 @@ if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
-	Use surserver-setup_enviroment to create one.\nAborting...";
+	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -34,6 +34,6 @@ if [ $menu_opt = 'Quit' ] || [ $? -ne 1 ]; then
 	echo -e 'Exiting...'
 	clear && exit 1
 else
-	clear && eval surserver-$menu_opt
+	clear && eval bmm-$menu_opt
 	exit 1;
 fi

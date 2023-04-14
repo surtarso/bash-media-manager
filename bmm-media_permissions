@@ -10,7 +10,7 @@ if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
     echo -e "FATAL ERROR: .env not found.$\n
-	Use surserver-setup_enviroment to create one.\nAborting...";
+	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
 
@@ -37,7 +37,7 @@ custom_entry () {
 		3>&1 1>&2 2>&3 3>&-)
 	clear #check path:
 	if [ "$path" == "" ]; then echo -e "${ERROR}No path, aborting...${NC}"; sleep 2;
-		clear && eval surserver-launcher; exit 1; fi
+		clear && eval bmm-launcher; exit 1; fi
 	## get user
 	user=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
@@ -47,7 +47,7 @@ custom_entry () {
 		3>&1 1>&2 2>&3 3>&-)
 	clear #check user:
 	if [ "$user" == "" ]; then echo -e "${ERROR}No user, aborting...${NC}"; sleep 2;
-		clear && eval surserver-launcher; exit 1; fi
+		clear && eval bmm-launcher; exit 1; fi
 	## get group
 	group=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
@@ -57,7 +57,7 @@ custom_entry () {
 		3>&1 1>&2 2>&3 3>&-)
 	clear #check group:
 	if [ "$group" == "" ]; then echo -e "${ERROR}No group, aborting...${NC}"; sleep 2;
-		clear && eval surserver-launcher; exit 1; fi
+		clear && eval bmm-launcher; exit 1; fi
 	## execute with user input args
 	fix_permissions $path $user $group "CUSTOM PATH"
 }
@@ -98,7 +98,7 @@ main_menu () {
 		esac
 	done
 	## go back to launcher if nothins is selected
-	clear && eval surserver-launcher; exit 1;
+	clear && eval bmm-launcher; exit 1;
 }
 
 ## STATUP OPTIONS
@@ -126,14 +126,14 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e "Fix file/folder permissons for media software."
 	echo -e "Use with no arguements to enter the GUI."
 	echo -e "${WARN}Folders: Folders, owners and group are set up in .evn file.${NC}"
-	echo -e "USAGE: surserver-media_permissions [-arg] [--arg]\n"
+	echo -e "USAGE: bmm-media_permissions [-arg] [--arg]\n"
 	echo -e " -a [--audio]		 -> Fix all audio permissions"
 	echo -e " -s [--series]		 -> Fix all series permissions"
 	echo -e " -m [--movies]		 -> Fix all movies permissions"
 	echo -e " -c [--concerts]	 -> Fix all concerts permissions"
 	echo -e " -u [--stand-up]	 -> Fix all stand-up permissions"
 	echo -e "${WARN} -s [--target]		 -> Manually enter desired settings."
-	echo -e " Usage: surserver-media_permissions [-t] [--target] /dir/path user group${NC}"
+	echo -e " Usage: bmm-media_permissions [-t] [--target] /dir/path user group${NC}"
 	echo -e " -h [--help]		 -> Shows this screen."
 else
 	main_menu;
