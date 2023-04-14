@@ -15,7 +15,7 @@
       A companion app that eases many of the tasks needed when
       dealing with massive libraries intended for streaming and file 
       permissions when dealing with multiple software.
-      It will convert files for best compatible streaming format and
+      It will convert files for optimal streaming format and
       can also back them up.
 
       Includes a tool for sharing media with friends without
@@ -49,8 +49,8 @@
 1- Clone this folder into /home/user/bmm/: 
 - git clone https://github.com/surtarso/bash-media-manager.git ~/bmm
 
-2- Run 'bmm-setup_enviroment' to generate a .env file from template.
-- cd ~/bmm && bmm-setup_enviroment
+2- Run 'bmm-setup_enviroment' to generate an .env file from template.
+- cd ~/bmm && ./bmm-setup_enviroment
 
 ## Usage:
       Folders MUST be set-up prior to using any script (see 'bmm-setup_enviroment')
