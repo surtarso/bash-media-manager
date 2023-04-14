@@ -61,6 +61,7 @@ elif [ "$1" == '-p' ] || [ "$1" == '--presets' ]; then
 
 elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
     echo -e "SurServer Converter MP4"
+    echo -e "Converts VIDEO files to \"H.264 AAC-2.0 Web-Optimized .mp4\" for streaming"
     echo -e "Usage: surserver-converter_mp4 [-arg] [--arg] [args]\n"
     echo -e " -p [--presets]    -> List available presets"
     echo -e " -t [--target]     -> Convert 'format' files from 'target folder' using \"preset\"."
