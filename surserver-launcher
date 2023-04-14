@@ -16,7 +16,7 @@ fi
 
 ## Main Menu
 menu_opt=$(dialog --colors --no-cancel \
-	--title 'SurServer Script-Launcher Menu' \
+	--title 'Script-Launcher Menu' \
 	--backtitle "\Z5Bash Media Manager" \
 	--stdout \
 	--menu 'Up and down arrows change selection. \nUse the Enter key to confirm.' \

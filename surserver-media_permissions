@@ -31,7 +31,7 @@ custom_entry () {
 	## get path
 	path=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
-		--title "SurServer Media Permissions" \
+		--title "Media Permissions" \
 		--inputbox "Enter full path: \n \
 		( ex.: /full/path/to/dir/ )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
@@ -41,7 +41,7 @@ custom_entry () {
 	## get user
 	user=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
-		--title "SurServer Media Permissions" \
+		--title "Media Permissions" \
 		--inputbox "Enter user: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
@@ -51,7 +51,7 @@ custom_entry () {
 	## get group
 	group=$(dialog --colors \
 		--backtitle "\Z5Bash Media Manager" \
-		--title "SurServer Media Permissions" \
+		--title "Media Permissions" \
 		--inputbox "Enter group: \n \
 		( ex.: dietpi or 1000 )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
