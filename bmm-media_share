@@ -122,15 +122,15 @@ elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-	echo -e "${OK}Media Share${NC}"
-	echo -e "Easily share server media to other devices."
+	echo -e "${HEAD}Media Share"
+	echo -e "${OK}Easily share server media to other devices.${NC}"
 	echo -e "Use with no arguements to enter the GUI."
 	echo -e "USAGE: bmm-media_share [-arg] [--arg]\n"
-	echo -e " -a [--audio]			-> Choose AUDIO to share"
-	echo -e " -s [--series]			-> Choose SERIES to share"
-	echo -e " -m [--movies]			-> Choose MOVIES to share"
-	echo -e " -c [--concerts]		-> Choose CONCERTS to share"
-	echo -e " -u [--stand-up]		-> Choose STAND-UP to share"
+	echo -e " -a [--audio]			-> Choose AUDIO to share."
+	echo -e " -s [--series]			-> Choose SERIES to share."
+	echo -e " -m [--movies]			-> Choose MOVIES to share."
+	echo -e " -c [--concerts]		-> Choose CONCERTS to share."
+	echo -e " -u [--stand-up]		-> Choose STAND-UP to share."
 	echo -e " -h [--help]			-> Shows this screen."
 else
 	main_menu;

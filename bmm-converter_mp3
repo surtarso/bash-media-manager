@@ -270,12 +270,11 @@ elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
 
 elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-	echo -e "${OK}Converter MP3${NC}"
-	echo -e "Converts multiple formats to MP3 for streaming."
-    echo -e "${WARN}Folders: Audio ROOT and JUNK are set up in .evn file.${NC}"
-	echo -e "Usage: bmm-mp3_converter [-arg] [--arg]"
-	echo -e "or run without args for GUI mode.\n"
-	echo -e " -n [--no-gui]	-> No GUI interactive mode"
+	echo -e "${HEAD}Converter MP3"
+	echo -e "${OK}Converts multiple formats to MP3 for streaming.${NC}"
+	echo -e "Use with no arguements to enter the GUI."
+	echo -e "Usage: bmm-mp3_converter [-arg] [--arg]\n"
+	echo -e " -n [--no-gui]	-> No GUI interactive mode."
 	echo -e " -a [--auto] 	-> Use defaults. (asks no questions)"
 	echo -e " -h [--help] 	-> This message screen."
 	exit 1

@@ -49,7 +49,7 @@
 1- Clone this folder into /home/user/bmm/: 
 - git clone https://github.com/surtarso/bash-media-manager.git ~/bmm
 
-2- Run 'bmm-setup_enviroment' to generate a .env from template.
+2- Run 'bmm-setup_enviroment' to generate a .env file from template.
 - cd ~/bmm && bmm-setup_enviroment
 
 ## Usage:
@@ -60,3 +60,74 @@
 
       For GUI usage, just use the scripts without any arguements or use 
       'bmm-launcher' to navigate between the tools.
+
+### Detailed view (--help):
+-     Converter MP3
+      Converts multiple formats to MP3 for streaming.
+      Folders: Audio ROOT and JUNK are set up in .evn file.
+      Usage: bmm-mp3_converter [-arg] [--arg]
+      or run without args for GUI mode.
+
+      -n [--no-gui]  -> No GUI interactive mode
+      -a [--auto]    -> Use defaults. (asks no questions)
+      -h [--help]    -> This message screen.
+
+-     Converter MP4
+      Converts VIDEO files to "H.264 AAC-2.0 Web-Optimized .mp4" for streaming.
+
+      Usage: bmm-converter_mp4 [-arg] [--arg] [args]
+
+      -hp [--handbrake-presets]     -> List optimal handbrake presets for streaming
+      -hb [--handbrake]             -> Convert 'format' files from 'target folder' using "preset".
+                                    (Ex: bmm-converter_mp4 --handbrake "/mnt/videos/" "avi" "Very Fast 720p30")
+      -h [--help]                   -> Shows this screen.
+
+-     Media Backup
+      Backup manager for server media.
+      Folders: Source and Destination are set up in .evn file.
+      Usage: bmm-media_backup [-arg] [--arg]
+
+      -s [--series]    -> Backup series library.
+      -m [--movies]    -> Backup movies library.
+      -c [--concerts]  -> Backup concerts library.
+      -a [--audio]     -> Backup audio library.
+      -u [--stand-up]  -> Backup stand-up library
+      -f [--full]      -> Backup all libraries.
+      -n [--no-gui]    -> Interactive-mode without a GUI.
+
+      -h [--help]      -> Shows this screen.
+
+-     Media Permissions
+      Fix file/folder permissons for media software.
+      Use with no arguements to enter the GUI.
+      Folders: Folders, owners and group are set up in .evn file.
+      USAGE: bmm-media_permissions [-arg] [--arg]
+
+      -a [--audio]            -> Fix all audio permissions
+      -s [--series]           -> Fix all series permissions
+      -m [--movies]           -> Fix all movies permissions
+      -c [--concerts]         -> Fix all concerts permissions
+      -u [--stand-up]         -> Fix all stand-up permissions
+      -s [--target]           -> Manually enter desired settings.
+      Usage: bmm-media_permissions [-t] [--target] /dir/path user group
+      -h [--help]             -> Shows this screen.
+
+-     Media Share
+      Easily share server media to other devices.
+      Use with no arguements to enter the GUI.
+      USAGE: bmm-media_share [-arg] [--arg]
+
+      -a [--audio]                   -> Choose AUDIO to share
+      -s [--series]                  -> Choose SERIES to share
+      -m [--movies]                  -> Choose MOVIES to share
+      -c [--concerts]                -> Choose CONCERTS to share
+      -u [--stand-up]                -> Choose STAND-UP to share
+      -h [--help]                    -> Shows this screen.
+
+-     Setup Enviroment
+      Create new .env file or update enviroment variables in .env file
+      Usage: bmm-setup_enviroment [-arg] [--arg]
+
+      -p [--path]      -> Adds software root to PATH
+      -t [--template]  -> Creates new env file from template.
+      -h [--help]      -> Shows this screen.

@@ -9,7 +9,8 @@ else
     exit 1;
 fi
 
-PRESETS=("Very Fast 1080p30" "Very Fast 720p30" "Very Fast 480p30")
+HB_PRESETS=("Very Fast 1080p30" "Very Fast 720p30" "Very Fast 480p30")
+FF_OPTIONS=()
 FORMATS=("mp4" "avi" "mkv" "rm")
 
 
@@ -17,7 +18,11 @@ FORMATS=("mp4" "avi" "mkv" "rm")
 PRESET="Very Fast 720p30"
 FORMAT="avi"
 
-execute_tasks () {
+convert_ffmpeg (){
+    dep_check ffmpeg;
+}
+
+convert_handbrake () {
     dep_check handbrake-cli;
 
     while IFS= read -d '' -r ITEM
@@ -46,29 +51,33 @@ execute_tasks () {
     done< <(find "$MEDIAROOT" -iname "*.$FORMAT" -print0)
 }
 
-if [ "$1" == '-t' ] || [ "$1" == '--target' ]; then
+## HANDBRAKE args
+if [ "$1" == '-hb' ] || [ "$1" == '--handbrake' ]; then
     MEDIAROOT=$2
     FORMAT=$3
     PRESET=$4
-    execute_tasks;
+    convert_handbrake;
 
-elif [ "$1" == '-p' ] || [ "$1" == '--presets' ]; then
-    for preset in "${PRESETS[@]}"
+elif [ "$1" == '-hp' ] || [ "$1" == '--handbrake-presets' ]; then
+    for preset in "${HB_PRESETS[@]}"
     do
         ((i++))
-        echo -e "Preset $i: ${OK}\"$preset\"${NC}"
+        echo -e "Handbrake preset $i: ${OK}\"$preset\"${NC}"
     done
 
+## FFMPEG args (todo)
+
+## HELP
 elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-    echo -e "Converter MP4"
-    echo -e "Converts VIDEO files to \"H.264 AAC-2.0 Web-Optimized .mp4\" for streaming"
+    echo -e "${HEAD}Converter MP4"
+    echo -e "${OK}Converts VIDEO files to ${WARN}\"H.264 AAC-2.0 Web-Optimized .mp4\"${OK} for streaming.${NC}\n"
+    echo -e "Use with no arguements to enter the GUI."
     echo -e "Usage: bmm-converter_mp4 [-arg] [--arg] [args]\n"
-    echo -e " -p [--presets]    -> List available presets"
-    echo -e " -t [--target]     -> Convert 'format' files from 'target folder' using \"preset\"."
-    echo -e "                   Usage: bmm-converter_mp4 --target \"/path/to/dir/\" \"format\" \"preset\""
-    echo -e "                   Ex: bmm-converter_mp4 --target \"/mnt/videos/\" \"avi\" \"Very Fast 720p30\""
-    echo -e " -h [--help]       -> Shows this screen."
+    echo -e " -hp [--handbrake-presets]     -> List optimal handbrake presets for streaming."
+    echo -e " -hb [--handbrake]             -> Convert 'format' files from 'target folder' using \"preset\"."
+    echo -e "                                  (Ex: bmm-converter_mp4 --handbrake \"/mnt/videos/\" \"avi\" \"Very Fast 720p30\")"
+    echo -e " -h [--help]                   -> Shows this screen."
 else
-    echo 'menu will be called here'
+    echo 'dialog menu will be called here soon... try --help'
 fi
