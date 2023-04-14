@@ -18,7 +18,7 @@
       It will convert files for best compatible streaming format and
       can also back them up.
 
-      Including a tool for sharing media with friends without
+      Includes a tool for sharing media with friends without
       having to deal with multiple commands and names with spaces.
 
 ## Included Tools:
