@@ -28,10 +28,10 @@
 - [Media Backup](): Backup media files;
 - [Media Permissions](): Fix permissions on media files;
 - [Media Share](): Easily copy specific media to another device;
-- [Setup Enviroment](): Sets up media folders and owners;
+- [Setup Enviroment](): Sets up media folders and owners. (run me 1st)
 
 ## Dependencies:
-      Bash Media Manager relies on 'ffmpeg' and/or 'handbrake' to perform 
+      Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
       conversions and 'rsync' for file procedures and cannot work without 
       those.
       Optional dependencies include 'dialog' for GUIs and 'toilet'
@@ -52,14 +52,18 @@
 2- Run 'bmm-setup_enviroment' to generate an .env file from template.
 - cd ~/bmm && ./bmm-setup_enviroment
 
-## Usage:
-      Folders MUST be set-up prior to using any script (see 'bmm-setup_enviroment')
+3- Add B.M.M. to $PATH (optional):
+- ./bmm-setup_enviroment --path
 
+## Usage:
+      Folders MUST be set-up prior to using any script.
+      See 'bmm-setup_enviroment' or edit '~/bmm/.env'.
+
+      For GUI usage, just use the scripts without any arguements. 
+      You can use 'bmm-launcher' to navigate between the tools.
+      
       If you dont want to see a GUI (dialog), use the scripts with --help
       arguement and follow the help text.
-
-      For GUI usage, just use the scripts without any arguements or use 
-      'bmm-launcher' to navigate between the tools.
 
 ### Detailed view (--help):
 -     Converter MP3
