@@ -16,8 +16,10 @@ fi
 
 ## DO STUFF ($1-path $2-user $3-group)
 fix_permissions () {
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 	for _dir in $1
 	do
+		echo '--------------------------------'
 		echo "Processing $4..."
 		echo -e "Path: $1"
 		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${OK}OK${NC}"

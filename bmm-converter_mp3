@@ -124,6 +124,7 @@ set_removal_flag (){
 ## JOBS
 ## ffmpeg conversion
 execute_tasks (){
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 	echo -e "________________________________________________"
 	echo -e "Audioroot: ${WARN}$AUDIOROOT${NC}"
 	echo -e "Remove: ${WARN}$REMOVE${NC} (1-Yes 0-No)"
@@ -155,6 +156,7 @@ execute_tasks (){
 	done
 
 	if [ "$1" == '--menu' ]; then
+	#TODO: add 'done' message (gui)
 		clear && eval bmm-launcher; exit 1;
 	else
 		echo -e "${OK}Done.${NC}"

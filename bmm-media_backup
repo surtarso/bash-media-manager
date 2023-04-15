@@ -18,6 +18,9 @@ fi
 
 #backup task ($1-source $2-dest $3-echo name)
 execute_backup (){
+	echo ''
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo '----------------------------------------------------------'
     echo -e "Backing up: ${OK}$3${NC}"
     #check for rsync
     dep_check rsync;
@@ -34,6 +37,7 @@ execute_backup (){
         echo -e "Aborting..."
         exit 1;
     }
+	echo '----------------------------------------------------------'
 	#reaction time
 	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$1"* ${WARN}"$2" ${ERROR}--delete${NC}\n"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
