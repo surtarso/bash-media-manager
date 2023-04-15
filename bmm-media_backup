@@ -148,7 +148,7 @@ elif [ "$1" = '-n' ] || [ "$1" = '--no-gui' ]; then
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${HEAD}Media Backup"
-    echo -e "${OK}Backup manager for server media.${NC}"
+    echo -e "${OK}Backup manager for server media.\n${NC}"
 	echo -e "Use with no arguements to enter the GUI."
     echo -e "Usage: bmm-media_backup [-arg] [--arg]\n"
     echo -e " -s [--series]    -> Backup series library."

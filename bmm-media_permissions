@@ -125,7 +125,7 @@ elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 	echo -e "${HEAD}Media Permissions"
-	echo -e "${OK}Fix file/folder permissons for media software.${NC}"
+	echo -e "${OK}Fix file/folder permissons for media software.\n${NC}"
 	echo -e "Use with no arguements to enter the GUI."
 	echo -e "${WARN}WARNING: This is very slow on big libraries! Consider --target${NC}"
 	echo -e "USAGE: bmm-media_permissions [-arg] [--arg]\n"

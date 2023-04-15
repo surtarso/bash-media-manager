@@ -82,7 +82,7 @@ elif [ "$1" = '-p' ] || [ "$1" = '--path' ]; then
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${HEAD}Setup Enviroment"
-    echo -e "${OK}Create new or update enviroment variables in ${WARN}.env${OK} file.${NC}"
+    echo -e "${OK}Create new or update enviroment variables in ${WARN}.env${OK} file.\n${NC}"
     echo -e "Use with no arguements to enter the GUI or\nedit ${WARN}~/bmm/.env${NC} to configure your folders."
     echo -e "Usage: bmm-setup_enviroment [-arg] [--arg]\n"
     echo -e " -p [--path]      -> Adds software root to PATH."
