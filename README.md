@@ -25,9 +25,9 @@
 - [Launcher](bmm-launcher): Dialog GUI for all scripts;
 - [MP3 Converter](bmm-converter_mp3): Converts any audio file to mp3 for streaming;
 - [MP4 Converter](bmm-converter_mp4): Converts any video file to mp4 for streaming;
-- [Media Backup](bmm-meadia_backup): Backup media files;
-- [Media Permissions](bmm-meadia_permissions): Fix permissions on media files;
-- [Media Share](bmm-meadia_share): Easily copy specific media to another device;
+- [Media Backup](bmm-media_backup): Backup media files;
+- [Media Permissions](bmm-media_permissions): Fix permissions on media files;
+- [Media Share](bmm-media_share): Easily copy specific media to another device;
 - [Setup Enviroment](bmm-setup_enviroment): Sets up media folders and owners. (run me 1st)
 
 ## Dependencies:
