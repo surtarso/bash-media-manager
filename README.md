@@ -41,7 +41,7 @@
       Dependencies will be checked and installed at will during
       runtime or you can pre-install them.
       
-      This software was built while also using the '[deb-multimedia](https://deb-multimedia.org/)' source.
+      This software was built while also using the deb-multimedia source.
       People have mixed feelings about it. I've been using it for over a
       decade without problems and I can't forsee any errors using this software
       without it.
