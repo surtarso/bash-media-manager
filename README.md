@@ -127,6 +127,7 @@
       -u [--stand-up]         -> Fix all stand-up permissions.
       -t [--target]           -> Manually enter desired settings. (recursive)
                               Usage: bmm-media_permissions [-t] [--target] /dir/path user group
+      -f [--full]		      -> Fix all media permissions. USE WITH CAUTION.
       -h [--help]             -> Shows this screen.
 
 -     Media Share

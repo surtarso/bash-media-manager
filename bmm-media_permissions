@@ -122,6 +122,13 @@ elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
 elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
 	fix_permissions $2 $3 $4 "CUSTOM PATH"
 
+elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
+	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
+	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
+	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
+	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
+	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 	echo -e "${HEAD}Media Permissions"
@@ -136,6 +143,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e " -u [--stand-up]	 -> Fix all stand-up permissions."
 	echo -e " -t [--target]		 -> Manually enter desired settings. (recursive)"
 	echo -e " 			    Usage: bmm-media_permissions [-t] [--target] /dir/path user group${NC}"
+	echo -e " -f [--full]		 -> Fix all media permissions. USE WITH CAUTION."
 	echo -e " -h [--help]		 -> Shows this screen."
 else
 	main_menu;
