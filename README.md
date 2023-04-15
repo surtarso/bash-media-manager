@@ -43,8 +43,8 @@
       
       This software was built while also using the deb-multimedia source.
       People have mixed feelings about it. I've been using it for over a
-      decade without problems and I can't forsee any errors using this software
-      without it.
+      decade without problems and I can't forsee any errors using this
+      software without it. It should work normally tho, just saying.
 
 ## Installation (quick setup just run 1 and 2):
 -1- Install deb-multimedia source packages (change dist_name for yours. ex bullseye):
