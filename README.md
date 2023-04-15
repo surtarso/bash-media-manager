@@ -22,27 +22,37 @@
       having to deal with multiple commands and names with spaces.
 
 ## Included Tools:
-- [Launcher](): Dialog GUI for all scripts;
-- [MP3 Converter](): Converts any audio file to mp3 for streaming;
-- [MP4 Converter](): Converts any video file to mp4 for streaming;
-- [Media Backup](): Backup media files;
-- [Media Permissions](): Fix permissions on media files;
-- [Media Share](): Easily copy specific media to another device;
-- [Setup Enviroment](): Sets up media folders and owners;
+- [Launcher](bmm-launcher): Dialog GUI for all scripts;
+- [MP3 Converter](bmm-converter_mp3): Converts any audio file to mp3 for streaming;
+- [MP4 Converter](bmm-converter_mp4): Converts any video file to mp4 for streaming;
+- [Media Backup](bmm-media_backup): Backup media files;
+- [Media Permissions](bmm-media_permissions): Fix permissions on media files;
+- [Media Share](bmm-media_share): Easily copy specific media to another device;
+- [Setup Enviroment](bmm-setup_enviroment): Sets up media folders and owners. (run me 1st)
 
 ## Dependencies:
-      Bash Media Manager relies on 'ffmpeg' and/or 'handbrake' to perform 
+      Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
       conversions and 'rsync' for file procedures and cannot work without 
       those.
+      
       Optional dependencies include 'dialog' for GUIs and 'toilet'
       for CLI banners.
 
       Dependencies will be checked and installed at will during
-      runtime or you can pre-install them with:
+      runtime or you can pre-install them.
+      
+      This software was built while also using the deb-multimedia source.
+      People have mixed feelings about it. I've been using it for over a
+      decade without problems and I can't forsee any errors using this
+      software without it. It should work normally tho, just saying.
 
-      apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
+## Installation (quick setup just run 1 and 2):
+-1- Install deb-multimedia source packages (change dist_name for yours. ex bullseye):
+- add 'deb https://www.deb-multimedia.org dist_name main non-free' to /etc/apt/source.list
+- apt-get update -oAcquire::AllowInsecureRepositories=true
+- apt-get install deb-multimedia-keyring
+- apt update && apt upgrade -y
 
-## Installation:
 0- Pre-install dependencies (optional):
 - apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
 
@@ -52,14 +62,18 @@
 2- Run 'bmm-setup_enviroment' to generate an .env file from template.
 - cd ~/bmm && ./bmm-setup_enviroment
 
-## Usage:
-      Folders MUST be set-up prior to using any script (see 'bmm-setup_enviroment')
+2a- Add B.M.M. to $PATH (optional):
+- ./bmm-setup_enviroment --path
 
+## Usage:
+      Folders MUST be set-up prior to using any script.
+      See 'bmm-setup_enviroment' or edit '~/bmm/.env'.
+
+      For GUI usage, just use the scripts without any arguements. 
+      You can use 'bmm-launcher' to navigate between the tools.
+      
       If you dont want to see a GUI (dialog), use the scripts with --help
       arguement and follow the help text.
-
-      For GUI usage, just use the scripts without any arguements or use 
-      'bmm-launcher' to navigate between the tools.
 
 ### Detailed view (--help):
 -     Converter MP3
