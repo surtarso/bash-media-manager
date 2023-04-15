@@ -34,15 +34,25 @@
       Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
       conversions and 'rsync' for file procedures and cannot work without 
       those.
+      
       Optional dependencies include 'dialog' for GUIs and 'toilet'
       for CLI banners.
 
       Dependencies will be checked and installed at will during
-      runtime or you can pre-install them with:
+      runtime or you can pre-install them.
+      
+      This software was built while also using the '[deb-multimedia](https://deb-multimedia.org/)' source.
+      People have mixed feelings about it. I've been using it for over a
+      decade without problems and I can't forsee any errors using this software
+      without it.
 
-      apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
+## Installation (quick setup just run 1 and 2):
+-1- Install deb-multimedia source packages (change dist_name for yours. ex bullseye):
+- add 'deb https://www.deb-multimedia.org dist_name main non-free' to /etc/apt/source.list
+- apt-get update -oAcquire::AllowInsecureRepositories=true
+- apt-get install deb-multimedia-keyring
+- apt update && apt upgrade -y
 
-## Installation:
 0- Pre-install dependencies (optional):
 - apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
 
@@ -52,7 +62,7 @@
 2- Run 'bmm-setup_enviroment' to generate an .env file from template.
 - cd ~/bmm && ./bmm-setup_enviroment
 
-3- Add B.M.M. to $PATH (optional):
+2a- Add B.M.M. to $PATH (optional):
 - ./bmm-setup_enviroment --path
 
 ## Usage:
