@@ -125,7 +125,7 @@
       -m [--movies]           -> Fix all movies permissions.
       -c [--concerts]         -> Fix all concerts permissions.
       -u [--stand-up]         -> Fix all stand-up permissions.
-      -s [--target]           -> Manually enter desired settings. (recursive)
+      -t [--target]           -> Manually enter desired settings. (recursive)
                               Usage: bmm-media_permissions [-t] [--target] /dir/path user group
       -h [--help]             -> Shows this screen.
 
@@ -145,7 +145,7 @@
 
 -     Setup Enviroment
       Create new or update enviroment variables in .env file.
-      
+
       Use with no arguements to enter the GUI or
       edit ~/bmm/.env to configure your folders.
       Usage: bmm-setup_enviroment [-arg] [--arg]

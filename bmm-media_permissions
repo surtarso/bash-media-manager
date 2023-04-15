@@ -134,7 +134,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo -e " -m [--movies]		 -> Fix all movies permissions."
 	echo -e " -c [--concerts]	 -> Fix all concerts permissions."
 	echo -e " -u [--stand-up]	 -> Fix all stand-up permissions."
-	echo -e " -s [--target]		 -> Manually enter desired settings. (recursive)"
+	echo -e " -t [--target]		 -> Manually enter desired settings. (recursive)"
 	echo -e " 			    Usage: bmm-media_permissions [-t] [--target] /dir/path user group${NC}"
 	echo -e " -h [--help]		 -> Shows this screen."
 else
