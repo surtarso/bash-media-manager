@@ -58,7 +58,8 @@ main_form () {
     if [ $? -ne 0 ]; then 
         dialog --colors --no-lines \
             --backtitle "\Z7Bash Media Manager" \
-            --infobox "Settings NOT updated!" 3 25
+            --title "Setup Enviroment" \
+            --infobox "Settings \Z1NOT\Zn updated!" 3 25
         read
         eval bmm-launcher; exit 1;
     fi
@@ -98,6 +99,7 @@ main_form () {
 
     dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
+        --title "Setup Enviroment" \
         --infobox "Settings updated." 3 21
     read
     # return to launcher
