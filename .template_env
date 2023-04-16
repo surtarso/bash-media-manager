@@ -47,7 +47,7 @@ NC='\033[0m'        #no color
 BANNER=$(echo -e "toilet -t -F border -F metal -f smblock Bash Media Manager")
 
 ## ------------------------- FUNCTIONS
-## dependencies (usage-> dep_check packagename)
+## dependencies (usage: dep_check packagename)
 dep_check () {
     if [ "$(dpkg -l | grep -ci -m1 $1)" -eq 0 ]; then
         echo -e "${ERROR}$1 not found!${NC} Install package(s)? (Y/n) \c"
@@ -67,7 +67,7 @@ dep_check () {
     fi
 }
 
-## creates dir if it does not exitst
+## creates dir if not exists (usage: dir_check /path/to/dir/)
 dir_check () {
     if [[ -d "$1" ]]; then
         mkdir -p "$1"
