@@ -120,7 +120,10 @@ main_menu () {
 	if [ $? -ne 1 ]; then
 		clear && eval bmm-launcher; exit 1;
 	else
-		## TODO: warn user that task is complete 1st
+		dialog --colors --no-lines \
+        --backtitle "\Z7Bash Media Manager" \
+        --infobox "Task complete." 3 19
+    	read
 		clear && eval bmm-launcher; exit 0;
 	fi
 }
