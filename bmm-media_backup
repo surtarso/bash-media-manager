@@ -43,7 +43,7 @@ execute_backup (){
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
     #start backup sync
-    rsync -avzP "$1"* "$2" --delete
+    rsync -avzP "$1"* "$2" --delete #| dialog --no-lines --progressbox 40 70
     echo -e "\nBackup complete."
 }
 
