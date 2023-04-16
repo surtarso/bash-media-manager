@@ -25,18 +25,8 @@ execute_backup (){
     #check for rsync
     dep_check rsync;
     #check if folders exist
-    cd "$1" &>/dev/null && echo -e "Source: ${WARN}$1 ${OK}Found${NC}" || {
-        echo -e "Source: ${WARN}$1 ${ERROR}not found!${NC}"
-        echo -e "Please edit .env file and set folders properly."
-        echo -e "Aborting..."
-        exit 1;
-    }
-    cd "$2" &>/dev/null && echo -e "Destination: ${WARN}$2 ${OK}Found${NC}\n" || {
-        echo -e "Destination: ${WARN}$2 ${ERROR}not found!${NC}"
-        echo -e "Please edit .env file and set folders properly."
-        echo -e "Aborting..."
-        exit 1;
-    }
+	dir_check "$1";
+	dir_check "$2";
 	echo '----------------------------------------------------------'
 	#reaction time
 	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$1"* ${WARN}"$2" ${ERROR}--delete${NC}\n"

@@ -67,11 +67,16 @@ dep_check () {
     fi
 }
 
-## creates dir if it does not exitst
+## creates dir if it does not exist
 dir_check () {
     if [[ -d "$1" ]]; then
-        echo -e "${WARN}$1: ${OK}OK${NC}" && return 0;
+        echo -e "${WARN}$1: ${OK}Found${NC}" && return 0;
     else
-        mkdir -p "$1" && echo -e "${WARN}$1: ${OK}NOW CREATED${NC}" || echo -e "Could not create ${WARN}$1${NC}, please check permissions or create them manually."
+        echo -e "${WARN}$1: ${ERROR}NOT FOUND${NC}"
+        ## TODO: confirm creation of dir (dont auto create, messy)
+        mkdir -p "$1" && echo -e "${WARN}$1: ${OK}NOW CREATED${NC}" || {
+            echo -e "${ERROR}Could not create ${WARN}$1${NC}, please check permissions or create them manually.";
+            exit 1;
+            }
     fi
 }
