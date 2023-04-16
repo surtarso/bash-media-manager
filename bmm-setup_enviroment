@@ -50,7 +50,9 @@ main_form () {
     # close fd
     exec 3>&-
 
-    ## FIX ME: 1st (filled) line gets removed if we press ESC
+    # if we press ESC
+    ## TODO: WARN USER THAT SETTINGS ARE UNSAVED
+    if [ $? -ne 1 ]; then eval bmm-launcher; exit 1; fi
     
     ## TODO: check for / on start/end of folder fields...
     # Keys must maintain same order as form fields.

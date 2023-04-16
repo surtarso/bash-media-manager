@@ -182,11 +182,11 @@ main_menu () {
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
-	#error checks
-	if [ "$AUDIOROOT" == "" ]; then 
-		echo -e "Path cant be empty, aborting..."; sleep 2;
-		clear && eval bmm-launcher; exit 1;
+	# return to launcher on escape or no path
+	if [ $? -ne 1 ] || [ "$AUDIOROOT" == "" ]; then
+		clear && eval bmm-launcher; exit 0;
 	else 
+		# return and warn if invalid path
 		cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
 		clear && eval bmm-launcher; exit 1; }
 	fi

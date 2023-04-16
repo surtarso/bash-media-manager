@@ -116,8 +116,13 @@ main_menu () {
 				;;
 		esac
 	done
-	## go back to launcher if nothins is selected or bkp finished...
-	clear && eval bmm-launcher; exit 1;
+	
+	if [ $? -ne 1 ]; then
+		clear && eval bmm-launcher; exit 1;
+	else
+		## TODO: warn user that task is complete 1st
+		clear && eval bmm-launcher; exit 0;
+	fi
 }
 
 ## check command arguements
