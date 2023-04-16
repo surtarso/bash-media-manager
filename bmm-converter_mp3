@@ -156,7 +156,7 @@ execute_tasks (){
 	done
 
 	if [ "$1" == '--menu' ]; then
-	#TODO: add 'done' message (gui)
+		## TODO: add 'done' message (gui)
 		clear && eval bmm-launcher; exit 1;
 	else
 		echo -e "${OK}Done.${NC}"
@@ -183,8 +183,8 @@ main_menu () {
 		clear
 	fi
 	# return to launcher on escape or no path
-	if [ $? -ne 1 ] || [ "$AUDIOROOT" == "" ]; then
-		clear && eval bmm-launcher; exit 0;
+	if [ "$AUDIOROOT" == "" ]; then
+		clear && eval bmm-launcher; exit 1;
 	else 
 		# return and warn if invalid path
 		cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
