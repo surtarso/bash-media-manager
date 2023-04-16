@@ -55,11 +55,7 @@ main_form () {
     if [ $? -ne 1 ]; then eval bmm-launcher; exit 1; fi
     
     ## TODO: check for / on start/end of folder fields...
-    # Keys must maintain same order as form fields.
-    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
-            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
-            STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
-            STANDUP_OWNER GROUP)
+    
     i=0
     # Reads $filled_form and sed key#=line# to .env (ex GROUP="root")
     while read -r line; do
@@ -69,7 +65,11 @@ main_form () {
     # return to launcher
     clear && eval bmm-launcher; exit 0;
 }
-
+# Keys must maintain same order as form fields.
+    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
+            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
+            STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
+            STANDUP_OWNER GROUP)
 ## ARGUEMENTS
 if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
     #dont overwrite .env if it exists
@@ -81,6 +81,12 @@ elif [ "$1" = '-p' ] || [ "$1" = '--path' ]; then
     echo 'export PATH="$HOME/bmm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
     echo 'You may need to reload bashrc (. .bashrc) or log out and in again.'
 
+elif [ "$1" = '-c' ] || [ "$1" = '--check' ]; then
+    for dir in "${keys[@]:0:12}"
+    do
+        dir_check "${!dir}"
+    done
+
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${HEAD}Setup Enviroment"
@@ -89,6 +95,7 @@ elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo -e "Usage: bmm-setup_enviroment [-arg] [--arg]\n"
     echo -e " -p [--path]      -> Adds software root to PATH."
     echo -e " -t [--template]  -> Creates new env file from template."
+    echo -e " -c [--check]     -> Check if media folders exist or create them."
     echo -e " -h [--help]      -> Shows this screen."
 else
     main_form;
