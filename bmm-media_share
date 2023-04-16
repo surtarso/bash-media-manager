@@ -22,7 +22,11 @@ copy_media (){
 	echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
 	## start syncing
-	eval $(echo -e "rsync -avzP $source $dest")
+	eval $(echo -e "rsync -avzP $source $dest") | dialog --no-lines --progressbox 40 70;
+	dialog --colors --no-lines \
+        --backtitle "\Z7Bash Media Manager" \
+        --infobox "Task complete." 3 19
+    read
 }
 
 ## get lines chosen and print dir name in quotes for cp/rsync command
@@ -78,6 +82,7 @@ create_checklist () {
 	## copy CHOICES to DESTINATION
 	if [ "$dest" != "" ]; then
 		copy_media $source $dest;
+		clear && eval bmm-launcher; exit 0;
 	else #return to launcher
 		echo -e "${ERROR}No destination, aborting...${NC}"; sleep 2;
 		clear && eval bmm-launcher; exit 1;
