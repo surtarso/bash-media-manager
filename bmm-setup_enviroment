@@ -56,7 +56,9 @@ main_form () {
     
     # if we cancel...
     if [ $? -ne 0 ]; then 
-        dialog --infobox "Settings NOT updated!" 3 25
+        dialog --colors --no-lines \
+            --backtitle "\Z7Bash Media Manager" \
+            --infobox "Settings NOT updated!" 3 25
         read
         eval bmm-launcher; exit 1;
     fi
@@ -94,7 +96,9 @@ main_form () {
         esac
     done
 
-    dialog --infobox "Settings updated." 3 21
+    dialog --colors --no-lines \
+        --backtitle "\Z7Bash Media Manager" \
+        --infobox "Settings updated." 3 21
     read
     # return to launcher
     clear && eval bmm-launcher; exit 0;
