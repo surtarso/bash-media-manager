@@ -98,7 +98,7 @@ main_menu () {
 			Quit '')
 	## Exit on Quit or Cancel || Execute chosen script.
 	if [ $root_dir = 'Quit' ] || [ $? -ne 1 ]; then
-		clear && eval bmm-launcher; exit 1;
+		clear && eval bmm-launcher; exit 0;
 	else
 		##TODO: check if folder exists 1st
 		create_checklist $root_dir;

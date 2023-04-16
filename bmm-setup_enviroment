@@ -65,7 +65,7 @@ main_form () {
     done <<< "${filled_form}"
 
     # return to launcher
-    clear && eval bmm-launcher; exit 1;
+    clear && eval bmm-launcher; exit 0;
 }
 
 ## ARGUEMENTS
