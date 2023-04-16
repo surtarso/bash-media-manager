@@ -66,3 +66,12 @@ dep_check () {
         echo -e "$1: ${OK}Found${NC}"
     fi
 }
+
+## creates dir if it does not exitst
+dir_check () {
+    if [[ -d "$1" ]]; then
+        mkdir -p "$1"
+    else
+        echo "Could not create $1, please check permissions or try using bmm-media_permissions."
+    fi
+}
