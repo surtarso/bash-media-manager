@@ -19,7 +19,7 @@ menu_opt=$(dialog --colors --no-cancel --no-lines\
 	--title 'Script-Launcher Menu' \
 	--backtitle "\Z7Bash Media Manager" \
 	--stdout \
-	--menu 'Up and down arrows change selection. \nUse the Enter key to confirm.' \
+	--menu '								Up and down arrows change selection.\n											Use the Enter key to confirm.' \
 	0 0 0 \
 	'converter_mp3' 'Converts Audio files to MP3' \
 	'converter_mp4' 'Converts Video files to MP4' \

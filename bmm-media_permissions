@@ -16,14 +16,15 @@ fi
 
 ## DO STUFF ($1-path $2-user $3-group)
 fix_permissions () {
-	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval "$BANNER"; fi
 	for _dir in $1
 	do
 		echo '--------------------------------'
-		echo "Processing $4..."
-		echo -e "Path: $1"
-		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${OK}OK${NC}"
+		echo -e "Processing path: $1..."
+		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${HEAD}$2:$3 ${OK}OK${NC}"
+		echo 'Processing folders...'
 		sudo find ${_dir} -type d -exec chmod 2775 {} \; && echo -e "${WARN}Folders: ${OK}OK${NC}"
+		echo 'Processing files...'
 		sudo find ${_dir} -type f -exec chmod 664 {} \; && echo -e "${WARN}Files: ${OK}OK${NC}"
 	done
 }
@@ -61,7 +62,7 @@ custom_entry () {
 	if [ "$group" == "" ]; then echo -e "${ERROR}No group, aborting...${NC}"; sleep 2;
 		clear && eval bmm-launcher; exit 1; fi
 	## execute with user input args
-	fix_permissions $path $user $group "CUSTOM PATH"
+	fix_permissions "$path" "$user" "$group"
 }
 
 main_menu () {
@@ -80,57 +81,57 @@ main_menu () {
 	do
 		case $choice in
 			1)
-				fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
+				fix_permissions "$AUDIOROOT" "$AUDIO_OWNER" "$GROUP"
 				;;
 			2)
-				fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
+				fix_permissions "$SERIESROOT" "$SERIES_OWNER" "$GROUP"
 				;;
 			3)
-				fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
+				fix_permissions "$MOVIESROOT" "$MOVIES_OWNER" "$GROUP"
 				;;
 			4)
-				fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
+				fix_permissions "$CONCERTSROOT" "$CONCERTS_OWNER" "$GROUP"
 				;;
 			5)
-				fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
+				fix_permissions "$STANDUPROOT" "$STANDUP_OWNER" "$GROUP"
 				;;
 			6)
 				custom_entry
 				;;
 		esac
 	done
-	## go back to launcher if nothins is selected
+	## return on done or no entry
 	clear && eval bmm-launcher; exit 1;
 }
 
 ## STATUP OPTIONS
 if [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
-	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
+	fix_permissions "$AUDIOROOT" "$AUDIO_OWNER" "$GROUP"
 
 elif [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
-	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
+	fix_permissions "$SERIESROOT" "$SERIES_OWNER" "$GROUP"
 
 elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
-	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
+	fix_permissions "$MOVIESROOT" "$MOVIES_OWNER" "$GROUP"
 
 elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
-	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
+	fix_permissions "$CONCERTSROOT" "$CONCERTS_OWNER" "$GROUP"
 
 elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
-	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
+	fix_permissions "$STANDUPROOT" "$STANDUP_OWNER" "$GROUP"
 
 elif [ "$1" = '-t' ] || [ "$1" = '--target' ]; then
-	fix_permissions $2 $3 $4 "CUSTOM PATH"
+	fix_permissions "$2" "$3" "$4"
 
 elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
-	fix_permissions $AUDIOROOT $AUDIO_OWNER $GROUP "AUDIO"
-	fix_permissions $SERIESROOT $SERIES_OWNER $GROUP "SERIES"
-	fix_permissions $MOVIESROOT $MOVIES_OWNER $GROUP "MOVIES"
-	fix_permissions $CONCERTSROOT $CONCERTS_OWNER $GROUP "CONCERTS"
-	fix_permissions $STANDUPROOT $STANDUP_OWNER $GROUP "STAND-UP"
+	fix_permissions "$AUDIOROOT" "$AUDIO_OWNER" "$GROUP"
+	fix_permissions "$SERIESROOT" "$SERIES_OWNER" "$GROUP"
+	fix_permissions "$MOVIESROOT" "$MOVIES_OWNER" "$GROUP"
+	fix_permissions "$CONCERTSROOT" "$CONCERTS_OWNER" "$GROUP"
+	fix_permissions "$STANDUPROOT" "$STANDUP_OWNER" "$GROUP"
 
 elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval "$BANNER"; fi
 	echo -e "${HEAD}Media Permissions"
 	echo -e "${OK}Fix file/folder permissons for media software.\n${NC}"
 	echo -e "Use with no arguements to enter the GUI."
