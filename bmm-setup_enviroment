@@ -17,6 +17,12 @@ else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || {
     echo -e "FATAL ERROR: Could not create env file.\nAborted."; exit 1;};
 fi
 
+# Keys must maintain same order as form fields.
+keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
+        MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
+        STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
+        STANDUP_OWNER GROUP)
+
 #folders setup, user/groups setup
 main_form () {
     # open fd
@@ -65,11 +71,7 @@ main_form () {
     # return to launcher
     clear && eval bmm-launcher; exit 0;
 }
-# Keys must maintain same order as form fields.
-    keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
-            MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
-            STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
-            STANDUP_OWNER GROUP)
+
 ## ARGUEMENTS
 if [ "$1" = '-t' ] || [ "$1" = '--template' ]; then
     #dont overwrite .env if it exists
