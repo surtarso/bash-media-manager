@@ -260,8 +260,8 @@ main_menu () {
 
 ## START
 if [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
-	cd "$AUDIOROOT" &>/dev/null || { echo -e "${ERROR}ERROR: Path ${WARN}$AUDIOROOT${ERROR} not found\n${NC}auto-mode: ${ERROR}FAILED!${NC}"; exit 1; }
-	echo -e "\nauto-mode: ${OK}START${NC}"
+	dir_check "$AUDIOROOT"
+	echo -e "auto-mode: ${OK}START${NC}"
 	execute_tasks;
 
 elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
@@ -271,7 +271,7 @@ elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
 	set_output_format;
 	set_removal_flag;
 	## start the task(s)
-	execute_tasks && echo -e 'Done.'
+	execute_tasks;
 
 elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
