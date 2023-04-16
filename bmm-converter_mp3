@@ -260,8 +260,8 @@ main_menu () {
 
 ## START
 if [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
-	dir_check "$AUDIOROOT"
 	echo -e "auto-mode: ${OK}START${NC}"
+	dir_check "$AUDIOROOT"
 	execute_tasks;
 
 elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then

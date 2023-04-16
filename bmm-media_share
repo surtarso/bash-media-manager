@@ -17,8 +17,10 @@ fi
 
 copy_media (){
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "________________________________________________"
 	dep_check rsync; #check for rsync (dest should have rsync too... how to confirm?)
 	echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$source ${OK}$dest${NC}"
+	echo -e "________________________________________________"
 	echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
 	## start syncing
@@ -78,7 +80,7 @@ create_checklist () {
 		(ex.: /full/path/to/dir/ or user@ip.ad.dr.ess:/location/ )" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
 	clear
-
+	
 	## copy CHOICES to DESTINATION
 	if [ "$dest" != "" ]; then
 		copy_media $source $dest;
