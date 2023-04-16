@@ -252,7 +252,16 @@ main_menu () {
 	#error checks
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
 	clear && eval bmm-launcher; exit 1; fi 
-	##TODO: add error check if var doesnt end with "k"
+
+	##TODO: add k if missing...
+	case "$BITRATE" in
+        *k)
+            echo "$BITRATE with 'k'"
+            ;;
+		*)
+            echo "$BITRATE without 'k'"
+            ;;
+	esac
 
 	##----------------------- EXECUTE TASKS
 	clear && execute_tasks --menu #| dialog --no-lines --progressbox 40 70;
