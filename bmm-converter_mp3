@@ -156,7 +156,10 @@ execute_tasks (){
 	done
 
 	if [ "$1" == '--menu' ]; then
-		## TODO: add 'done' message (gui)
+		dialog --colors --no-lines \
+        --backtitle "\Z7Bash Media Manager" \
+        --infobox "Task complete." 3 19
+    	read
 		clear && eval bmm-launcher; exit 1;
 	else
 		echo -e "${OK}Done.${NC}"
