@@ -17,7 +17,7 @@ else cp $TEMPLATE $ENV_FILE && . $ENV_FILE || {
     echo -e "FATAL ERROR: Could not create env file.\nAborted."; exit 1;};
 fi
 
-# Keys must maintain same order as form fields.
+# Keys must maintain same order as main_form() fields.
 keys=(AUDIOROOT AUDIOBACKUP AUDIOJUNK VIDEOSJUNK SERIESROOT SERIESBACKUP \
         MOVIESROOT MOVIESBACKUP CONCERTSROOT CONCERTSBACKUP STANDUPROOT \
         STANDUPBACKUP AUDIO_OWNER SERIES_OWNER MOVIES_OWNER CONCERTS_OWNER \
@@ -57,16 +57,38 @@ main_form () {
     exec 3>&-
 
     # if we press ESC
-    ## TODO: WARN USER THAT SETTINGS ARE UNSAVED
-    if [ $? -ne 1 ]; then eval bmm-launcher; exit 1; fi
+    if [ $? -ne 1 ]; then 
+        dialog --infobox "Settings NOT updated!" 3 40
+        read
+        eval bmm-launcher; exit 1;
+    fi
     
-    ## TODO: check for / on start/end of folder fields...
-    
-    i=0
     # Reads $filled_form and sed key#=line# to .env (ex GROUP="root")
+    i=0
     while read -r line; do
+        # sed key-line
         sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
     done <<< "${filled_form}"
+
+    . $ENV_FILE #load newly entered form fields
+    # add '/' to start/end of lines as needed
+    for dir in "${keys[@]:0:12}"
+    do
+        case "${!dir}" in
+        /*/)
+            echo "${!dir} OK" #starts and ends with a slah
+            ;;
+        */)
+            echo "${!dir} no slash at start."
+            ;;
+        /*)
+           echo "${!dir} no slash at end."
+            ;;
+        *)
+            echo "${!dir} no end/start slashes."
+            ;;
+        esac
+    done
 
     # return to launcher
     clear && eval bmm-launcher; exit 0;
