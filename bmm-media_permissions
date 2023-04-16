@@ -101,7 +101,12 @@ main_menu () {
 		esac
 	done
 	## return on done or no entry
-	clear && eval bmm-launcher; exit 1;
+	## TODO: check exit status for proper exits!
+	dialog --colors --no-lines \
+        --backtitle "\Z7Bash Media Manager" \
+        --infobox "Task complete." 3 19
+    read
+	clear && eval bmm-launcher; exit 0;
 }
 
 ## STATUP OPTIONS
