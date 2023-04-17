@@ -34,7 +34,7 @@ execute_backup (){
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
     #start backup sync
 	if [ "$4" == '--menu' ]; then
-    	rsync -avzP "$1"* "$2" --delete | dialog --no-lines --progressbox 40 70;
+    	rsync -avzP "$1"* "$2" --delete | dialog --colors --no-lines --backtitle "\Z7Bash Media Manager" --progressbox 42 76;
 		dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
         --infobox "Task complete." 3 19
