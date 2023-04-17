@@ -24,7 +24,7 @@ copy_media (){
 	echo -e "\n${ERROR}Press ${WARN}'Control + C'${ERROR} to abort.${NC}"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
 	## start syncing
-	eval $(echo -e "rsync -avzP $source $dest") | dialog --no-lines --progressbox 40 70;
+	eval $(echo -e "rsync -avzP $source $dest") | dialog --colors --no-lines --backtitle "\Z7Bash Media Manager" --progressbox 42 76;
 	dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
         --infobox "Task complete." 3 19
