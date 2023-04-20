@@ -9,9 +9,10 @@
 if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
-    echo -e "FATAL ERROR: .env not found.$\n
-	Use bmm-setup_enviroment to create one.\nAborting...";
-    exit 1;
+	echo 'BASH MEDIA MANAGER'
+	echo 'No enviromento found! Entering setup...' && sleep 2;
+    clear && eval $HOME/bmm/bmm-setup_enviroment;
+    exit 0;
 fi
 
 ## Main Menu
