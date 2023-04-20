@@ -271,7 +271,7 @@ main_menu () {
 if [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
 	echo -e "auto-mode: ${OK}START${NC}"
 	dir_check "$AUDIOROOT"
-	cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2;
+	cd "$AUDIOROOT" &>/dev/null || { echo -e "Path does not exist, aborting..."; sleep 2; exit 1; };
 	execute_tasks;
 
 elif [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
