@@ -20,7 +20,7 @@ fi
 
 ## AUTOMODE DEFAULT FLAGS (--auto)
 REMOVE=1 # remove original files (0=no 1=yes)
-FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma") # input format(s)
+FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma" "ape") # input format(s)
 BITRATE='192k' # output mp3 bitrate
 
 ## FOLDERS
@@ -49,8 +49,8 @@ confirm_path (){
 ## AUDIO FORMAT
 ## set input file format
 set_input_format (){
-	echo -e 'Choose format(s) to be converted: (1-6)'
-	select fmt in flac wav ogg m4a wma ALL
+	echo -e 'Choose format(s) to be converted: (1-7)'
+	select fmt in flac wav ogg m4a wma ape ALL
 	do
 		case $fmt in
 			"flac")
@@ -68,11 +68,14 @@ set_input_format (){
 			"wma")
 				FORMAT_ARRAY=("wma")
 				break;;
+			"ape")
+				FORMAT_ARRAY=("ape")
+				break;;
 			"ALL")
-				FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma")
+				FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma" "ape")
 				break;;
 			*)
-				echo -e 'Not a valid choice. (1-6)';;
+				echo -e 'Not a valid choice. (1-7)';;
 		esac
 	done
 	echo -e "\n${OK}Selected input: ${WARN}'${FORMAT_ARRAY[*]}'${NC}"
@@ -218,7 +221,8 @@ main_menu () {
 		"wav" "Waveform" on
 		"ogg" "OGG Vorbis" on
 		"m4a" "Apple Audio" on
-		"wma" "Windows Audio" on)
+		"wma" "Windows Audio" on
+		"ape" "Monkeys Audio" on)
 	choices=$("${checklist[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	clear
 	FORMAT_ARRAY=()
