@@ -21,7 +21,7 @@ fi
 ## AUTOMODE DEFAULT FLAGS (--auto)
 REMOVE=1 # remove original files (0=no 1=yes)
 FORMAT_ARRAY=("flac" "wav" "ogg" "m4a" "wma" "ape") # input format(s)
-BITRATE='192k' # output mp3 bitrate
+BITRATE='320' # output mp3 bitrate in k
 
 ## FOLDERS
 set_new_path (){
@@ -88,16 +88,16 @@ set_output_format (){
 	do
 		case $bit in
 			"96k")
-				BITRATE='96k'
+				BITRATE='96'
 				break;;
 			"128k")
-				BITRATE='128k'
+				BITRATE='128'
 				break;;
 			"256k")
-				BITRATE='256k'
+				BITRATE='256'
 				break;;
 			"320k")
-				BITRATE='320k'
+				BITRATE='320'
 				break;;
 			*)
 				echo -e 'Not a valid choice. (1-4)';;
@@ -142,7 +142,7 @@ execute_tasks (){
 	
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -acodec libmp3lame -ab '${BITRATE}'k "${0/.'${format}'}.mp3"' {} \;
 		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
 		## originals removal
