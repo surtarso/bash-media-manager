@@ -12,10 +12,10 @@ else
 fi
 
 #warn user that this only reads mp3
-echo -e "This script will DELETE all folders without .mp3's inside them!"
-echo -e "It assumes Artist(metadata)/Album(mp3+metadata) hierarchy."
-echo -e "Make sure all your audio is converted to MP3 before continuing."
-echo -e "Press ENTER to start or CONTROL + C to abort."
+echo -e "${WARN}This script will ${ERROR}DELETE${NC} all folders without .mp3's inside them!"
+echo -e "It assumes ${OK}Artist(metadata)/Album(mp3+metadata) ${WARN}hierarchy.${NC}"
+echo -e "${ERROR}Make sure all your audio is converted to MP3 before continuing!${NC}"
+echo -e "${WARN}Press ${OK}ENTER ${WARN}to start or ${ERROR}CONTROL + C ${WARN}to abort.${NC}"
 read
 
 remove_dirs () {
@@ -45,4 +45,4 @@ remove_dirs () {
 }
 
 remove_dirs;
-echo 'Done.'
+echo "${OK}Done.${NC}"
