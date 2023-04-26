@@ -12,14 +12,20 @@ else
 fi
 
 #enter music root dir
-dir_check "$AUDIOROOT"
-cd "$AUDIOROOT" || exit 1;
-exit 0;
+if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+echo '----------------------------------------------------------'
+dir_check "$AUDIOROOT" && cd "$AUDIOROOT" || echo 'ERROR: Could not enter directory.' && exit 1;
+echo -e "${OK}Searching for folders with no music in ${WARN}$AUDIOROOT${OK}...${NC}"
+echo '----------------------------------------------------------'
+
 ##TODO: Warn user that this only reads mp3
 ## and suggest converter mp3 full run before doing this.
 
+
+
 #search for folder with no mp3 in them
-#does not delete nested folders (artist(no mp3)/album(mp3) etc
+#does not delete nested folders (artist(no mp3)/album(mp3)) etc
+
 find -depth -type d | while read -r D
  do
  v=$(find "$D" -iname '*.mp3')
