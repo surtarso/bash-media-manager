@@ -45,4 +45,4 @@ remove_dirs () {
 }
 
 remove_dirs;
-echo "${OK}Done.${NC}"
+echo -e "${OK}Done.${NC}"
