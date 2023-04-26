@@ -1,0 +1,26 @@
+#! /bin/bash
+
+##TODO: LOAD ENV
+
+#enter music root dir
+##TODO: set dynamic dir from env
+#cd $AUDIOROOT
+cd /mnt/vault/music/
+
+##TODO: Warn user that this only reads mp3
+## and suggest converter mp3 full run before doing this.
+
+#search for folder with no mp3 in them
+#does not delete nested folders (artist(no mp3)/album(mp3) etc
+find -depth -type d | while read -r D
+ do
+ v=$(find "$D" -iname '*.mp3')
+ case "$v" in
+ ""  )
+    echo "$D no mp3"
+##TODO: list all dir contens
+##	ask user if ok to delete.
+    rm -fr "$D" #REMOVE COMMAND
+ ;;
+ esac
+done

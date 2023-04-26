@@ -240,10 +240,10 @@ main_menu () {
 		--title "Converter MP3" \
 		--menu 'Choose MP3 bitrate:' \
 		0 0 0 \
-		'80k' 'Poor Quality Lossy' \
-		'192k' 'Low Quality Lossy (recommended)' \
-		'256k' 'Mid Quality Lossy' \
-		'320k' 'High Quality Lossy' \
+		'80' 'Poor Quality Lossy' \
+		'192' 'Low Quality Lossy (recommended)' \
+		'256' 'Mid Quality Lossy' \
+		'320' 'High Quality Lossy' \
 		Custom '8k -> 320k')
 	if [ "$BITRATE" == 'Custom' ]; then
 		BITRATE=$(dialog --no-lines --colors \
