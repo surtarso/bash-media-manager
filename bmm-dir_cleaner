@@ -16,7 +16,7 @@ if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${N
 echo '----------------------------------------------------------'
 dir_check "$AUDIOROOT"
 cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
-echo -e "${OK}Searching for folders with no music in ${WARN}$AUDIOROOT${OK}...${NC}"
+echo -e "${OK}Searching for folders with no MP3 in ${WARN}$AUDIOROOT${NC}"
 echo '----------------------------------------------------------'
 
 ##TODO: Warn user that this only reads mp3
@@ -28,14 +28,16 @@ echo '----------------------------------------------------------'
 #does not delete nested folders (artist(no mp3)/album(mp3)) etc
 
 find -depth -type d | while read -r D
- do
- v=$(find "$D" -iname '*.mp3')
- case "$v" in
- ""  )
-    echo "$D no mp3"
-##TODO: list all dir contens
-##	ask user if ok to delete.
-    rm -fr "$D" #REMOVE COMMAND
- ;;
- esac
+    do
+    v=$(find "$D" -iname '*.mp3')
+        case "$v" in
+            ""  )
+                echo "$D has no MP3, removing..."
+                ##TODO: list all dir contens
+                ##	ask user if ok to delete.
+                rm -rf "$D" #REMOVE COMMAND
+                ;;
+        esac
 done
+
+echo 'Done.'

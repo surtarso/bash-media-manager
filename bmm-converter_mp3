@@ -128,14 +128,14 @@ set_removal_flag (){
 ## ffmpeg conversion
 execute_tasks (){
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-	echo -e "________________________________________________"
+	echo '----------------------------------------------------------'
 	echo -e "Audioroot: ${WARN}$AUDIOROOT${NC}"
 	echo -e "Remove: ${WARN}$REMOVE${NC} (1-Yes 0-No)"
 	echo -e "Format(s): ${WARN}${FORMAT_ARRAY[*]}${NC}"
 	echo -e "Bitrate: ${WARN}$BITRATE${NC}"
 	dep_check ffmpeg;
 	dep_check libmp3lame0;
-	echo -e "________________________________________________\n"
+	echo -e "----------------------------------------------------------\n"
 	echo -e "${OK}Starting...${NC}"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
