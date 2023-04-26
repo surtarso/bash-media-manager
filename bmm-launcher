@@ -24,6 +24,7 @@ menu_opt=$(dialog --colors --no-cancel --no-lines\
 	0 0 0 \
 	'converter_mp3' 'Converts Audio files to MP3' \
 	'converter_mp4' 'Converts Video files to MP4' \
+	'dir_cleaner' 'Removes Empty Audio Dirs' \
 	'media_backup' 'Media Backup Manager' \
 	'media_permissions' 'Fix Media Permissions' \
 	'media_share' 'Easily Share Media' \
