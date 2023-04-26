@@ -12,7 +12,7 @@ else
 fi
 
 #warn user that this only reads mp3
-echo -e "${WARN}This script will ${ERROR}DELETE${NC} all folders without .mp3's inside them!"
+echo -e "${WARN}This script will ${ERROR}DELETE${WARN} all folders without .mp3's inside them!"
 echo -e "It assumes ${OK}Artist(metadata)/Album(mp3+metadata) ${WARN}hierarchy.${NC}"
 echo -e "${ERROR}Make sure all your audio is converted to MP3 before continuing!${NC}"
 echo -e "${WARN}Press ${OK}ENTER ${WARN}to start or ${ERROR}CONTROL + C ${WARN}to abort.${NC}"
