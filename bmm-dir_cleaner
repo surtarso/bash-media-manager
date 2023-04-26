@@ -16,7 +16,7 @@ if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${N
 echo '----------------------------------------------------------'
 dir_check "$AUDIOROOT"
 cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
-echo -e "${OK}Searching for folders with no MP3 in ${WARN}$AUDIOROOT${NC}"
+echo -e "${WARN}Deleting folders with no MP3...${NC}"
 echo '----------------------------------------------------------'
 
 ##TODO: Warn user that this only reads mp3
