@@ -12,11 +12,13 @@ else
 fi
 
 #warn user that this only reads mp3
-echo -e "${WARN}This script will ${ERROR}DELETE${WARN} all folders without .mp3's inside them!"
-echo -e "It assumes ${OK}Artist(metadata)/Album(mp3+metadata) ${WARN}hierarchy.${NC}"
-echo -e "${ERROR}Make sure all your audio is converted to MP3 before continuing!${NC}"
-echo -e "${WARN}Press ${OK}ENTER ${WARN}to start or ${ERROR}CONTROL + C ${WARN}to abort.${NC}"
-read
+warn_user () {
+    echo -e "${WARN}This script will ${ERROR}DELETE${WARN} all folders without .mp3's inside them!"
+    echo -e "It assumes ${OK}Artist(metadata)/Album(mp3+metadata) ${WARN}hierarchy.${NC}"
+    echo -e "${ERROR}Make sure all your audio is converted to MP3 before continuing!${NC}"
+    echo -e "${WARN}Press ${OK}ENTER ${WARN}to start or ${ERROR}CONTROL + C ${WARN}to abort.${NC}"
+    read
+}
 
 remove_dirs () {
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
@@ -44,5 +46,6 @@ remove_dirs () {
     done
 }
 
+warn_user;
 remove_dirs;
 echo -e "${OK}Done.${NC}"

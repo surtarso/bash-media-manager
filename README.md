@@ -18,13 +18,15 @@
       It will convert files for optimal streaming format and
       can also back them up.
 
-      Includes a tool for sharing media with friends without
-      having to deal with multiple commands and names with spaces.
+      Included are tools for sharing media with friends without
+      having to deal with multiple names with spaces commands
+      and directory cleaner for use after massive library renaming.
 
 ## Included Tools:
 - [Launcher](bmm-launcher): Dialog GUI for all scripts;
 - [MP3 Converter](bmm-converter_mp3): Converts any audio file to mp3 for streaming;
 - [MP4 Converter](bmm-converter_mp4): Converts any video file to mp4 for streaming;
+- [Dir Cleaner](bmm-dir_cleaner): Removes Empty Audio Folders;
 - [Media Backup](bmm-media_backup): Backup media files;
 - [Media Permissions](bmm-media_permissions): Fix permissions on media files;
 - [Media Share](bmm-media_share): Easily copy specific media to another device;
