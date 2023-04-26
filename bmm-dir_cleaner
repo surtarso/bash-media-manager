@@ -15,7 +15,7 @@ fi
 if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 echo '----------------------------------------------------------'
 dir_check "$AUDIOROOT"
-cd "$AUDIOROOT" || echo 'ERROR: Could not enter directory.' && exit 1;
+cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
 echo -e "${OK}Searching for folders with no music in ${WARN}$AUDIOROOT${OK}...${NC}"
 echo '----------------------------------------------------------'
 
