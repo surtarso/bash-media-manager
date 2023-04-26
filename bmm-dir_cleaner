@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##TODO: -log stuff
+## TODO: -log stuff
 
 ## load enviroment variables
 if [ -f $HOME/bmm/.env ]; then
@@ -11,34 +11,38 @@ else
     exit 1;
 fi
 
-#enter music root dir
-if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-echo -e "${HEAD}Dir Cleaner${NC}"
-echo '----------------------------------------------------------'
-dir_check "$AUDIOROOT"
-cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
-echo -e "${ERROR}Deleting folders with no MP3...${NC}"
-echo '----------------------------------------------------------'
+#warn user that this only reads mp3
+echo -e "This script will DELETE all folders without .mp3's inside them!"
+echo -e "It assumes Artist(metadata)/Album(mp3+metadata) hierarchy."
+echo -e "Make sure all your audio is converted to MP3 before continuing."
+echo -e "Press ENTER to start or CONTROL + C to abort."
+read
 
-##TODO: Warn user that this only reads mp3
-## and suggest converter mp3 full run before doing this.
+remove_dirs () {
+    if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+    echo -e "${HEAD}Dir Cleaner${NC}"
+    echo '----------------------------------------------------------'
+    dir_check "$AUDIOROOT"
+    #enter music root dir
+    cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
+    echo -e "${ERROR}Deleting folders with no MP3...${NC}"
+    echo '----------------------------------------------------------'
 
+    #search for folder with no mp3 in them
+    #does not delete nested folders (artist(no mp3)/album(mp3)) etc
+    find -depth -type d | while read -r D
+        do
+        v=$(find "$D" -iname '*.mp3')
+            case "$v" in
+                ""  )
+                    echo "$D has no MP3, removing..."
+                    ## TODO: list all dir contens
+                    ## ask user if ok to delete.
+                    rm -rf "$D" #REMOVE COMMAND
+                    ;;
+            esac
+    done
+}
 
-
-#search for folder with no mp3 in them
-#does not delete nested folders (artist(no mp3)/album(mp3)) etc
-
-find -depth -type d | while read -r D
-    do
-    v=$(find "$D" -iname '*.mp3')
-        case "$v" in
-            ""  )
-                echo "$D has no MP3, removing..."
-                ##TODO: list all dir contens
-                ##	ask user if ok to delete.
-                rm -rf "$D" #REMOVE COMMAND
-                ;;
-        esac
-done
-
+remove_dirs;
 echo 'Done.'
