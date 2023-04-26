@@ -13,10 +13,11 @@ fi
 
 #enter music root dir
 if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+echo -e "${HEAD}Dir Cleaner${NC}"
 echo '----------------------------------------------------------'
 dir_check "$AUDIOROOT"
 cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
-echo -e "${WARN}Deleting folders with no MP3...${NC}"
+echo -e "${ERROR}Deleting folders with no MP3...${NC}"
 echo '----------------------------------------------------------'
 
 ##TODO: Warn user that this only reads mp3
