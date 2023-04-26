@@ -1,12 +1,20 @@
 #! /bin/bash
 
-##TODO: LOAD ENV
+##TODO: -log stuff
+
+## load enviroment variables
+if [ -f $HOME/bmm/.env ]; then
+    . $HOME/bmm/.env
+else
+    echo -e "FATAL ERROR: .env not found.$\n
+	Use bmm-setup_enviroment to create one.\nAborting...";
+    exit 1;
+fi
 
 #enter music root dir
-##TODO: set dynamic dir from env
-#cd $AUDIOROOT
-cd /mnt/vault/music/
-
+dir_check "$AUDIOROOT"
+cd "$AUDIOROOT" || exit 1;
+exit 0;
 ##TODO: Warn user that this only reads mp3
 ## and suggest converter mp3 full run before doing this.
 
