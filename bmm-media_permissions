@@ -17,6 +17,7 @@ fi
 ## DO STUFF ($1-path $2-user $3-group)
 fix_permissions () {
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval "$BANNER"; fi
+	echo -e "${HEAD}Media Permissions${NC}"
 	for _dir in $1
 	do
 		echo '----------------------------------------------------------'

@@ -20,6 +20,7 @@ fi
 execute_backup (){
 	clear && echo ''
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${HEAD}Media Backup${NC}"
 	echo '----------------------------------------------------------'
     echo -e "Backing up: ${OK}$3${NC}"
     #check for rsync

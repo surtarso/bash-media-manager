@@ -17,6 +17,7 @@ fi
 
 copy_media (){
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${HEAD}Media Share${NC}"
 	echo '----------------------------------------------------------'
 	dep_check rsync; ## TODO: check for rsync (dest should have rsync too... how to confirm?)
 	echo -e "${WARN}Now running: ${OK}rsync -avzP ${WARN}$source ${OK}$dest${NC}"
