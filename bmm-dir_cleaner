@@ -1,6 +1,13 @@
 #! /bin/bash
 
 ## TODO: -log stuff
+##       -add GUI/no-gui
+##       -list dir contents
+##       -confirm delete
+##       -add args for auto
+##       -add help
+##       -dynamic format to keep (currently only mp3)
+##       -run converter from here (currently only mp3)
 
 ## load enviroment variables
 if [ -f $HOME/bmm/.env ]; then
