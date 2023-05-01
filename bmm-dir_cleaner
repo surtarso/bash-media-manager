@@ -44,7 +44,7 @@ remove_dirs () {
         v=$(find "$D" -iname '*.mp3')
             case "$v" in
                 ""  )
-                    echo "->${WARN} $D ${ERROR}has no MP3, removing...${NC}"
+                    echo -e "->${WARN} $D ${ERROR}has no MP3, removing...${NC}"
                     ## TODO: list all dir contens
                     ## ask user if ok to delete.
                     rm -rf "$D" #REMOVE COMMAND
