@@ -40,7 +40,7 @@ This project comes with a set of useful tools to enhance your media management e
 - **Media Share** ([bmm-media_share](bmm-media_share)): Easily copy specific media to another device.
 - **Setup Environment** ([bmm-setup_enviroment](bmm-setup_enviroment)): Sets up media folders and owners. (Run this first)
 
-## Dependencies:
+## Dependencies
 Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
 conversions and 'rsync' for file procedures and cannot work without 
 those.
