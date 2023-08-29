@@ -7,26 +7,26 @@
       A companion 'Media Manager' in CLI inspired by the Dietpi Project.
 
 ## Short description
-      BMM is a collection of bash scripts designed to manage your 
-      media files effortlessly. It offers various tools to convert, 
-      backup, fix permissions, share, and set up the environment 
-      for your media server.
+BMM is a collection of bash scripts designed to manage your 
+media files effortlessly. It offers various tools to convert, 
+backup, fix permissions, share, and set up the environment 
+for your media server.
 
 ## What is this for?
-      Bash Media Manager is intended for ordinary people who
-      own a server and serves media files. It was built around
-      the Arr Family Suite (Lidarr, Sonarr etc) installed with
-      Dietpi. (Should work on other enviroments, untested.)
+Bash Media Manager is intended for ordinary people who
+own a server and serves media files. It was built around
+the Arr Family Suite (Lidarr, Sonarr etc) installed with
+Dietpi. (Should work on other enviroments, untested.)
 
-      A companion app that eases many of the tasks needed when
-      dealing with massive libraries intended for streaming and file 
-      permissions when dealing with multiple software.
-      It will convert files for optimal streaming format and
-      can also back them up.
+A companion app that eases many of the tasks needed when
+dealing with massive libraries intended for streaming and file 
+permissions when dealing with multiple software.
+It will convert files for optimal streaming format and
+can also back them up.
 
-      Included are tools for sharing media with friends without
-      having to deal with multiple names with spaces commands
-      and directory cleaner for use after massive library renaming.
+Included are tools for sharing media with friends without
+having to deal with multiple names with spaces commands
+and directory cleaner for use after massive library renaming.
 
 ## Included Tools:
 This project comes with a set of useful tools to enhance your media management experience:
@@ -41,20 +41,20 @@ This project comes with a set of useful tools to enhance your media management e
 - **Setup Environment** ([bmm-setup_enviroment](bmm-setup_enviroment)): Sets up media folders and owners. (Run this first)
 
 ## Dependencies:
-      Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
-      conversions and 'rsync' for file procedures and cannot work without 
-      those.
-      
-      Optional dependencies include 'dialog' for GUIs and 'toilet'
-      for CLI banners.
+Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
+conversions and 'rsync' for file procedures and cannot work without 
+those.
 
-      Dependencies will be checked and installed at will during
-      runtime or you can pre-install them.
-      
-      This software was built while also using the deb-multimedia source.
-      People have mixed feelings about it. I've been using it for over a
-      decade without problems and I can't forsee any errors using this
-      software without it. It should work normally tho, just saying.
+Optional dependencies include 'dialog' for GUIs and 'toilet'
+for CLI banners.
+
+Dependencies will be checked and installed at will during
+runtime or you can pre-install them.
+
+This software was built while also using the deb-multimedia source.
+People have mixed feelings about it. I've been using it for over a
+decade without problems and I can't forsee any errors using this
+software without it. It should work normally tho, just saying.
 
 ## Installation (quick setup just run 1 and 2):
 -1- Install deb-multimedia source packages (change dist_name for yours. ex bullseye):
@@ -76,16 +76,16 @@ This project comes with a set of useful tools to enhance your media management e
 - ./bmm-setup_enviroment --path
 
 ## Usage:
-      Folders MUST be set-up prior to using any script.
-      See 'bmm-setup_enviroment' or edit '~/bmm/.env'.
+Folders MUST be set-up prior to using any script.
+See 'bmm-setup_enviroment' or edit '~/bmm/.env'.
 
-      For GUI usage, just use the scripts without any arguements. 
-      You can use 'bmm-launcher' to navigate between the tools.
-      
-      If you dont want to see a GUI (dialog), use the scripts with --help
-      arguement and follow the help text.
+For GUI usage, just use the scripts without any arguements. 
+You can use 'bmm-launcher' to navigate between the tools.
 
-### Detailed view (--help):
+If you dont want to see a GUI (dialog), use the scripts with --help
+arguement and follow the help text.
+
+## Detailed view (--help):
 
 - **MP3 Converter**
   Converts multiple formats to MP3 for streaming.
