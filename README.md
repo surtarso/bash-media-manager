@@ -56,34 +56,66 @@ People have mixed feelings about it. I've been using it for over a
 decade without problems and I can't forsee any errors using this
 software without it. It should work normally tho, just saying.
 
-## Installation (quick setup just run 1 and 2):
--1- Install deb-multimedia source packages (change dist_name for yours. ex bullseye):
-- add 'deb https://www.deb-multimedia.org dist_name main non-free' to /etc/apt/source.list
-- apt-get update -oAcquire::AllowInsecureRepositories=true
-- apt-get install deb-multimedia-keyring
-- apt update && apt upgrade -y
+## Installation
 
-0- Pre-install dependencies (optional):
-- apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
+Follow these steps to quickly set up the application. Run steps 1 and 2 for a basic setup.
 
-1- Clone this folder into /home/user/bmm/: 
-- git clone https://github.com/surtarso/bash-media-manager.git ~/bmm
+**Step -1: Install deb-multimedia source packages**
 
-2- Run 'bmm-setup_enviroment' to generate an .env file from template.
-- cd ~/bmm && ./bmm-setup_enviroment
+Add the `deb-multimedia` source packages to your repository list (replace `dist_name` with your distribution name, e.g., bullseye):
 
-2a- Add B.M.M. to $PATH (optional):
-- ./bmm-setup_enviroment --path
+```bash
+echo 'deb https://www.deb-multimedia.org dist_name main non-free' | tee -a /etc/apt/sources.list
+apt-get update -oAcquire::AllowInsecureRepositories=true
+apt-get install deb-multimedia-keyring
+apt update && apt upgrade -y
+```
 
-## Usage:
-Folders MUST be set-up prior to using any script.
-See 'bmm-setup_enviroment' or edit '~/bmm/.env'.
+**Step 0: Pre-install Dependencies (Optional)**
 
-For GUI usage, just use the scripts without any arguements. 
-You can use 'bmm-launcher' to navigate between the tools.
+Install the following dependencies if needed:
 
-If you dont want to see a GUI (dialog), use the scripts with --help
-arguement and follow the help text.
+```bash
+apt install ffmpeg libmp3lame0 rsync handbrake-cli dialog toilet -y
+```
+
+**Step 1: Clone the Repository**
+
+Clone the repository into the `/home/user/bmm/` directory:
+
+```bash
+git clone https://github.com/surtarso/bash-media-manager.git ~/bmm
+```
+
+**Step 2: Generate .env File**
+
+Run the following command to generate an `.env` file from the template:
+
+```bash
+cd ~/bmm && ./bmm-setup_enviroment
+```
+
+**Step 2a: Add B.M.M. to $PATH (Optional)**
+
+To add B.M.M. to your `$PATH`, you can use the following command:
+
+```bash
+./bmm-setup_enviroment --path
+```
+
+With these steps completed, you should have the application set up and ready for use. Make sure to review and modify the `.env` file according to your preferences before using the application.
+
+## Usage
+
+Before using any script, ensure that the necessary folders are set up. You can refer to the `bmm-setup_enviroment` script or edit the `~/bmm/.env` file for configuration details.
+
+### GUI Usage
+
+For GUI-based usage, simply execute the scripts without any arguments. To navigate between different tools, you can use the `bmm-launcher` script.
+
+### Command-Line Usage
+
+If you prefer to use the command line and don't want to use the GUI (dialog), you can use the scripts with the `--help` argument. This will display the help text and guide you through the available options and usage instructions.
 
 ## Detailed view (--help):
 
