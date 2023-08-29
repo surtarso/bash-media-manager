@@ -6,7 +6,7 @@
             └─────────────────────────────────────────────────┘
       A companion 'Media Manager' in CLI inspired by the Dietpi Project.
 
-## AI description
+## Short description
       BMM is a collection of bash scripts designed to manage your 
       media files effortlessly. It offers various tools to convert, 
       backup, fix permissions, share, and set up the environment 
