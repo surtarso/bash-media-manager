@@ -28,7 +28,7 @@ Included are tools for sharing media with friends without
 having to deal with multiple names with spaces commands
 and directory cleaner for use after massive library renaming.
 
-## Included Tools:
+## Included Tools
 This project comes with a set of useful tools to enhance your media management experience:
 
 - **Launcher** ([bmm-launcher](bmm-launcher)): Dialog GUI for all scripts.
@@ -117,7 +117,7 @@ For GUI-based usage, simply execute the scripts without any arguments. To naviga
 
 If you prefer to use the command line and don't want to use the GUI (dialog), you can use the scripts with the `--help` argument. This will display the help text and guide you through the available options and usage instructions.
 
-## Detailed view (--help):
+## Detailed view (--help)
 
 - **MP3 Converter**
   Converts multiple formats to MP3 for streaming.
