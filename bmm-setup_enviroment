@@ -82,39 +82,10 @@ main_form () {
     . $ENV_FILE
 
     # Error handling: add '/' to start/end of lines as needed
-    for ((i=0; i<${#keys[@]}; i++))
-    do
-    dir="${keys[i]}"
-    # case "${!dir}" in
-    # /*/)
-    #     log_entry="${!dir} OK" #starts and ends with a slash
-    #     ;;
-    # */)
-    #     log_entry="${!dir} no slash at start. Adding..."
-    #     sed -i -e '/'"${keys[i]}"'=/ {
-    #         s|\(=\)"\([^/]\)|\1"/\2|
-    #     }' "$ENV_FILE"
-    #     . "$ENV_FILE" && log_entry="${!dir} OK"
-    #     ;;
-    # */*)
-    #     log_entry="${!dir} no slash at end. Adding..."
-    #     sed -i -e '/'"${keys[i]}"'=/ {
-    #         s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
-    #     }' "$ENV_FILE"
-    #     . "$ENV_FILE" && log_entry="${!dir} OK"
-    #     ;;
-    # *)
-    #     log_entry="${!dir} no end/start slashes. Adding..."
-    #     sed -i -e '/'"${keys[i]}"'=/ {
-    #         s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
-    #         s|\(=\)"/\([^/][^/]*\)/"|\1"\2/"|
-    #         s|\(=\)"/$|\1""|
-    #         s|\(=\)"/"|=|g
-    #     }' "$ENV_FILE"
-    #     . "$ENV_FILE" && log_entry="${!dir} OK"
-    #     ;;
-    # esac
+    for ((i=0; i<${#keys[@]}; i++)); do
     
+    dir="${keys[i]}"
+
     if [[ -z "${!dir}" ]]; then
         log_entry="${dir} is empty. Skipping..."
     else
@@ -138,7 +109,7 @@ main_form () {
         fi
     fi
 
-    if ((i == 11)); then break; fi # Limit loop to the first 12 elements
+    if ((i == 12)); then break; fi # Limit loop to the first 12 elements
         # Append the log entry with date and time to the log file
         formatted_date="$(date '+%Y-%m-%d %H:%M:%S')"
         echo "$formatted_date: $log_entry" >> "$LOG_FILE"
