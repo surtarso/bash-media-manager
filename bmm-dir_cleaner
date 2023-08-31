@@ -49,7 +49,7 @@ remove_dirs () {
 	            read -p "Do you want to delete the directory '$D'? (y/n): " choice < /dev/tty
 	            case "$choice" in
 	                [Yy]* )
-	                    rm -rf "$D" # Delete the directory
+	                    sudo rm -rf "$D" # Delete the directory
 	                    echo "Directory deleted."
 	                    ;;
 	                [Nn]* )
