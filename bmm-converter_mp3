@@ -161,6 +161,7 @@ execute_tasks (){
 		fi
 	done
 
+	# 'Done' message with process time logic
 	end_time=$(date +%s) # Capture the end time in seconds since epoch
 	time_taken=$((end_time - start_time)) # Calculate the time taken in seconds
 	
@@ -168,14 +169,19 @@ execute_tasks (){
 	minutes=$((time_taken / 60))
 	seconds=$((time_taken % 60))
 
+	message="Task complete in ${minutes}m ${seconds}s."
+	message_length=${#message}
+	height=$((message_length / 80 + 3)) # Assuming an average line length of 80 characters
+	width=$((message_length > 80 ? 80 : message_length + 10)) # Set width to at most 80 characters, adding a buffer of 10 characters
+
 	if [ "$1" == '--menu' ]; then
 		dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
-        --infobox "Task complete in ${minutes}m ${seconds}s." 3 19
+        --infobox "$message" $height $width
     	read
 		clear && eval bmm-launcher; exit 1;
 	else
-		echo -e "${OK}Done. Time taken: ${minutes}m ${seconds}s.${NC}"
+		echo -e "${OK}"$message"${NC}"
 	fi
 }
 
