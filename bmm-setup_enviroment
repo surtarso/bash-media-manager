@@ -89,14 +89,14 @@ main_form () {
             sed -i -e '/'"${keys[((i++))]}"'=/ {
                 s|^\(["]*\)|\1/|
             }' "$ENV_FILE"
-            echo "${!dir}
+            echo "${!dir} OK"
             ;;
         /*)
             echo "${!dir} no slash at end. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
                 s|\(["]*\)$|/\1|
             }' "$ENV_FILE"
-            echo "${!dir}
+            echo "${!dir} OK"
             ;;
         *)
             echo "${!dir} no end/start slashes. Adding..."
@@ -105,7 +105,7 @@ main_form () {
                 s|["]*$|/"|
                 t
             }' "$ENV_FILE"
-            echo "${!dir}
+            echo "${!dir} OK"
             ;;
         esac
     done
