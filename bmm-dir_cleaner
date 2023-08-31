@@ -46,7 +46,7 @@ remove_dirs () {
                 ""  )
                     echo -e "->${WARN} $D ${ERROR}has no MP3!${NC}"
 	            ls -A "$D" # List the directory contents
-	            read -p "Do you want to delete the directory '$D'? (y/n): " choice
+	            read -p "Do you want to delete the directory '$D'? (y/n): " choice < /dev/tty
 	            case "$choice" in
 	                [Yy]* )
 	                    rm -rf "$D" # Delete the directory
