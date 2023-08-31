@@ -109,11 +109,10 @@ main_form () {
         fi
     fi
 
-    if ((i == 12)); then break; fi # Limit loop to the first 12 elements
+    if ((i == 11)); then break; fi # Limit loop to the first 12 elements
         # Append the log entry with date and time to the log file
         formatted_date="$(date '+%Y-%m-%d %H:%M:%S')"
         echo "$formatted_date: $log_entry" >> "$LOG_FILE"
-        echo "$formatted_date: $log_entry"
     done
 
     dialog --colors --no-lines \
