@@ -9,6 +9,10 @@
 #TODO: add PATH automagically
 # echo 'export PATH="$HOME/smm:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
 
+# Create or truncate the log file
+LOG_FILE="setup_environment.log"
+> "$LOG_FILE"
+
 ENV_FILE="$HOME/bmm/.env"            #work env
 TEMPLATE="$HOME/bmm/.template_env"   #fixed template
 ## edit or create new env file
@@ -82,32 +86,37 @@ main_form () {
     do
         case "${!dir}" in
         /*/)
-            echo "${!dir} OK" #starts and ends with a slah
+            log_entry="${!dir} OK" #starts and ends with a slah
             ;;
         */)
-            echo "${!dir} no slash at start. Adding..."
+            log_entry="${!dir} no slash at start. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
                 s|^\(["]*\)|\1/|
             }' "$ENV_FILE"
-            . "$ENV_FILE" && echo "${!dir} OK"
+            . "$ENV_FILE" && log_entry="${!dir} OK"
             ;;
         /*)
-            echo "${!dir} no slash at end. Adding..."
+            log_entry="${!dir} no slash at end. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
                 s|\(["]*\)$|/\1|
             }' "$ENV_FILE"
-            . "$ENV_FILE" && echo "${!dir} OK"
+            . "$ENV_FILE" && log_entry="${!dir} OK"
             ;;
         *)
-            echo "${!dir} no end/start slashes. Adding..."
+            log_entry="${!dir} no end/start slashes. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
                 s|^["]*|"/|
                 s|["]*$|/"|
                 t
             }' "$ENV_FILE"
-            . "$ENV_FILE" && echo "${!dir} OK"
+            . "$ENV_FILE" && log_entry="${!dir} OK"
             ;;
         esac
+    
+        # Append the log entry with date and time to the log file
+        formatted_date="$(date '+%Y-%m-%d %H:%M:%S')"
+        echo "$formatted_date: $log_entry" >> "$LOG_FILE"
+        echo "$formatted_date: $log_entry"
     done
 
     dialog --colors --no-lines \
