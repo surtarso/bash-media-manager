@@ -258,14 +258,17 @@ main_menu () {
 	if [ "$BITRATE" == "" ]; then echo -e "bitrate cant be empty, aborting..."; sleep 2;
 	clear && eval bmm-launcher; exit 1; fi 
 
-	##TODO: add k if missing...
+	## Add k to bitrate if missing...
 	case "$BITRATE" in
-        *k)
-            echo "$BITRATE with 'k'"
-            ;;
+		*k)
+		    echo "$BITRATE with 'k'"
+	            ;;
 		*)
-            echo "$BITRATE without 'k'"
-            ;;
+	            echo "$BITRATE without 'k'"
+		    # Add 'k' to the end of BITRATE
+		    BITRATE="${BITRATE}k"
+		    echo "Adding 'k' to the bitrate: $BITRATE"
+	            ;;
 	esac
 
 	##----------------------- EXECUTE TASKS
