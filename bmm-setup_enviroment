@@ -85,35 +85,59 @@ main_form () {
     for ((i=0; i<${#keys[@]}; i++))
     do
     dir="${keys[i]}"
-    case "${!dir}" in
-    /*/)
-        log_entry="${!dir} OK" #starts and ends with a slash
-        ;;
-    */)
-        log_entry="${!dir} no slash at start. Adding..."
-        sed -i -e '/'"${keys[i]}"'=/ {
-            s|\(=\)"\([^/]\)|\1"/\2|
-        }' "$ENV_FILE"
-        . "$ENV_FILE" && log_entry="${!dir} OK"
-        ;;
-    */*)
-        log_entry="${!dir} no slash at end. Adding..."
-        sed -i -e '/'"${keys[i]}"'=/ {
-            s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
-        }' "$ENV_FILE"
-        . "$ENV_FILE" && log_entry="${!dir} OK"
-        ;;
-    *)
-        log_entry="${!dir} no end/start slashes. Adding..."
-        sed -i -e '/'"${keys[i]}"'=/ {
-            s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
-            s|\(=\)"/\([^/][^/]*\)/"|\1"\2/"|
-            s|\(=\)"/$|\1""|
-            s|\(=\)"/"|=|g
-        }' "$ENV_FILE"
-        . "$ENV_FILE" && log_entry="${!dir} OK"
-        ;;
-    esac
+    # case "${!dir}" in
+    # /*/)
+    #     log_entry="${!dir} OK" #starts and ends with a slash
+    #     ;;
+    # */)
+    #     log_entry="${!dir} no slash at start. Adding..."
+    #     sed -i -e '/'"${keys[i]}"'=/ {
+    #         s|\(=\)"\([^/]\)|\1"/\2|
+    #     }' "$ENV_FILE"
+    #     . "$ENV_FILE" && log_entry="${!dir} OK"
+    #     ;;
+    # */*)
+    #     log_entry="${!dir} no slash at end. Adding..."
+    #     sed -i -e '/'"${keys[i]}"'=/ {
+    #         s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
+    #     }' "$ENV_FILE"
+    #     . "$ENV_FILE" && log_entry="${!dir} OK"
+    #     ;;
+    # *)
+    #     log_entry="${!dir} no end/start slashes. Adding..."
+    #     sed -i -e '/'"${keys[i]}"'=/ {
+    #         s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
+    #         s|\(=\)"/\([^/][^/]*\)/"|\1"\2/"|
+    #         s|\(=\)"/$|\1""|
+    #         s|\(=\)"/"|=|g
+    #     }' "$ENV_FILE"
+    #     . "$ENV_FILE" && log_entry="${!dir} OK"
+    #     ;;
+    # esac
+    
+    if [[ -z "${!dir}" ]]; then
+        log_entry="${dir} is empty. Skipping..."
+    else
+        formatted_dir="${!dir}"
+        
+        if [[ $formatted_dir != /* ]]; then
+            formatted_dir="/$formatted_dir"
+        fi
+        
+        if [[ $formatted_dir != */ ]]; then
+            formatted_dir="${formatted_dir}/"
+        fi
+        
+        if [[ "${!dir}" != "${formatted_dir}" ]]; then
+            log_entry="${dir} was ${!dir}, corrected to ${formatted_dir}"
+            
+            sed -i -e 's|^'"${dir}"'="'"${!dir}"'|'"${dir}"'="'"${formatted_dir}"'|' "$ENV_FILE"
+            . "$ENV_FILE"
+        else
+            log_entry="${dir} is already formatted correctly"
+        fi
+    fi
+
     if ((i == 11)); then break; fi # Limit loop to the first 12 elements
         # Append the log entry with date and time to the log file
         formatted_date="$(date '+%Y-%m-%d %H:%M:%S')"
