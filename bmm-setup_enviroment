@@ -75,8 +75,8 @@ main_form () {
     i=0
     while read -r line; do
         # sed key-line
-        #sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
-        sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|="/'"${line}"'/"|' $ENV_FILE
+        sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
+        #sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|="/'"${line}"'/"|' $ENV_FILE
     done <<< "${filled_form}"
 
     #load newly entered form fields
@@ -92,22 +92,25 @@ main_form () {
         */)
             log_entry="${!dir} no slash at start. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
-                s|^\(["]*\)|\1/|
+                #s|^\(["]*\)|\1/|
+                s|\(["]*\)\([^/]\)|\1/\2|
             }' "$ENV_FILE"
             . "$ENV_FILE" && log_entry="${!dir} OK"
             ;;
         /*)
             log_entry="${!dir} no slash at end. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
-                s|\(["]*\)$|/\1|
+                #s|\(["]*\)$|/\1|
+                s|\(["]*\)\([^/]\)$|\1\2/|
             }' "$ENV_FILE"
             . "$ENV_FILE" && log_entry="${!dir} OK"
             ;;
         *)
             log_entry="${!dir} no end/start slashes. Adding..."
             sed -i -e '/'"${keys[((i++))]}"'=/ {
-                s|^["]*|"/|
-                s|["]*$|/"|
+                #s|^["]*|"/|
+                #s|["]*$|/"|
+                s|^["]*\(.*[^/]\)$|"/\1/"|
                 t
             }' "$ENV_FILE"
             . "$ENV_FILE" && log_entry="${!dir} OK"
