@@ -77,8 +77,7 @@ main_form () {
     #load newly entered form fields
     . $ENV_FILE
 
-    # add '/' to start/end of lines as needed
-    ## TODO: make it actually add missing slashes...
+    # Error handling: add '/' to start/end of lines as needed
     for dir in "${keys[@]:0:12}"
     do
         case "${!dir}" in
@@ -86,13 +85,27 @@ main_form () {
             echo "${!dir} OK" #starts and ends with a slah
             ;;
         */)
-            echo "${!dir} no slash at start."
+            echo "${!dir} no slash at start. Adding..."
+            sed -i -e '/'"${keys[((i++))]}"'=/ {
+                s|^\(["]*\)|\1/|
+            }' "$ENV_FILE"
+            echo "${!dir}
             ;;
         /*)
-            echo "${!dir} no slash at end."
+            echo "${!dir} no slash at end. Adding..."
+            sed -i -e '/'"${keys[((i++))]}"'=/ {
+                s|\(["]*\)$|/\1|
+            }' "$ENV_FILE"
+            echo "${!dir}
             ;;
         *)
-            echo "${!dir} no end/start slashes."
+            echo "${!dir} no end/start slashes. Adding..."
+            sed -i -e '/'"${keys[((i++))]}"'=/ {
+                s|^["]*|"/|
+                s|["]*$|/"|
+                t
+            }' "$ENV_FILE"
+            echo "${!dir}
             ;;
         esac
     done
