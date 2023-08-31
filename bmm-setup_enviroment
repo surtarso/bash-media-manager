@@ -76,47 +76,45 @@ main_form () {
     while read -r line; do
         # sed key-line
         sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
-        #sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|="/'"${line}"'/"|' $ENV_FILE
     done <<< "${filled_form}"
 
     #load newly entered form fields
     . $ENV_FILE
 
     # Error handling: add '/' to start/end of lines as needed
-    for dir in "${keys[@]:0:12}"
+    for ((i=0; i<${#keys[@]}; i++))
     do
-        case "${!dir}" in
-        /*/)
-            log_entry="${!dir} OK" #starts and ends with a slah
-            ;;
-        */)
-            log_entry="${!dir} no slash at start. Adding..."
-            sed -i -e '/'"${keys[((i++))]}"'=/ {
-                #s|^\(["]*\)|\1/|
-                s|\(["]*\)\([^/]\)|\1/\2|
-            }' "$ENV_FILE"
-            . "$ENV_FILE" && log_entry="${!dir} OK"
-            ;;
-        /*)
-            log_entry="${!dir} no slash at end. Adding..."
-            sed -i -e '/'"${keys[((i++))]}"'=/ {
-                #s|\(["]*\)$|/\1|
-                s|\(["]*\)\([^/]\)$|\1\2/|
-            }' "$ENV_FILE"
-            . "$ENV_FILE" && log_entry="${!dir} OK"
-            ;;
-        *)
-            log_entry="${!dir} no end/start slashes. Adding..."
-            sed -i -e '/'"${keys[((i++))]}"'=/ {
-                #s|^["]*|"/|
-                #s|["]*$|/"|
-                s|^["]*\(.*[^/]\)$|"/\1/"|
-                t
-            }' "$ENV_FILE"
-            . "$ENV_FILE" && log_entry="${!dir} OK"
-            ;;
-        esac
-    
+    dir="${keys[i]}"
+    case "${!dir}" in
+    /*/)
+        log_entry="${!dir} OK" #starts and ends with a slash
+        ;;
+    */)
+        log_entry="${!dir} no slash at start. Adding..."
+        sed -i -e '/'"${keys[i]}"'=/ {
+            s|\(=\)"\([^/]\)|\1"/\2|
+        }' "$ENV_FILE"
+        . "$ENV_FILE" && log_entry="${!dir} OK"
+        ;;
+    */*)
+        log_entry="${!dir} no slash at end. Adding..."
+        sed -i -e '/'"${keys[i]}"'=/ {
+            s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
+        }' "$ENV_FILE"
+        . "$ENV_FILE" && log_entry="${!dir} OK"
+        ;;
+    *)
+        log_entry="${!dir} no end/start slashes. Adding..."
+        sed -i -e '/'"${keys[i]}"'=/ {
+            s|\(=\)"\([^/][^/]*\)$|\1"/\2/"|
+            s|\(=\)"/\([^/][^/]*\)/"|\1"\2/"|
+            s|\(=\)"/$|\1""|
+            s|\(=\)"/"|=|g
+        }' "$ENV_FILE"
+        . "$ENV_FILE" && log_entry="${!dir} OK"
+        ;;
+    esac
+    if ((i == 11)); then break; fi # Limit loop to the first 12 elements
         # Append the log entry with date and time to the log file
         formatted_date="$(date '+%Y-%m-%d %H:%M:%S')"
         echo "$formatted_date: $log_entry" >> "$LOG_FILE"
