@@ -75,7 +75,8 @@ main_form () {
     i=0
     while read -r line; do
         # sed key-line
-        sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
+        #sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|='"\"${line}\""'|' $ENV_FILE
+        sed -i -e '/'"${keys[((i++))]}"'=/ s|=.*|="/'"${line}"'/"|' $ENV_FILE
     done <<< "${filled_form}"
 
     #load newly entered form fields
