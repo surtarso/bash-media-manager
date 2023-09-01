@@ -18,30 +18,35 @@ fi
 
 #backup task ($1-source $2-dest $3-echo name)
 execute_backup (){
+	local source_dir="$1"
+    local dest_dir="$2"
+    local backup_name="$3"
+	
+	# Clear screen and show banner
 	clear && echo ''
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
 	echo -e "${HEAD}Media Backup${NC}"
 	echo '----------------------------------------------------------'
-    echo -e "Backing up: ${OK}$3${NC}"
+    echo -e "Backing up: ${OK}$backup_name${NC}"
     #check for rsync
     dep_check rsync;
     #check if folders exist
-	dir_check "$1";
-	dir_check "$2";
+	dir_check "$source_dir";
+	dir_check "$dest_dir";
 	echo '----------------------------------------------------------'
-	#reaction time
-	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$1"* ${WARN}"$2" ${ERROR}--delete${NC}\n"
+	# User reaction timer
+	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$source_dir"* ${WARN}"$dest_dir" ${ERROR}--delete${NC}\n"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
-    #start backup sync
+    # Start backup sync
 	if [ "$4" == '--menu' ]; then
-    	rsync -avzP "$1"* "$2" --delete | dialog --colors --no-lines --backtitle "\Z7Bash Media Manager" --progressbox 42 76;
+    	rsync -avzP "$source_dir"* "$dest_dir" --delete | dialog --colors --no-lines --backtitle "\Z7Bash Media Manager" --progressbox 42 76;
 		dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
         --infobox "Task complete." 3 19
     	read
     else
-		rsync -avzP "$1"* "$2" --delete
+		rsync -avzP "$source_dir"* "$dest_dir" --delete
 		echo -e "\nBackup complete."
 	fi
 }
