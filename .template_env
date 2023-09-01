@@ -53,7 +53,7 @@ BANNER=$(echo -e "toilet -t -F border -F metal -f smblock Bash Media Manager")
 dep_check() {
     local package_name="$1"
 
-    if dpkg -l | grep -q -E "^ii[[:space:]]+$package_name[[:space:]]"; then
+    if dpkg -l | grep -q -E "^ii[[:space:]]+$package_name"; then
         echo -e "$package_name: ${OK}Found${NC}"
     else
         echo -e "${ERROR}$package_name not found!${NC} Install package(s)? (Y/n) \c"

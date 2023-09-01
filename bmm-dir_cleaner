@@ -22,16 +22,44 @@ LOG_FILE="dir_cleaner.log"
 
 # Warn the user about the script's actions.
 warn_user() {
-    echo -e "                                               
-    ${ERROR}Bash Media Manager - Empty Dir Cleaner${NC}
-    
-    ${WARN}This script will ${ERROR}DELETE${WARN} folders without ${ERROR}.mp3${WARN} files inside them.
-    It assumes ${OK}Artist(metadata)/Album(mp3+metadata)${WARN} hierarchy.
-    ${ERROR}Make sure all your audio is converted to ${ERROR}MP3${WARN} before continuing.
-    
-    Press ${OK}ENTER${WARN} to start or ${ERROR}CONTROL + C${WARN} to abort.
-    "
-    read
+    while true; do
+        echo -e "
+        ${ERROR}Bash Media Manager - Empty Dir Cleaner${NC}
+
+        ${WARN}This script will ${ERROR}DELETE${WARN} folders without ${ERROR}.mp3${WARN} files inside them.
+        It assumes ${OK}Artist(metadata)/Album(mp3+metadata)${WARN} hierarchy.
+        ${ERROR}Make sure all your audio is converted to ${ERROR}MP3${WARN} before continuing.
+
+        Please select an option:
+        1. Start the cleaning process
+        2. Run 'bmm-converter_mp3' to convert audio to MP3 and continue
+        3. Abort the script
+
+        Enter the number of your choice: "
+        read choice
+
+        case "$choice" in
+            1)
+                echo "Starting the cleaning process..."
+                remove_dirs
+                break
+                ;;
+            2)
+                echo "Running 'bmm-converter_mp3'..."
+                eval bmm-converter_mp3 -a
+                echo "Starting the cleaning process..."
+                remove_dirs
+                break
+                ;;
+            3)
+                echo "Aborting the script."
+                exit 1
+                ;;
+            *)
+                echo "Invalid option. Please select a valid option."
+                ;;
+        esac
+    done
 }
 
 remove_dirs () {
@@ -44,6 +72,9 @@ remove_dirs () {
     cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
     echo -e "${ERROR}Deleting folders with no MP3...${NC}"
     echo '----------------------------------------------------------'
+    
+    # Capture start time
+    start_time=$(date +%s)
 
     # Search for folder with no mp3 in them
     # Does not delete nested folders (artist(no mp3)/album(mp3)) etc
@@ -74,12 +105,17 @@ remove_dirs () {
 	            ;;
             esac
     done
+    # Capture end time
+    end_time=$(date +%s)
+
+    # Calculate elapsed time
+    elapsed_time=$((end_time - start_time))
 
     if [ "$deleted" = false ]; then
         echo -e "${OK}No directories were deleted.${NC}"
     fi
+
+    echo -e "${OK}Done.${NC} Execution time: ${elapsed_time} seconds"
 }
 
 warn_user;
-remove_dirs;
-echo -e "${OK}Done.${NC}"
