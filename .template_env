@@ -67,16 +67,24 @@ dep_check () {
     fi
 }
 
-## creates dir if it does not exist
-dir_check () {
-    if [[ -d "$1" ]]; then
-        echo -e "${WARN}$1: ${OK}Found${NC}" && return 0;
+# Check if a directory exists, and optionally create it after user confirmation.
+# Usage: dir_check <directory_path>
+dir_check() {
+    local dir_path="$1"
+
+    if [[ -d "$dir_path" ]]; then
+        echo -e "${WARN}$dir_path: ${OK}Found${NC}" && return 0
     else
-        echo -e "${WARN}$1: ${ERROR}NOT FOUND${NC}"
-        ## TODO: confirm creation of dir (dont auto create, messy)
-        mkdir -p "$1" && echo -e "${WARN}$1: ${OK}NOW CREATED${NC}" || {
-            echo -e "${ERROR}Could not create ${WARN}$1${NC}, please check permissions or create them manually.";
-            exit 1;
+        echo -e "${WARN}$dir_path: ${ERROR}NOT FOUND${NC}"
+        read -p "Do you want to create $dir_path? (y/n): " create_dir
+        if [[ "$create_dir" =~ ^[Yy]$ ]]; then
+            mkdir -p "$dir_path" && echo -e "${WARN}$dir_path: ${OK}NOW CREATED${NC}" || {
+                echo -e "${ERROR}Could not create ${WARN}$dir_path${NC}, please check permissions or create them manually."
+                return 1
             }
+        else
+            echo "Operation canceled."
+            return 2
+        fi
     fi
 }
