@@ -87,7 +87,7 @@ These commands will provide you with a helpful overview of each script's functio
 
 Certainly! Here's a conclusion based on the "How to Use" section:
 
-### Conclusion
+### Summary
 
 The Bash Media Manager (BMM) is a powerful tool designed to simplify and enhance your media management tasks on Linux-based systems. With its user-friendly scripts and automation capabilities, BMM streamlines the process of organizing, sharing, and safeguarding your valuable media content.
 
