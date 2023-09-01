@@ -145,7 +145,7 @@ execute_tasks (){
 	
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}'k "${0/.'${format}'}.mp3"' {} \;
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
 		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
 		## originals removal
@@ -256,16 +256,16 @@ main_menu () {
 		--title "Converter MP3" \
 		--menu 'Choose MP3 bitrate:' \
 		0 0 0 \
-		'80' 'Poor Quality Lossy' \
-		'192' 'Low Quality Lossy (recommended)' \
-		'256' 'Mid Quality Lossy' \
-		'320' 'High Quality Lossy' \
+		'80k' 'Poor Quality Lossy' \
+		'192k' 'Low Quality Lossy (recommended)' \
+		'256k' 'Mid Quality Lossy' \
+		'320k' 'High Quality Lossy' \
 		Custom '8k -> 320k')
 	if [ "$BITRATE" == 'Custom' ]; then
 		BITRATE=$(dialog --no-lines --colors \
 		--backtitle "\Z7Bash Media Manager" \
 		--title "Converter MP3" \
-        --inputbox "Enter desired bitrate:\n (ex.: 196)" 10 40 \
+        --inputbox "Enter desired bitrate:\n (ex.: 196k)" 10 40 \
 		3>&1 1>&2 2>&3 3>&-)
 		clear
 	fi
