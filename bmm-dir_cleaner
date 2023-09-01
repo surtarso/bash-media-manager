@@ -2,10 +2,7 @@
 
 ## TODO:
 ##       -add GUI/no-gui
-##       -add args for auto
-##       -add help
 ##       -dynamic format to keep (currently only mp3)
-##       -run converter from here (currently only mp3)
 
 ## Load enviroment variables
 if [ -f $HOME/bmm/.env ]; then
@@ -21,23 +18,25 @@ LOG_FILE="dir_cleaner.log"
 > "$LOG_FILE"
 
 # Warn the user about the script's actions.
-warn_user() {
+cli_menu() {
     while true; do
+
         echo -e "
         ${ERROR}Bash Media Manager - Empty Dir Cleaner${NC}
 
         ${WARN}This script will ${ERROR}DELETE${WARN} folders without ${ERROR}.mp3${WARN} files inside them.
         It assumes ${OK}Artist(metadata)/Album(mp3+metadata)${WARN} hierarchy.
         ${ERROR}Make sure all your audio is converted to ${ERROR}MP3${WARN} before continuing.
+        
 
-        Please select an option:
+        ${OK}Please select an option:${NC}
         1. Start the cleaning process
         2. Run 'bmm-converter_mp3' to convert audio to MP3 and continue
-        3. Abort the script
+        3. Abort the script"
 
-        Enter the number of your choice: "
-        read choice
-
+        echo -n -e "${OK}        Enter the number of your choice: ${NC} "
+        
+        read -r choice
         case "$choice" in
             1)
                 echo "Starting the cleaning process..."
@@ -52,7 +51,7 @@ warn_user() {
                 break
                 ;;
             3)
-                echo "Aborting the script."
+                echo "Aborted."
                 exit 1
                 ;;
             *)
@@ -72,13 +71,13 @@ remove_dirs () {
     cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
     echo -e "${ERROR}Deleting folders with no MP3...${NC}"
     echo '----------------------------------------------------------'
-    
+
     # Capture start time
     start_time=$(date +%s)
 
     # Search for folder with no mp3 in them
     # Does not delete nested folders (artist(no mp3)/album(mp3)) etc
-    deleted=false # Flag to indicate deletion
+    local deleted=false # Flag to indicate deletion
     find -depth -type d | while read -r D
         do
         v=$(find "$D" -iname '*.mp3')
@@ -118,4 +117,21 @@ remove_dirs () {
     echo -e "${OK}Done.${NC} Execution time: ${elapsed_time} seconds"
 }
 
-warn_user;
+# START ARGS
+if [ "$1" = '--convert' ] || [ "$1" = '-c' ]; then
+    echo '2' | cli_menu;
+elif [ "$1" = '--auto' ] || [ "$1" = '-a' ]; then
+    echo '1' | cli_menu;
+elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
+    if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+	echo -e "${HEAD}Dir Cleaner"
+	echo -e "${OK}Removes directories with no MP3's in them.\n${NC}"
+	echo -e "Use with no arguements to enter the menu."
+	echo -e "Usage: bmm-dir_cleaner [-arg] [--arg]\n"
+	echo -e " -c [--convert]	-> Converts audio do mp3 before cleaning."
+	echo -e " -a [--auto] 	-> Just clean."
+	echo -e " -h [--help] 	-> This message screen."
+	exit 1
+else
+    cli_menu;
+fi
