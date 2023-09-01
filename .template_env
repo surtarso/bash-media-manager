@@ -47,6 +47,7 @@ NC='\033[0m'        #no color
 BANNER=$(echo -e "toilet -t -F border -F metal -f smblock Bash Media Manager")
 
 ## ------------------------- FUNCTIONS
+
 # Check if a package is installed and offer to install it if not.
 # Usage: dep_check <package_name>
 dep_check() {

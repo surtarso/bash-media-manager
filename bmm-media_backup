@@ -14,7 +14,7 @@ else
     exit 1;
 fi
 
-#todo:  log stuff
+#TODO:  log stuff
 
 #backup task ($1-source $2-dest $3-echo name)
 execute_backup (){
@@ -129,44 +129,51 @@ main_menu () {
 }
 
 ## check command arguements
-if [ "$1" = '-s' ] || [ "$1" = '--series' ]; then
-    echo '1' | nogui_menu;
-
-elif [ "$1" = '-m' ] || [ "$1" = '--movies' ]; then
-    echo '2' | nogui_menu;
-
-elif [ "$1" = '-c' ] || [ "$1" = '--concerts' ]; then
-    echo '3' | nogui_menu;
-
-elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]; then
-    echo '4' | nogui_menu;
-
-elif [ "$1" = '-u' ] || [ "$1" = '--stand-up' ]; then
-    echo '5' | nogui_menu;
-
-elif [ "$1" = '-f' ] || [ "$1" = '--full' ]; then
-    echo '6' | nogui_menu;
-
-elif [ "$1" = '-n' ] || [ "$1" = '--no-gui' ]; then
-	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-    echo -e "${OK}Media Backup${NC}"
-    echo -e "${WARN}Entering no-GUI interactive-mode${NC}"
-    nogui_menu;
-
-elif [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+print_help() {
+    if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${HEAD}Media Backup"
     echo -e "${OK}Backup manager for server media.\n${NC}"
-	echo -e "Use with no arguements to enter the GUI."
+    echo -e "Use with no arguments to enter the GUI."
     echo -e "Usage: bmm-media_backup [-arg] [--arg]\n"
     echo -e " -s [--series]    -> Backup series library."
     echo -e " -m [--movies]    -> Backup movies library."
     echo -e " -c [--concerts]  -> Backup concerts library."
     echo -e " -a [--audio]     -> Backup audio library."
-	echo -e " -u [--stand-up]  -> Backup stand-up library"
+    echo -e " -u [--stand-up]  -> Backup stand-up library"
     echo -e " -f [--full]      -> Backup all libraries."
-    echo -e " -n [--no-gui]    -> Interactive-mode without a GUI.\n"
+    echo -e " -n [--no-gui]    -> Interactive mode without a GUI.\n"
     echo -e " -h [--help]      -> Shows this screen."
-else    
-    main_menu;
-fi
+}
+
+case "$1" in
+    '-s' | '--series')
+        echo '1' | nogui_menu
+        ;;
+    '-m' | '--movies')
+        echo '2' | nogui_menu
+        ;;
+    '-c' | '--concerts')
+        echo '3' | nogui_menu
+        ;;
+    '-a' | '--audio')
+        echo '4' | nogui_menu
+        ;;
+    '-u' | '--stand-up')
+        echo '5' | nogui_menu
+        ;;
+    '-f' | '--full')
+        echo '6' | nogui_menu
+        ;;
+    '-n' | '--no-gui')
+        if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+        echo -e "${OK}Media Backup${NC}"
+        echo -e "${WARN}Entering no-GUI interactive mode${NC}"
+        nogui_menu
+        ;;
+    '-h' | '--help')
+        print_help
+        ;;
+    *)
+        main_menu
+        ;;
+esac
