@@ -77,7 +77,7 @@ remove_dirs () {
 
     # Search for folder with no mp3 in them
     # Does not delete nested folders (artist(no mp3)/album(mp3)) etc
-    local deleted=false # Flag to indicate deletion
+    deleted=false # Flag to indicate deletion
     find -depth -type d | while read -r D
         do
         v=$(find "$D" -iname '*.mp3')
@@ -110,7 +110,7 @@ remove_dirs () {
     # Calculate elapsed time
     elapsed_time=$((end_time - start_time))
 
-    if [ "$deleted" = false ]; then
+    if [ $deleted = false ]; then
         echo -e "${OK}No directories were deleted.${NC}"
     fi
 
