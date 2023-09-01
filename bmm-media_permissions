@@ -102,12 +102,32 @@ main_menu () {
 		esac
 	done
 	## return on done or no entry
-	## TODO: check exit status for proper exits!
 	dialog --colors --no-lines \
         --backtitle "\Z7Bash Media Manager" \
-        --infobox "Task complete." 3 19
-    read
-	clear && eval bmm-launcher; exit 0;
+        --infobox "Task complete. Press Enter to continue or Esc to exit." 3 50
+
+	# Capture the exit status of the previous command
+	status=$?
+
+	# Check the exit status and act accordingly
+	if [ $status -eq 0 ]; then
+		# User pressed Enter to continue
+		read -n 1 -s key
+		if [ "$key" = $'\x1b' ]; then
+			# User pressed Esc, so exit
+			clear
+			exit 0
+		else
+			# User pressed Enter, continue with bmm-launcher
+			clear
+			eval bmm-launcher
+			exit 0
+		fi
+	else
+		# Handle the case where dialog or another command failed
+		echo "Error: Task could not be completed."
+		exit 1
+	fi
 }
 
 ## STATUP OPTIONS
