@@ -12,6 +12,8 @@ media files effortlessly. It offers various tools to convert,
 backup, fix permissions, share, and set up the environment 
 for your media server.
 
+Full documentation can be found [here](documentation.md)
+
 ## What is this for?
 Bash Media Manager is intended for ordinary people who
 own a server and serves media files. It was built around
@@ -195,3 +197,5 @@ If you prefer to use the command line and don't want to use the GUI (dialog), yo
     - `-c [--convert]`: Converts audio do mp3 before cleaning.
     - `-a [--auto]`: Just clean.
     - `-h [--help]`: This message screen.
+
+[Read the full documentation](documentation.md)
