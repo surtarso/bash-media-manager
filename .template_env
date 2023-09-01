@@ -47,23 +47,29 @@ NC='\033[0m'        #no color
 BANNER=$(echo -e "toilet -t -F border -F metal -f smblock Bash Media Manager")
 
 ## ------------------------- FUNCTIONS
-## dependencies (usage-> dep_check packagename)
-dep_check () {
-    if [ "$(dpkg -l | grep -ci -m1 $1)" -eq 0 ]; then
-        echo -e "${ERROR}$1 not found!${NC} Install package(s)? (Y/n) \c"
-        read -r yesno < /dev/tty
-            if [ "$yesno" = "n" ] || [ "$yesno" = "N" ]; then
-                echo -e "${WARN}Cannot continue without $1 package!"
-                echo -e "Manually install with sudo apt install $1"
-                echo -e "Aborting...${NC}"
-                exit 1
-            else
-                #todo: add check for sudo privileges
-                sudo apt update
-                sudo apt install $1 -y
-            fi
+# Check if a package is installed and offer to install it if not.
+# Usage: dep_check <package_name>
+dep_check() {
+    local package_name="$1"
+
+    if dpkg -l | grep -q -E "^ii[[:space:]]+$package_name[[:space:]]"; then
+        echo -e "$package_name: ${OK}Found${NC}"
     else
-        echo -e "$1: ${OK}Found${NC}"
+        echo -e "${ERROR}$package_name not found!${NC} Install package(s)? (Y/n) \c"
+        read -r yesno < /dev/tty
+        if [[ "$yesno" =~ ^[Yy]$ ]]; then
+            if [ "$(id -u)" -ne 0 ]; then
+                echo -e "${ERROR}You need sudo privileges to install packages.${NC}"
+                return 1
+            fi
+            sudo apt-get update
+            sudo apt-get install "$package_name" -y
+        else
+            echo -e "${WARN}Cannot continue without $package_name package!"
+            echo -e "Manually install with 'sudo apt-get install $package_name'"
+            echo -e "Aborting...${NC}"
+            return 1
+        fi
     fi
 }
 
