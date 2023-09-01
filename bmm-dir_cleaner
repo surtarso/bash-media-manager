@@ -2,8 +2,6 @@
 
 ## TODO: -log stuff
 ##       -add GUI/no-gui
-##       -list dir contents
-##       -confirm delete
 ##       -add args for auto
 ##       -add help
 ##       -dynamic format to keep (currently only mp3)
@@ -17,6 +15,10 @@ else
 	Use bmm-setup_enviroment to create one.\nAborting...";
     exit 1;
 fi
+
+# Create or truncate the log file
+LOG_FILE="dir_cleaner.log"
+> "$LOG_FILE"
 
 # Warn the user about the script's actions.
 warn_user() {
@@ -44,6 +46,7 @@ remove_dirs () {
 
     #search for folder with no mp3 in them
     #does not delete nested folders (artist(no mp3)/album(mp3)) etc
+    deleted=false # flag to indicate deletion
     find -depth -type d | while read -r D
         do
         v=$(find "$D" -iname '*.mp3')
@@ -56,6 +59,9 @@ remove_dirs () {
 	                [Yy]* )
 	                    sudo rm -rf "$D" # Delete the directory
 	                    echo "Directory deleted."
+                        # Append the deleted directory and its contents to the log file
+                        echo "Deleted: $D" >> "$LOG_FILE"
+                        deleted=true  # Set the flag to indicate a deletion
 	                    ;;
 	                [Nn]* )
 	                    echo "Directory not deleted."
@@ -67,6 +73,10 @@ remove_dirs () {
 	            ;;
             esac
     done
+
+    if [ "$deleted" = false ]; then
+        echo -e "${OK}No directories were deleted.${NC}"
+    fi
 }
 
 warn_user;
