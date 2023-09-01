@@ -10,13 +10,13 @@ In the dynamic world of digital media, efficient management, and seamless sharin
 
 - [How to Use BMM](#how-to-use-the-bash-media-manager)
   - [Launcher (bmm-launcher)](#launcher-bmm-launcher)
-  - [MP3 Converter (bmm-converter_mp3)](#mp3-converter-bmm-converter_mp3)
-  - [MP4 Converter (bmm-converter_mp4)](#mp4-converter-bmm-converter_mp4)
-  - [Dir Cleaner (bmm-dir_cleaner)](#dir-cleaner-bmm-dir_cleaner)
-  - [Media Backup (bmm-media_backup)](#media-backup-bmm-media_backup)
-  - [Media Permissions (bmm-media_permissions)](#media-permissions-bmm-media_permissions)
-  - [Media Share (bmm-media_share)](#media-share-bmm-media_share)
-  - [Setup Environment (bmm-setup_enviroment)](#setup-environment-bmm-setup_enviroment)
+  - [MP3 Converter (bmm-converter_mp3)](#mp3-converter-script-bmm-converter_mp3)
+  - [MP4 Converter (bmm-converter_mp4)](#mp4-converter-script-bmm-converter_mp4)
+  - [Dir Cleaner (bmm-dir_cleaner)](#dir-cleaner-script-bmm-dir_cleaner)
+  - [Media Backup (bmm-media_backup)](#media-backup-script-bmm-media_backup)
+  - [Media Permissions (bmm-media_permissions)](#media-permissions-script-bmm-media_permissions)
+  - [Media Share (bmm-media_share)](#media-share-script-bmm-media_share)
+  - [Setup Environment (bmm-setup_enviroment)](#setup-environment-script-bmm-setup_enviroment)
   - [Environment File Template Explanation](#environment-file-template-explanation)
 - [Conclusion](#conclusion)
 
@@ -206,7 +206,7 @@ fi
 
 [Back to top](#table-of-contents)
 
-# MP3 Converter (bmm-converter_mp3)
+# MP3 Converter Script (bmm-converter_mp3)
 
 The **MP3 Converter** script is part of the Bash Media Manager (BMM) project and is designed to convert various audio file formats to MP3. This script provides flexibility in choosing the input formats, MP3 quality, and whether or not to remove the original files after conversion.
 
@@ -343,7 +343,7 @@ Please note that this script is part of the Bash Media Manager project and can b
 
 [Back to top](#table-of-contents)
 
-# MP4 Converter (bmm-converter_mp4)
+# MP4 Converter Script (bmm-converter_mp4)
 
 The **MP4 Converter** script is part of the Bash Media Manager (BMM) project and is designed to convert video files to the H.264 AAC-2.0 Web-Optimized .mp4 format for streaming. This script provides options for converting video files using either FFmpeg or Handbrake, and it can list optimal Handbrake presets for streaming.
 
@@ -435,7 +435,7 @@ Please note that this script provides functionality for converting video files t
 
 [Back to top](#table-of-contents)
 
-# Dir Cleaner (bmm-dir_cleaner)
+# Dir Cleaner Script (bmm-dir_cleaner)
 
 The **Dir Cleaner** script is a part of the Bash Media Manager (BMM) project and is designed to clean directories that do not contain any .mp3 files. It assumes a directory hierarchy that represents artists and their albums.
 
