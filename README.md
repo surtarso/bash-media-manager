@@ -186,3 +186,12 @@ If you prefer to use the command line and don't want to use the GUI (dialog), yo
     - `-p [--path]`: Adds software root to PATH.
     - `-t [--template]`: Creates a new env file from the template.
     - `-h [--help]`: Shows this screen.
+
+- **Dir Cleaner**
+  Removes directories with no MP3's in them.
+  - Use with no arguements to enter the menu.
+  - Usage: `bmm-dir_cleaner [-arg] [--arg]`
+  - Options:
+    - `-c [--convert]`: Converts audio do mp3 before cleaning.
+    - `-a [--auto]`: Just clean.
+    - `-h [--help]`: This message screen.
