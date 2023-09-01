@@ -61,6 +61,7 @@ dep_check() {
         if [[ "$yesno" =~ ^[Yy]$ ]]; then
             if [ "$(id -u)" -ne 0 ]; then
                 echo -e "${ERROR}You need sudo privileges to install packages.${NC}"
+                echo -e "Manually install with 'sudo apt-get install $package_name'"
                 return 1
             fi
             sudo apt-get update
