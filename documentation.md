@@ -8,7 +8,7 @@ In the dynamic world of digital media, efficient management, and seamless sharin
 
 ## Table of Contents
 
-- [How to Use BMM](##how-to-use-the-bash-media-manager)
+- [How to Use BMM](#how-to-use-the-bash-media-manager)
   - [Launcher (bmm-launcher)](#launcher-bmm-launcher)
   - [MP3 Converter (bmm-converter_mp3)](#mp3-converter-bmm-converter_mp3)
   - [MP4 Converter (bmm-converter_mp4)](#mp4-converter-bmm-converter_mp4)
@@ -20,7 +20,7 @@ In the dynamic world of digital media, efficient management, and seamless sharin
   - [Environment File Template Explanation](#environment-file-template-explanation)
 - [Conclusion](#conclusion)
 
-## How to Use the Bash Media Manager
+# How to Use the Bash Media Manager
 
 The Bash Media Manager (BMM) offers a range of functionalities to streamline your media management tasks on Linux-based systems. Whether you want to organize, backup, or share your media content, BMM has got you covered. In this section, we'll walk you through the key steps to effectively use BMM.
 
