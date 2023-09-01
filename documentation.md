@@ -204,7 +204,7 @@ fi
 - **Error Handling**: The script handles errors gracefully and provides feedback to the user.
 - **Environment Setup**: It checks for the existence of an environment file and initiates setup if missing, ensuring a smooth user experience.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # MP3 Converter (bmm-converter_mp3)
 
@@ -341,7 +341,7 @@ The script allows for multiple ways of execution, including auto-mode, no-GUI mo
 
 Please note that this script is part of the Bash Media Manager project and can be executed in various modes, depending on user preferences and requirements.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # MP4 Converter (bmm-converter_mp4)
 
@@ -433,7 +433,7 @@ elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 
 Please note that this script provides functionality for converting video files to the specified format, but the actual conversion logic may require further implementation for FFmpeg-based conversion, as mentioned in the script.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Dir Cleaner (bmm-dir_cleaner)
 
@@ -519,7 +519,7 @@ elif [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 
 This script provides a convenient way to clean directories that do not contain .mp3 files and can also initiate audio conversion using the `bmm-converter_mp3` script if needed.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Media Backup Script (bmm-media_backup)
 
@@ -639,7 +639,7 @@ print_help() {
 
 This script provides a convenient way to back up media files from specified source directories to destination directories using `rsync`. Users can select individual media categories or back up all of them.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Media Permissions Script (bmm-media_permissions)
 
@@ -771,7 +771,7 @@ print_help() {
 
 This script provides a convenient way to fix or modify permissions of media files and folders for compatibility with ARR software or custom user-defined settings. Users can select specific media categories for permission fixes or enter custom paths and ownership information.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Media Share Script (bmm-media_share)
 
@@ -903,7 +903,7 @@ print_help() {
 
 This script provides a user-friendly way to select and share specific media folders with other devices or backup locations. Users can choose media categories and individual folders for sharing, making it a convenient tool for managing media libraries.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Setup Environment Script (bmm-setup_environment)
 
@@ -1015,7 +1015,7 @@ print_help() {
 
 This script simplifies the process of setting up and configuring the environment for the BMM project by allowing users to define important paths and ownership details through a graphical interface. Additionally, it provides command-line options for specific tasks like adding the software root to the `PATH` and checking for the existence of media folders.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Environment File Template Explanation
 
@@ -1251,10 +1251,10 @@ These two functions, `dep_check` and `dir_check`, are used within the environmen
 
 The environment file template serves as a crucial configuration guide for the Bash Media Manager project. It allows users to define essential paths and ownership details required for media management scripts to work correctly. This template should be customized to match the actual file system structure and ownership on the user's system.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
 
 # Conclusion
 
 In conclusion, the Bash Media Manager is a versatile and user-friendly tool designed to simplify media management and sharing tasks on Linux systems. This documentation has provided a comprehensive overview of its features, including directory structure, setup environment, and various media sharing functionalities. By following the instructions outlined in this documentation, users can efficiently configure their media directories, ensure essential packages are installed, and seamlessly share media content across devices. Whether you're managing music, videos, or other media types, the Bash Media Manager empowers users to streamline their media-related tasks and enhance their overall media management experience on Linux systems. We hope this documentation has been informative and helpful in getting you started with this powerful media management tool.
 
-[Back to top](##table-of-contents)
+[Back to top](#table-of-contents)
