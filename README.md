@@ -12,7 +12,7 @@ media files effortlessly. It offers various tools to convert,
 backup, fix permissions, share, and set up the environment 
 for your media server.
 
-Full documentation can be found [here](documentation.md)
+[Full documentation can be found here](documentation.md)
 
 ## What is this for?
 Bash Media Manager is intended for ordinary people who
