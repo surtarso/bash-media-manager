@@ -186,7 +186,3 @@ If you prefer to use the command line and don't want to use the GUI (dialog), yo
     - `-p [--path]`: Adds software root to PATH.
     - `-t [--template]`: Creates a new env file from the template.
     - `-h [--help]`: Shows this screen.
-
-      -p [--path]      -> Adds software root to PATH.
-      -t [--template]  -> Creates new env file from template.
-      -h [--help]      -> Shows this screen.
