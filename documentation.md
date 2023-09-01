@@ -16,7 +16,7 @@ In the dynamic world of digital media, efficient management, and seamless sharin
   - [Media Backup (bmm-media_backup)](#media-backup-script-bmm-media_backup)
   - [Media Permissions (bmm-media_permissions)](#media-permissions-script-bmm-media_permissions)
   - [Media Share (bmm-media_share)](#media-share-script-bmm-media_share)
-  - [Setup Environment (bmm-setup_enviroment)](#setup-enviroment-script-bmm-setup_enviroment)
+  - [Setup Environment (bmm-setup_enviroment)](#setup-environment-script-bmm-setup_environment)
   - [Environment File Template Explanation](#environment-file-template-explanation)
 - [Conclusion](#conclusion)
 
