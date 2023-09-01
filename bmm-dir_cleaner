@@ -1,13 +1,13 @@
 #! /bin/bash
 
-## TODO: -log stuff
+## TODO:
 ##       -add GUI/no-gui
 ##       -add args for auto
 ##       -add help
 ##       -dynamic format to keep (currently only mp3)
 ##       -run converter from here (currently only mp3)
 
-## load enviroment variables
+## Load enviroment variables
 if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
@@ -35,18 +35,19 @@ warn_user() {
 }
 
 remove_dirs () {
+    # Show banner
     if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
     echo -e "${HEAD}Dir Cleaner${NC}"
     echo '----------------------------------------------------------'
     dir_check "$AUDIOROOT"
-    #enter music root dir
+    # Enter music root dir
     cd "$AUDIOROOT" || { echo 'ERROR: Could not enter directory.'; exit 1; };
     echo -e "${ERROR}Deleting folders with no MP3...${NC}"
     echo '----------------------------------------------------------'
 
-    #search for folder with no mp3 in them
-    #does not delete nested folders (artist(no mp3)/album(mp3)) etc
-    deleted=false # flag to indicate deletion
+    # Search for folder with no mp3 in them
+    # Does not delete nested folders (artist(no mp3)/album(mp3)) etc
+    deleted=false # Flag to indicate deletion
     find -depth -type d | while read -r D
         do
         v=$(find "$D" -iname '*.mp3')
@@ -57,10 +58,10 @@ remove_dirs () {
 	                read -p "Do you want to delete the directory '$D'? (y/n): " choice < /dev/tty
 	            case "$choice" in
 	                [Yy]* )
-	                    sudo rm -rf "$D" # Delete the directory
+	                    sudo rm -rf "$D" # DELETE THE DIRECTORY!
 	                    echo "Directory deleted."
                         # Append the deleted directory and its contents to the log file
-                        echo "Deleted: $D" >> "$LOG_FILE"
+                        echo "$(date '+%Y-%m-%d %H:%M:%S') - Deleted: $D" >> "$LOG_FILE"
                         deleted=true  # Set the flag to indicate a deletion
 	                    ;;
 	                [Nn]* )
