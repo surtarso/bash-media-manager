@@ -18,7 +18,7 @@ fi
 ## Main Menu (--no-gui)
 nogui_menu() {
     clear
-    echo "BASH MEDIA MANAGER - Launcher"
+    echo -e "${HEAD}BASH MEDIA MANAGER - Launcher${NC}"
     echo "--------------------------------"
     echo "1. Convert Audio files to MP3"
     echo "2. Convert Video files to MP4"
@@ -29,7 +29,7 @@ nogui_menu() {
     echo "7. Setup Environment Variables"
     echo "8. Quit to shell"
     echo "--------------------------------"
-    read -p "Enter your choice (1-8): " choice
+    read -p "$Enter your choice (1-8): " choice
 
     case $choice in
         1) eval "bmm-converter_mp3 --no-gui" ;;
@@ -40,7 +40,7 @@ nogui_menu() {
         6) eval "bmm-media_share" ;;
         7) eval "bmm-setup_enviroment" ;;
         8) clear && exit 0 ;;
-        *) echo "Invalid choice. Please enter a valid option (1-8)."; sleep 2 ;;
+        *) echo -e "${ERROR}Invalid choice.${WARN} Please enter a valid option (1-8).${NC}"; sleep 2 ;;
     esac
 
     nogui_menu
