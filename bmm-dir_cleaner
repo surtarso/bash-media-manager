@@ -70,7 +70,8 @@ remove_dirs () {
 
     # Capture start time
     start_time=$(date +%s)
-    deleted=false # Flag to indicate deletion
+    assume_yes=false # Flag for ALL in y/n/a
+    deleted_count=0 # Counter for deleted directories
 
     # Search for folder with no mp3 in them
     # Does not delete nested folders (artist(no mp3)/album(mp3))
@@ -80,19 +81,30 @@ remove_dirs () {
             ""  )
                 echo -e "->${WARN} $D ${ERROR}has no MP3!${NC}"
                 ls -A "$D" # List the directory contents
-                read -p "Do you want to delete the directory '$D'? (y/n): " choice < /dev/tty
-                case "$choice" in
+
+		if [ "$assume_yes" = true ]; then
+                    choice="y" # Automatically assume Y for subsequent directories
+                else
+                    read -p "Do you want to delete the directory '$D'? (y/n/a): " choice < /dev/tty
+
+                fi
+
+		case "$choice" in
                     [Yy]* )
                         sudo rm -rf "$D" # DELETE THE DIRECTORY!
-                        echo "Directory deleted."
+                        echo -e "${ERROR}Directory deleted.${NC}"
                         # Append the deleted directory and its contents to the log file
-                        deleted=true  # Set the flag to indicate a deletion
+			((deleted_count++)) # Increment the deleted count
                         ;;
                     [Nn]* )
-                        echo "Directory not deleted."
+                        echo -e "${OK}Directory not deleted.${NC}"
+                        ;;
+		    [Aa]* )
+                        echo -e "${WARN}Automatically assuming ${OK}'yes'${WARN} for all subsequent directories.${NC}"
+                        assume_yes=true
                         ;;
                     * )
-                        echo "Invalid choice. Directory not deleted."
+                        echo -e "${ERROR}Invalid choice. ${WARN}Directory not deleted.${NC}"
                         ;;
                 esac
                 ;;
@@ -105,7 +117,9 @@ remove_dirs () {
     # Calculate elapsed time
     elapsed_time=$((end_time - start_time))
 
-    if [ $deleted = false ]; then
+    if [ "$deleted_count" -gt 0 ]; then
+        echo -e "${WARN}A total of ${ERROR}$deleted_count${WARN} empty directories were deleted.${NC}"
+    else
         echo -e "${OK}No directories were deleted.${NC}"
     fi
 

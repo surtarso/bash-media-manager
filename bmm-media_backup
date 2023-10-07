@@ -35,7 +35,7 @@ execute_backup (){
 	dir_check "$dest_dir";
 	echo '----------------------------------------------------------'
 	# User reaction timer
-	echo -e "Now running: ${ERROR}rsync -avzP ${OK}"$source_dir"* ${WARN}"$dest_dir" ${ERROR}--delete${NC}\n"
+	echo -e "Now running: ${ERROR}rsync -avz ${OK}"$source_dir"* ${WARN}"$dest_dir" ${ERROR}--delete${NC}\n"
 	echo -e "Press ${WARN}"Control + C"${NC} to abort.\n"
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
     # Start backup sync
@@ -46,7 +46,7 @@ execute_backup (){
         --infobox "Task complete." 3 19
     	read
     else
-		rsync -avzP "$source_dir"* "$dest_dir" --delete
+		rsync -avz "$source_dir"* "$dest_dir" --delete
 		echo -e "\nBackup complete."
 	fi
 }
