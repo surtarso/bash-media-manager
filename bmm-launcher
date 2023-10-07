@@ -1,18 +1,17 @@
 #!/bin/bash
 
-# This is a launcher (main menu) for all scripts
-# that manage the media center files.
+# This is a launcher (main menu) for all
+# scripts that manage the media center files.
 # Tarso Galvao 05/04/23 Debian 11
-
 
 ## load environment variables
 if [ -f $HOME/bmm/.env ]; then
     . $HOME/bmm/.env
 else
-	echo 'BASH MEDIA MANAGER'
-	echo 'No enviromento found! Entering setup...' && sleep 2;
-    clear && eval $HOME/bmm/bmm-setup_enviroment;
-    exit 0;
+    echo 'BASH MEDIA MANAGER'
+    echo 'No enviromento found! Entering setup...' && sleep 2
+    clear && eval $HOME/bmm/bmm-setup_enviroment
+    exit 0
 fi
 
 ## Main Menu (--no-gui)
@@ -32,15 +31,18 @@ nogui_menu() {
     read -p "$Enter your choice (1-8): " choice
 
     case $choice in
-        1) eval "bmm-converter_mp3 --no-gui" ;;
-        2) eval "bmm-converter_mp4" ;;
-        3) eval "bmm-dir_cleaner" ;;
-        4) eval "bmm-media_backup --no-gui" ;;
-        5) eval "bmm-media_permissions" ;;
-        6) eval "bmm-media_share" ;;
-        7) eval "bmm-setup_enviroment" ;;
-        8) clear && exit 0 ;;
-        *) echo -e "${ERROR}Invalid choice.${WARN} Please enter a valid option (1-8).${NC}"; sleep 2 ;;
+    1) eval "bmm-converter_mp3 --no-gui" ;;
+    2) eval "bmm-converter_mp4" ;;
+    3) eval "bmm-dir_cleaner" ;;
+    4) eval "bmm-media_backup --no-gui" ;;
+    5) eval "bmm-media_permissions" ;;
+    6) eval "bmm-media_share" ;;
+    7) eval "bmm-setup_enviroment" ;;
+    8) clear && exit 0 ;;
+    *)
+        echo -e "${ERROR}Invalid choice.${WARN} Please enter a valid option (1-8).${NC}"
+        sleep 2
+        ;;
     esac
 
     nogui_menu
@@ -48,41 +50,40 @@ nogui_menu() {
 
 ## Main Menu (no args)
 main_menu() {
-	menu_opt=$(dialog --colors --no-cancel --no-lines\
-		--title 'Script-Launcher Menu' \
-		--backtitle "\Z7Bash Media Manager" \
-		--stdout \
-		--menu '								Up and down arrows change selection.\n											Use the Enter key to confirm.' \
-		0 0 0 \
-		'converter_mp3' 'Converts Audio files to MP3' \
-		'converter_mp4' 'Converts Video files to MP4' \
-		'dir_cleaner' 'Removes Empty Audio Folders' \
-		'media_backup' 'Media Backup Manager' \
-		'media_permissions' 'Fix Media Permissions' \
-		'media_share' 'Easily Share Media' \
-		'setup_enviroment' 'Setup Enviroment Variables' \
-		'quit' 'Quit to shell');
+    menu_opt=$(dialog --colors --no-cancel --no-lines --title 'Script-Launcher Menu' \
+        --backtitle "\Z7Bash Media Manager" \
+        --stdout \
+        --menu '								Up and down arrows change selection.\n											Use the Enter key to confirm.' \
+        0 0 0 \
+        'converter_mp3' 'Converts Audio files to MP3' \
+        'converter_mp4' 'Converts Video files to MP4' \
+        'dir_cleaner' 'Removes Empty Audio Folders' \
+        'media_backup' 'Media Backup Manager' \
+        'media_permissions' 'Fix Media Permissions' \
+        'media_share' 'Easily Share Media' \
+        'setup_enviroment' 'Setup Enviroment Variables' \
+        'quit' 'Quit to shell')
 
-	# Exit on Quit or Cancel || Execute chosen script.
-	if [ $menu_opt = 'quit' ] || [ $? -ne 1 ]; then
-		clear && exit 0
-	else
-		clear && eval bmm-$menu_opt
-		exit 0;
-	fi
+    # Exit on Quit or Cancel || Execute chosen script.
+    if [ $menu_opt = 'quit' ] || [ $? -ne 1 ]; then
+        clear && exit 0
+    else
+        clear && eval bmm-$menu_opt
+        exit 0
+    fi
 }
 
 # START ARGS
 if [ "$1" = '--no-gui' ] || [ "$1" = '-n' ]; then
     nogui_menu
 elif [ "$1" = '--help' ] || [ "$1" = '-h' ]; then
-    if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
-	echo -e "${HEAD}BMM Launcher${NC}"
-	echo -e "Use with no arguements to enter the GUI menu."
-	echo -e "Usage: bmm-launcher [-arg] [--arg]\n"
-	echo -e " -n [--no-gui]	-> CLI interactive mode."
-	echo -e " -h [--help] 	-> This message screen."
-	exit 1
+    if ! command -v $BANNER >>/dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval $BANNER; fi
+    echo -e "${HEAD}BMM Launcher${NC}"
+    echo -e "Use with no arguements to enter the GUI menu."
+    echo -e "Usage: bmm-launcher [-arg] [--arg]\n"
+    echo -e " -n [--no-gui]	-> CLI interactive mode."
+    echo -e " -h [--help] 	-> This message screen."
+    exit 1
 else
     main_menu
 fi
