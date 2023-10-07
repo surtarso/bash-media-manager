@@ -18,15 +18,15 @@ fi
 fix_permissions () {
 	if ! command -v $BANNER >> /dev/null; then echo -e "${WARN}BASH MEDIA MANAGER${NC}"; else eval "$BANNER"; fi
 	echo -e "${HEAD}Media Permissions${NC}"
-	for _dir in $1
+	for _dir in "$1"
 	do
 		echo '----------------------------------------------------------'
-		echo -e "Processing path: $1..."
-		sudo chown -R $2:$3 ${_dir} && echo -e "${WARN}Ownership: ${HEAD}$2:$3 ${OK}OK${NC}"
+		echo -e "Processing path: $_dir..."
+		sudo chown -R "$2":"$3" "${_dir}" && echo -e "${WARN}Ownership: ${HEAD}$2:$3 ${OK}OK${NC}"
 		echo 'Processing folders...'
-		sudo find ${_dir} -type d -exec chmod 2775 {} \; && echo -e "${WARN}Folders: ${OK}OK${NC}"
+		sudo find "${_dir}" -type d -exec chmod 2775 {} \; && echo -e "${WARN}Folders: ${OK}OK${NC}"
 		echo 'Processing files...'
-		sudo find ${_dir} -type f -exec chmod 664 {} \; && echo -e "${WARN}Files: ${OK}OK${NC}"
+		sudo find "${_dir}" -type f -exec chmod 664 {} \; && echo -e "${WARN}Files: ${OK}OK${NC}"
 	done
 }
 
