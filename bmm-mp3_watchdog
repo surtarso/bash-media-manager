@@ -1,0 +1,81 @@
+#!/bin/bash
+# Watchdog to convert audio files to mp3.
+# waits 10 min after allowed file has been created
+# and runs bmm-converter_mp3 --auto
+# Requires: inotify-tools and ext4 partition
+# Tarso Galvao 07-out-2023 debian 12
+
+## Load environment variables
+if [ -f "$HOME/bmm/.env" ]; then
+  . "$HOME/bmm/.env"
+else
+  echo -e "FATAL ERROR: .env not found.\n
+  Use bmm-setup_environment to create one.\nAborting..."
+  exit 1
+fi
+
+# Audio directory to monitor (loaded from AUDIOROOT in .env)
+MONITOR_DIR="$AUDIOROOT"
+# Command to execute when a new file is created
+COMMAND_TO_EXECUTE="bmm-converter_mp3 --auto"
+# Flag file to track whether the command has been executed
+FLAG_FILE="$HOME/bmm/command_executed.flag"
+# Array of allowed file extensions
+ALLOWED_EXTENSIONS=("flac" "wav" "ape" "m4a" "ogg" "wma")
+
+# Function to check if a file has an allowed extension
+is_allowed_extension() {
+  local file="$1"
+  local extension="${file##*.}" # Get the file's extension
+  for ext in "${ALLOWED_EXTENSIONS[@]}"; do
+    if [ "$extension" == "$ext" ]; then
+      return 0 # Extension is allowed
+    fi
+  done
+  return 1 # Extension is not allowed
+}
+
+# Function to monitor the directory for file creation
+monitor_directory() {
+  # Use inotifywait to watch for file creation events (-e create) in the specified directory
+  inotifywait -m -e create "$MONITOR_DIR" | while read -r directory event file; do
+    # Check if the event is a new file creation
+    if [ "$event" == "CREATE" ]; then
+      # Get the path of the created file
+      created_file="$directory/$file"
+      # Check if the created file has an allowed extension
+      if is_allowed_extension "$created_file"; then
+        echo -e "New allowed file created: $created_file."
+        # Set the flag to indicate that the command should be executed
+        touch "$FLAG_FILE"
+      else
+        # Log the event if the file has a disallowed extension
+        echo "New disallowed file created: $created_file. Ignoring."
+      fi
+    fi
+  done
+}
+
+# Function to execute the command if the flag is set
+execute_command() {
+  if [ -e "$FLAG_FILE" ]; then
+    echo "Executing the command: $COMMAND_TO_EXECUTE"
+    eval "$COMMAND_TO_EXECUTE" >/dev/null 2>&1
+    echo "Command executed."
+    # Remove the flag file
+    rm "$FLAG_FILE"
+  fi
+}
+
+# Check dependencies
+dep_check inotify-tools
+
+# Start monitoring the directory for file creation
+echo -e "Monitoring $AUDIOROOT..."
+monitor_directory &
+
+# Periodically check if the command should be executed
+while true; do
+  execute_command
+  sleep 600  # 10 min
+done
