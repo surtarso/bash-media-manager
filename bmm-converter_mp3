@@ -134,6 +134,7 @@ execute_tasks (){
 	echo -e "Remove: ${WARN}$REMOVE${NC} (1-Yes 0-No)"
 	echo -e "Format(s): ${WARN}${FORMAT_ARRAY[*]}${NC}"
 	echo -e "Bitrate: ${WARN}$BITRATE${NC}"
+        echo -e "Permission: ${WARN}$AUDIO_OWNER:$GROUP${NC}"
 	dep_check ffmpeg;
 	dep_check libmp3lame0;
 	echo -e "----------------------------------------------------------\n"
@@ -145,7 +146,13 @@ execute_tasks (){
 	
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
-		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+
+                # convert without setting permissions
+#               find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+
+                # convert and set correct permissions
+		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" && sudo chown ${AUDIO_OWNER}:${GROUP} "${0/.'${format}'}.mp3"' {} \;
+
 		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
 		## originals removal
