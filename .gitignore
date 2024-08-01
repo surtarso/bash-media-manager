@@ -1,3 +1,4 @@
 .env
 ssh_logins
 examples
+setup_environment.log

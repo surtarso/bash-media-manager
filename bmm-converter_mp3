@@ -143,15 +143,22 @@ execute_tasks (){
 	for (( i=3; i>0; i--)); do sleep 1 & printf "            $i \r"; wait; done
 
 	start_time=$(date +%s) # Capture the start time in seconds since epoch
-	
+
 	for format in "${FORMAT_ARRAY[@]}"; do
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 
                 # convert without setting permissions
-#               find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+                find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
 
                 # convert and set correct permissions
-		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" && sudo chown ${AUDIO_OWNER}:${GROUP} "${0/.'${format}'}.mp3"' {} \;
+#		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" && sudo chown '${AUDIO_OWNER}:${GROUP}' "${0/.'${format}'}.mp3"' {} \;
+
+#		find -name "*.${format}" -exec bash -c '
+#  			ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" &&
+#  			sudo chown '${AUDIO_OWNER}:${GROUP}' "${0/.'${format}'}.mp3" &&
+#  			parent_dir=$(dirname "{}")
+#  			dir_to_chown=$(basename "$parent_dir")
+#  			sudo chown '${AUDIO_OWNER}:${GROUP}' "$parent_dir/$dir_to_chown"' {} \;
 
 		echo -e "${WARN}$format${OK} conversion completed.${NC}\n"
 
@@ -171,7 +178,7 @@ execute_tasks (){
 	# 'Done' message with process time logic
 	end_time=$(date +%s) # Capture the end time in seconds since epoch
 	time_taken=$((end_time - start_time)) # Calculate the time taken in seconds
-	
+
 	# Convert seconds to minutes and seconds
 	minutes=$((time_taken / 60))
 	seconds=$((time_taken % 60))
@@ -233,7 +240,7 @@ main_menu () {
 		#echo 'The previous dialog was answered No or interrupted with <C-c>'
 		REMOVE=0
 	fi
-	
+
 	##------------------------ INPUT FORMATS
 	checklist=(dialog --no-lines --separate-output --colors
 		--backtitle "\Z7Bash Media Manager"
@@ -256,7 +263,7 @@ main_menu () {
 	#error checks
 	if [ "$FORMAT_ARRAY" == "" ]; then echo -e "nothing selected, aborting..."; sleep 2;
 	clear && eval bmm-launcher; exit 1; fi 
-	
+
 	##----------------------- OUTPUT BITRATE
 	BITRATE=$(dialog --no-lines --stdout --colors \
 		--backtitle "\Z7Bash Media Manager" \
