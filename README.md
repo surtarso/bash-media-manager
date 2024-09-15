@@ -62,7 +62,7 @@ software without it. It should work normally tho, just saying.
 
 Follow these steps to quickly set up the application. Run steps 1 and 2 for a basic setup.
 
-**Step -1: Install deb-multimedia source packages**
+**Optional: Install deb-multimedia source packages**
 
 Add the `deb-multimedia` source packages to your repository list (replace `dist_name` with your distribution name, e.g., bullseye):
 
