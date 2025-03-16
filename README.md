@@ -43,16 +43,18 @@ This project comes with a set of useful tools to enhance your media management e
 - **Setup Environment** ([bmm-setup_enviroment](bmm-setup_enviroment)): Sets up media folders and owners. (Run this first)
 
 ## Dependencies
-Bash Media Manager relies on 'ffmpeg' and/or 'handbrake-cli' to perform 
-conversions and 'rsync' for file procedures and cannot work without 
+>[!IMPORTANT]
+Bash Media Manager relies on `ffmpeg` and/or `handbrake-cli` to perform 
+conversions and `rsync` for file procedures and cannot work without 
 those.
 
-Optional dependencies include 'dialog' for GUIs and 'toilet'
+Optional dependencies include `dialog` for GUIs and `toilet`
 for CLI banners.
 
 Dependencies will be checked and installed at will during
 runtime or you can pre-install them.
 
+>[!NOTE]
 This software was built while also using the deb-multimedia source.
 People have mixed feelings about it. I've been using it for over a
 decade without problems and I can't forsee any errors using this
@@ -108,7 +110,7 @@ To add B.M.M. to your `$PATH`, you can use the following command:
 With these steps completed, you should have the application set up and ready for use. Make sure to review and modify the `.env` file according to your preferences before using the application.
 
 ## Usage
-
+>[!IMPORTANT]
 Before using any script, ensure that the necessary folders are set up. You can refer to the `bmm-setup_enviroment` script or edit the `~/bmm/.env` file for configuration details.
 
 ### GUI Usage
