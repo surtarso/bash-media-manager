@@ -148,13 +148,13 @@ execute_tasks (){
 		echo -e "${OK}Starting ${WARN}$format${OK} conversion...${NC}"
 
                 # convert without setting permissions
-                find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
+                find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync passthrough -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3"' {} \;
 
                 # convert and set correct permissions
-#		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" && sudo chown '${AUDIO_OWNER}:${GROUP}' "${0/.'${format}'}.mp3"' {} \;
+#		find -name "*.${format}" -exec bash -c 'ffmpeg -i "{}" -y -vsync passthrough -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" && sudo chown '${AUDIO_OWNER}:${GROUP}' "${0/.'${format}'}.mp3"' {} \;
 
 #		find -name "*.${format}" -exec bash -c '
-#  			ffmpeg -i "{}" -y -vsync 0 -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" &&
+#  			ffmpeg -i "{}" -y -vsync passthrough -c:v copy -acodec libmp3lame -ab '${BITRATE}' "${0/.'${format}'}.mp3" &&
 #  			sudo chown '${AUDIO_OWNER}:${GROUP}' "${0/.'${format}'}.mp3" &&
 #  			parent_dir=$(dirname "{}")
 #  			dir_to_chown=$(basename "$parent_dir")
