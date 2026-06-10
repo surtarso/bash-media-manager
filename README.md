@@ -54,26 +54,10 @@ for CLI banners.
 Dependencies will be checked and installed at will during
 runtime or you can pre-install them.
 
->[!NOTE]
-This software was built while also using the deb-multimedia source.
-People have mixed feelings about it. I've been using it for over a
-decade without problems and I can't forsee any errors using this
-software without it. It should work normally tho, just saying.
-
 ## Installation
 
 Follow these steps to quickly set up the application. Run steps 1 and 2 for a basic setup.
 
-**Optional: Install deb-multimedia source packages**
-
-Add the `deb-multimedia` source packages to your repository list (replace `dist_name` with your distribution name, e.g., bullseye):
-
-```bash
-echo 'deb https://www.deb-multimedia.org dist_name main non-free' | tee -a /etc/apt/sources.list
-apt-get update -oAcquire::AllowInsecureRepositories=true
-apt-get install deb-multimedia-keyring
-apt update && apt upgrade -y
-```
 
 **Step 0: Pre-install Dependencies (Optional)**
 
